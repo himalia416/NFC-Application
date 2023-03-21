@@ -1,8 +1,6 @@
 package com.example.nfcapplication
 
-import android.app.PendingIntent
-import android.content.Intent
-import android.content.IntentFilter
+import android.app.Activity
 import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.nfc.tech.*
@@ -14,127 +12,44 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.nfcapplication.utility.bytesToHex
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.nfcapplication.utility.bytesToHexString
+import com.example.nfcapplication.viewmodel.NfcViewModel
+import com.example.nfcapplication.viewmodel.ShowTagDiscoveredPage
+import com.example.nfcapplication.viewmodel.ShowWelcomeDialog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
 import no.nordicsemi.android.common.theme.NordicTheme
+import java.util.*
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private var nfcAdapter: NfcAdapter? = null
-    private var pendingIntent: PendingIntent? = null
-    lateinit var mIntentFilters: Array<IntentFilter>
-    private lateinit var mTechLists: Array<Array<String>>
-    private var isNfcSupported = false
+    private var activity = this@MainActivity
 
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             NordicTheme {
-                initAdapter()
-                initFields()
-                if (isNfcSupported) {
-                    ScanNfcTagView()
-                }
-            }
-        }
-    }
+                nfcAdapter = NfcAdapter.getDefaultAdapter(this)
+                val nfcViewModel: NfcViewModel = hiltViewModel()
+                val nfcState by nfcViewModel.state.collectAsState()
 
-    @RequiresApi(Build.VERSION_CODES.S)
-    private fun initFields() {
-        val intent = Intent(this, javaClass).apply {
-            addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-        }
-        pendingIntent = PendingIntent.getActivity(
-            this,
-            0,
-            intent,
-            PendingIntent.FLAG_MUTABLE
-        )
-        mIntentFilters = arrayOf(IntentFilter(NfcAdapter.ACTION_TECH_DISCOVERED))
-        mTechLists = arrayOf(
-            arrayOf(Ndef::class.java.name), arrayOf(
-                NdefFormatable::class.java.name
-            )
-        )
-    }
-
-    private fun initAdapter() {
-        nfcAdapter = NfcAdapter.getDefaultAdapter(this)
-        if (nfcAdapter == null) {
-            Toast.makeText(this, "NFC not supported", Toast.LENGTH_LONG).show()
-            finish()
-            return
-        } else isNfcSupported = true
-    }
-
-
-    @RequiresApi(Build.VERSION_CODES.S)
-    override fun onResume() {
-        super.onResume()
-        initAdapter()
-        initFields()
-        nfcAdapter?.enableForegroundDispatch(this, pendingIntent, mIntentFilters, mTechLists)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        finish()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        nfcAdapter?.disableForegroundDispatch(this)
-    }
-
-    override fun onNewIntent(intent: Intent) {
-        super.onNewIntent(intent)
-        setIntent(intent)
-        readNfcTag(intent = intent)
-    }
-
-    private fun readNfcTag(intent: Intent) {
-        if (NfcAdapter.ACTION_NDEF_DISCOVERED == intent.action
-            || NfcAdapter.ACTION_TECH_DISCOVERED == intent.action
-            || NfcAdapter.ACTION_TAG_DISCOVERED == intent.action
-        ) {
-            val allTags: MutableList<String> = mutableListOf()
-            val tag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                intent.getParcelableExtra(NfcAdapter.EXTRA_TAG, Tag::class.java)
-            } else intent.getParcelableExtra(NfcAdapter.EXTRA_TAG)
-
-            val nfc = NfcA.get(tag)
-            val atqa: ByteArray = nfc.atqa
-            val sak: Short = nfc.sak
-            Log.d("readNfcTag", "atqa size and sak: ${atqa.size}  $sak")
-            val serialNumber = bytesToHex(tag?.id)
-            Log.d("readNfcTag", "Serial Number: $serialNumber")
-            tag?.let { eachTag ->
-                val a = eachTag.toString()
-                a.split("[", "]")[1].split(", ").forEach {
-                    allTags.add(it)
-                    Log.d("readNfcTag", "Each tag: $it")
-                }
-                val ndef = Ndef.get(tag)
-                if (ndef != null) {
-                    ndef.connect()
-                    val message = ndef.ndefMessage
-                    ndef.cachedNdefMessage
-                    message?.let { ndefMessage ->
-                        val payload = String(ndefMessage.records[0].payload)
-                        // handle the payload as required
-                        Log.d("TAG", "Ndef payload message: $payload")
-                    }
-                    ndef.close()
-                } else {
-                    val ndefFormatable: NdefFormatable = NdefFormatable.get(tag)
-                    ndefFormatable.connect()
-
+                when (nfcState.state) {
+                    is ShowWelcomeDialog -> ShowWelcomeDialogView(
+                        onButtonClicked = { nfcViewModel.showHomePage() }
+                    )
+//                    ShowScanningPage -> ShowScanningView()
+                    ShowTagDiscoveredPage -> ShowTagDiscoveredView(nfcAdapter, activity)
                 }
             }
         }
@@ -158,3 +73,64 @@ fun ScanNfcTagViewPreview() {
         ScanNfcTagView()
     }
 }
+
+@Composable
+fun ShowWelcomeDialogView(onButtonClicked: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = { },
+        title = { Text(text = stringResource(id = R.string.welcome)) },
+        text = { Text(text = stringResource(id = R.string.welcome_message)) },
+        confirmButton = {
+            TextButton(
+                onClick = onButtonClicked
+            ) {
+                Text(text = stringResource(id = R.string.ok))
+            }
+        },
+    )
+}
+
+@Composable
+fun ShowTagDiscoveredView(nfcAdapter: NfcAdapter?, activity: MainActivity){
+    val context = LocalContext.current
+    val scope: CoroutineScope = rememberCoroutineScope()
+    if (nfcAdapter == null) {
+        Toast.makeText(context, "NFC not supported", Toast.LENGTH_LONG).show()
+        return
+    }
+
+    var id by rememberSaveable { mutableStateOf("") }
+
+    class MyReaderCallback : NfcAdapter.ReaderCallback {
+        override fun onTagDiscovered(tag: Tag) {
+            Log.d("Tag Discovered", "Tag Discovered.")
+
+            val idm = tag.id
+            val idmString = bytesToHexString(idm)
+            Log.d("Serial Number", idmString)
+            id = idmString
+
+        }
+    }
+
+    val readerFlags = NfcAdapter.FLAG_READER_NFC_A or
+            NfcAdapter.FLAG_READER_NFC_B or
+            NfcAdapter.FLAG_READER_NFC_F or
+            NfcAdapter.FLAG_READER_NFC_V or
+            NfcAdapter.FLAG_READER_NFC_BARCODE or
+            NfcAdapter.FLAG_READER_NO_PLATFORM_SOUNDS
+
+
+    // Enable ReaderMode for all types of card and disable platform sounds
+    DisposableEffect(nfcAdapter) {
+
+        nfcAdapter.enableReaderMode(
+            context as Activity,
+            MyReaderCallback(),
+            readerFlags,
+            null
+        )
+        onDispose { nfcAdapter.disableReaderMode(activity) }
+    }
+}
+

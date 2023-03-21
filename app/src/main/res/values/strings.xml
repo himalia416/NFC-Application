@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">NFCApplication</string>
+
+    <string name="welcome">Welcome to NFC Application</string>
+    <string name="welcome_message">Welcome to NFC Application. This is dfjldfj </string>
+    <string name="ok">OK</string>
 </resources>

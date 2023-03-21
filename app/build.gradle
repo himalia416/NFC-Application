@@ -55,7 +55,8 @@ dependencies {
     implementation 'androidx.compose.material3:material3'
     implementation 'androidx.activity:activity-compose:1.6.1'
 
-    // Nordic theme because I like nordic theme
+    // Nordic theme
+    implementation "androidx.compose.material:material-icons-extended"
     implementation "no.nordicsemi.android.common:theme:1.3.8"
     implementation 'com.github.jeziellago:compose-markdown:0.3.0'
     implementation 'androidx.compose.material:material:1.3.1'

@@ -4,6 +4,6 @@ sealed class NfcState
 
 data class ShowWelcomeDialog(val isOkayClicked: Boolean) : NfcState()
 
-//object ShowScanningPage : NfcState()
+object ScanNfcTag : NfcState()
 
-object ShowTagDiscoveredPage : NfcState()
+object NfcNotEnabled : NfcState()

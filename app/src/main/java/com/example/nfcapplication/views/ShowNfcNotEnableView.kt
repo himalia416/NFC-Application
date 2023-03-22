@@ -8,7 +8,9 @@ import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.nfcapplication.R
 import no.nordicsemi.android.common.theme.NordicTheme
 
 @Composable
@@ -18,7 +20,7 @@ fun ShowNfcNotEnableView() {
     ) {
         Icon(imageVector = Icons.Default.Nfc, contentDescription = null)
         Text(
-            text = "NFC is not Enabled in this device.\n \nGo to the Settings > Connected Devices to turn NFC on. "
+            text = stringResource(id = R.string.instruction_to_enable_nfc)
         )
     }
 }

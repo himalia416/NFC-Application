@@ -8,8 +8,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.nfcapplication.R
 import no.nordicsemi.android.common.theme.NordicTheme
 
 @Composable
@@ -23,9 +25,7 @@ fun ShowNfcNotSupportedView() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Icon(imageVector = Icons.Filled.Nfc, contentDescription = null)
-            Text(
-                text = "NFC is not supported in this device"
-            )
+            Text(text = stringResource(id = R.string.nfc_not_supported))
         }
     }
 }

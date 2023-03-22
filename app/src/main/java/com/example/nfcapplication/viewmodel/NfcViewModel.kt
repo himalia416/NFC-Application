@@ -1,6 +1,5 @@
 package com.example.nfcapplication.viewmodel
 
-import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
@@ -17,13 +16,12 @@ data class NfcViewState(
     val isNfcEnabled: MutableStateFlow<Boolean> = MutableStateFlow(false),
 )
 
-@SuppressLint("StaticFieldLeak")
 @RequiresApi(Build.VERSION_CODES.S)
 @HiltViewModel
 class NfcViewModel @Inject constructor(
     private val nfcManager: NfcScanningManager
 ) : ViewModel() {
-    private val _state : MutableStateFlow<NfcViewState> = MutableStateFlow(NfcViewState())
+    private val _state: MutableStateFlow<NfcViewState> = MutableStateFlow(NfcViewState())
     val state = _state.asStateFlow()
     val serialNumber = nfcManager.serialNumber
 

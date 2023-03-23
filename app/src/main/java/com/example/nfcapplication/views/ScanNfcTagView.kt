@@ -2,6 +2,7 @@ package com.example.nfcapplication.views
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,7 +20,8 @@ fun ScanNfcTagView() {
     ) {
         Text(
             text = stringResource(id = R.string.scan_nfc_tag),
-            modifier = Modifier.align(Alignment.Center)
+            modifier = Modifier.align(Alignment.Center),
+            style = MaterialTheme.typography.bodyLarge
         )
     }
 }

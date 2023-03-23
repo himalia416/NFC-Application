@@ -2,8 +2,12 @@ package com.example.nfcapplication.viewmodel
 
 sealed class NfcState
 
-data class ShowWelcomeDialog(val isOkayClicked: Boolean) : NfcState()
-
-object ScanNfcTag : NfcState()
+object NfcScanTag: NfcState()
 
 object NfcNotEnabled : NfcState()
+
+object NfcNotSupported : NfcState()
+
+object NfcTagDiscovered : NfcState ()
+
+object EnableNfc : NfcState()

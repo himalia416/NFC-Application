@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.nfcapplication.R
 import com.example.nfcapplication.utility.serialNumberFormatter
+import com.example.nfcapplication.utility.splitter
 import no.nordicsemi.android.common.theme.NordicTheme
 
 @Composable
@@ -43,7 +44,7 @@ fun ShowTagInformationView(
                 )
                 LazyColumn(contentPadding = PaddingValues(8.dp)) {
                     items(items = allAvailableTechnology) { eachTag ->
-                        Text(text = eachTag)
+                        Text(text = splitter(eachTag))
                     }
                 }
             }

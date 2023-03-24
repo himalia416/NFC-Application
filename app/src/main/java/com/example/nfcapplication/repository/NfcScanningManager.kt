@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.example.nfcapplication.utility.bytesToHex
-import com.example.nfcapplication.utility.splitter
 import com.example.nfcapplication.utility.tagTypeSplitter
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -86,8 +85,8 @@ class NfcScanningManager @Inject constructor(
                 tagTypeSplitter(a).forEach { t ->
                     val tagTech = _nfcScanningState.value.tagTechnology
                     // Check for duplicate
-                    if (!_tagTechnology.value.any { it == t }) {
-                        _tagTechnology.value = _tagTechnology.value + listOf(splitter(t))
+                    if (!tagTech.any { it == t }) {
+                        _nfcScanningState.value= _nfcScanningState.value.copy(tagTechnology = tagTech + listOf(t))
                         Log.d("readNfcTag", "Each tag: $t")
                     }
                 }

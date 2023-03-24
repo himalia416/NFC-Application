@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.nfcapplication.repository.NfcScanningManager
+import com.example.nfcapplication.repository.NfcScanningState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
@@ -41,15 +42,11 @@ class NfcViewModel @Inject constructor(
     }
 
     private fun showNfcNotEnabledPage() {
-        _state.value = _state.value.copy(
-            state = NfcNotEnabled,
-        )
+        _state.value = _state.value.copy(state = NfcNotEnabled)
     }
 
     private fun showNfcNotSupported() {
-        _state.value = _state.value.copy(
-            state = NfcNotSupported,
-        )
+        _state.value = _state.value.copy(state = NfcNotSupported)
     }
 
     private fun tagDiscovered() {
@@ -60,14 +57,10 @@ class NfcViewModel @Inject constructor(
     }
 
     private fun showScanTag() {
-        _state.value = _state.value.copy(
-            state = NfcScanTag,
-        )
+        _state.value = _state.value.copy(state = NfcScanTag)
     }
 
     fun enableNfc() {
-        _state.value = _state.value.copy(
-            state = EnableNfc,
-        )
+        _state.value = _state.value.copy(state = EnableNfc)
     }
 }

@@ -1,8 +1,9 @@
 <resources>
-    <string name="app_name">NFCApplication</string>
+    <string name="app_name">NFC Application</string>
 
-    <string name="welcome">NFC Application</string>
-    <string name="welcome_message">Welcome to NFC Application. This is NFC application where you can read any NFC tag. </string>
+    <string name="welcome">Welcome</string>
+    <string name="welcome_message">Welcome to NFC Application. \nThis is NFC application where you can read any NFC tag.
+    This also allows you to write to the NFC tags, however, only reading the tag is possible.</string>
     <string name="ok">OK</string>
 
     <string name="scan_nfc_tag">Scan an NFC tag.</string>
@@ -10,7 +11,8 @@
     <string name="enable_nfc">Please enable NFC from the device setting.</string>
     <string name="setting">Setting</string>
     <string name="cancel">Cancel</string>
-    <string name="instruction_to_enable_nfc">NFC is not Enabled in this device.
-    Go to the Settings > Connected Devices to turn NFC on.</string>
+    <string name="instruction_to_enable_nfc">NFC is not Enabled in this device.\nGo to the Settings > Connected Devices to turn NFC on. </string>
     <string name="nfc_not_supported">NFC is not supported in this device</string>
+    <string name="serial_number">Serial Number</string>
+    <string name="available_tag_technologies">Available tag technologies</string>
 </resources>

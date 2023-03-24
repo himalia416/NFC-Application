@@ -12,3 +12,12 @@ fun bytesToHex(bytes: ByteArray?): String {
         hexString
     }
 }
+
+fun serialNumberFormatter(input: String): String {
+    val sb = StringBuilder(input)
+
+    for (i in 2..sb.count()+3 step 3) {
+        sb.insert(i, ':')
+    }
+    return sb.toString().uppercase()
+}

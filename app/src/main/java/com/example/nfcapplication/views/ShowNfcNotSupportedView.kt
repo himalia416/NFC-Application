@@ -30,7 +30,6 @@ fun ShowNfcNotSupportedView() {
     }
 }
 
-
 @Preview
 @Composable
 fun ShowNfcNotSupportedViewPreview(){

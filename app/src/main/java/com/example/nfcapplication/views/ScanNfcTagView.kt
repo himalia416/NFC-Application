@@ -21,7 +21,7 @@ fun ScanNfcTagView() {
         Text(
             text = stringResource(id = R.string.scan_nfc_tag),
             modifier = Modifier.align(Alignment.Center),
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.displaySmall
         )
     }
 }

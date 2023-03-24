@@ -43,7 +43,7 @@ fun ShowNfcNotEnableView() {
         )
         Text(
             text = stringResource(id = R.string.instruction_to_enable_nfc),
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.bodyLarge
         )
     }
 }

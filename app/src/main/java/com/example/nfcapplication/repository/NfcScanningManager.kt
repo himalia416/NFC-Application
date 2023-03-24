@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.nfc.NfcAdapter
 import android.nfc.Tag
-import android.nfc.tech.NfcA
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -77,10 +76,7 @@ class NfcScanningManager @Inject constructor(
     private fun onTagDiscovered(tag: Tag?) {
         try {
             if (tag == null) return
-            val nfc = NfcA.get(tag)
-            val atqa: ByteArray = nfc.atqa
-            val sak: Short = nfc.sak
-            Log.d(TAG, "atqa size and sak: ${atqa.size}  $sak")
+            _tagTechnology.value = emptyList()
             _serialNumber.value = bytesToHex(tag.id)
             Log.d(TAG, "Serial Number: ${_serialNumber.value}")
             tag.let { eachTag ->

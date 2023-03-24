@@ -1,6 +1,7 @@
 package com.example.nfcapplication.views
 
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -17,7 +18,12 @@ fun ShowEnableNfcView(
     AlertDialog(
         onDismissRequest = { },
         title = { Text(text = stringResource(id = R.string.nfc_not_enabled)) },
-        text = { Text(text = stringResource(id = R.string.enable_nfc)) },
+        text = {
+            Text(
+                text = stringResource(id = R.string.enable_nfc),
+                style = MaterialTheme.typography.bodyLarge
+            )
+        },
         confirmButton = {
             TextButton(
                 onClick = onSettingClicked
@@ -37,7 +43,7 @@ fun ShowEnableNfcView(
 
 @Preview
 @Composable
-fun ShowEnableNfcViewPreview(){
+fun ShowEnableNfcViewPreview() {
     NordicTheme {
         ShowEnableNfcView(
             onSettingClicked = {},

@@ -4,11 +4,10 @@ import android.app.Activity
 import android.content.Context
 import android.nfc.NfcAdapter
 import android.nfc.Tag
-import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import com.example.nfcapplication.data.ReaderFlag
 import com.example.nfcapplication.utility.bytesToHex
 import com.example.nfcapplication.utility.tagTypeSplitter
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -31,76 +30,55 @@ class NfcScanningManager @Inject constructor(
 ) : DefaultLifecycleObserver {
     private val TAG = NfcScanningManager::class.java.simpleName
     private var nfcAdapter: NfcAdapter? = null
-    private val _nfcScanningState: MutableStateFlow<NfcScanningState> = MutableStateFlow(
-        NfcScanningState()
-    )
+    private val _nfcScanningState: MutableStateFlow<NfcScanningState> =
+        MutableStateFlow(NfcScanningState())
     val nfcScanningState = _nfcScanningState.asStateFlow()
 
-    override fun onCreate(owner: LifecycleOwner) {
-        super.onCreate(owner)
-        initAdapter()
-    }
-
-    private fun initAdapter() {
+    override fun onResume(owner: LifecycleOwner) {
         nfcAdapter = NfcAdapter.getDefaultAdapter(context)
-        if (nfcAdapter == null) {
+
+        nfcAdapter?.let {
+            _nfcScanningState.value = _nfcScanningState.value.copy(isNfcSupported = true)
+            if (it.isEnabled) {
+                _nfcScanningState.value = _nfcScanningState.value.copy(isNfcEnabled = true)
+                // Returns an array of all the enum member and combines each values using  Bitwise OR operator.
+                val readerFlags =
+                    enumValues<ReaderFlag>().fold(0) { acc, flag -> acc or flag.value }
+                // Enable ReaderMode for all types of card and disable platform sounds
+                it.enableReaderMode(owner as Activity, ::onTagDiscovered, readerFlags, null)
+            } else Log.d(TAG, "NFC not enabled on the device!")
+        } ?: run {
+            Log.d(TAG, "NFC not supported on the device!")
             return
         }
-    }
 
-    override fun onResume(owner: LifecycleOwner) {
-        val activity = owner as Activity
-        initAdapter()
-        _nfcScanningState.value = _nfcScanningState.value.copy(isNfcSupported = true)
-        if (!nfcAdapter!!.isEnabled) {
-            Log.d(TAG, "NFC not supported in  the device")
-        } else {
-            _nfcScanningState.value = _nfcScanningState.value.copy(isNfcEnabled = true)
-            val options = Bundle()
-            options.putInt(NfcAdapter.EXTRA_READER_PRESENCE_CHECK_DELAY, 250)
-            val readerFlags = NfcAdapter.FLAG_READER_NFC_A or
-                    NfcAdapter.FLAG_READER_NFC_B or
-                    NfcAdapter.FLAG_READER_NFC_F or
-                    NfcAdapter.FLAG_READER_NFC_V or
-                    NfcAdapter.FLAG_READER_NFC_BARCODE or
-                    NfcAdapter.FLAG_READER_NO_PLATFORM_SOUNDS
-
-            // Enable ReaderMode for all types of card and disable platform sounds
-            nfcAdapter?.enableReaderMode(
-                activity,
-                { tag -> onTagDiscovered(tag) },
-                readerFlags,
-                options
-            )
-        }
     }
 
     private fun onTagDiscovered(tag: Tag?) {
         try {
             if (tag == null) return
-            _nfcScanningState.value = _nfcScanningState.value.copy(serialNumber = bytesToHex(tag.id))
+            _nfcScanningState.value = _nfcScanningState.value.copy(
+                serialNumber = bytesToHex(tag.id),
+                tagTechnology = emptyList()
+            )
             Log.d(TAG, "Serial Number: ${bytesToHex(tag.id)}")
-            tag.let { eachTag ->
-                val a = eachTag.toString()
-                tagTypeSplitter(a).forEach { t ->
-                    val tagTech = _nfcScanningState.value.tagTechnology
-                    // Check for duplicate
-                    if (!tagTech.any { it == t }) {
-                        _nfcScanningState.value= _nfcScanningState.value.copy(tagTechnology = tagTech + listOf(t))
-                        Log.d("readNfcTag", "Each tag: $t")
-                    }
+            tagTypeSplitter(tag = tag.toString()).forEach { t ->
+                val tagTech = _nfcScanningState.value.tagTechnology
+                // Check for duplicate
+                if (!tagTech.any { it == t }) {
+                    _nfcScanningState.value =
+                        _nfcScanningState.value.copy(tagTechnology = tagTech + listOf(t))
+                    Log.d("readNfcTag", "Each tag: $t")
                 }
             }
         } catch (e: IOException) {
-            Toast.makeText(context, "Tag disconnected. Reason: " + e.message, Toast.LENGTH_SHORT)
-                .show()
+            Log.e(TAG, "Tag disconnected. Reason: " + e.message)
         }
     }
 
     override fun onPause(owner: LifecycleOwner) {
         super.onPause(owner)
-        val activity = owner as Activity
-        if (nfcAdapter != null)
-            nfcAdapter?.disableReaderMode(activity)
+        // Disable ReaderMode
+        if (nfcAdapter != null) nfcAdapter?.disableReaderMode(owner as Activity)
     }
 }

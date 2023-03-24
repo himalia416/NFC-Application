@@ -11,8 +11,7 @@ import javax.inject.Inject
 
 data class NfcViewState(
     val state: NfcState = NfcScanTag,
-    val serialNumber: StateFlow<String> = MutableStateFlow(""),
-    val availableTechnology: StateFlow<List<String>> = MutableStateFlow(emptyList()),
+    val nfcScanningState: NfcScanningState = NfcScanningState(),
 )
 
 @RequiresApi(Build.VERSION_CODES.S)
@@ -30,18 +29,13 @@ class NfcViewModel @Inject constructor(
     private fun startNfcScanning() {
         nfcManager
             .apply {
-                serialNumber.onEach {
-                    if (it.isNotEmpty()) {
-                        tagDiscovered()
-                    } else showScanTag()
-                }.launchIn(viewModelScope)
-                isNfcEnabled.onEach {
-                    if (it) {
-                        showScanTag()
-                    } else showNfcNotEnabledPage()
-                }.launchIn(viewModelScope)
-                isNfcSupported.onEach {
-                    if (!it) showNfcNotSupported()
+                nfcScanningState.onEach {
+                    when{
+                        !it.isNfcSupported -> showNfcNotSupported()
+                        !it.isNfcEnabled -> showNfcNotEnabledPage()
+                        it.serialNumber.isNotEmpty() -> tagDiscovered()
+                        else -> showScanTag()
+                    }
                 }.launchIn(viewModelScope)
             }
     }
@@ -61,8 +55,7 @@ class NfcViewModel @Inject constructor(
     private fun tagDiscovered() {
         _state.value = _state.value.copy(
             state = NfcTagDiscovered,
-            serialNumber = nfcManager.serialNumber,
-            availableTechnology = nfcManager.tagTechnology
+            nfcScanningState = nfcManager.nfcScanningState.value
         )
     }
 

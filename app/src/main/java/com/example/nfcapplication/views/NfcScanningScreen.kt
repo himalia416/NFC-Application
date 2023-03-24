@@ -29,8 +29,8 @@ fun NfcScanningScreen(onBackNavigation: () -> Unit) {
         val context = LocalContext.current
         val nfcViewModel: NfcViewModel = hiltViewModel()
         val nfcState by nfcViewModel.state.collectAsState()
-        val sn by nfcState.serialNumber.collectAsState()
-        val allAvailableTechnology by nfcState.availableTechnology.collectAsState()
+        val sn = nfcState.nfcScanningState.serialNumber
+        val allAvailableTechnology = nfcState.nfcScanningState.tagTechnology
 
         when (nfcState.state) {
             NfcScanTag -> ScanNfcTagView()

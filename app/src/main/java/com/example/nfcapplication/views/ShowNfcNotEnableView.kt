@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -32,14 +33,14 @@ fun ShowNfcNotEnableView() {
             .padding(16.dp)
     ) {
         Image(
-            painter = painterResource(id = R.drawable.nfc_logo512),
+            painter = painterResource(id = R.drawable.nfc),
             contentDescription = null,
             contentScale = ContentScale.Fit,
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(10.dp))
-                .background(Color.White)
-                .padding(16.dp)
+                .padding(16.dp),
+            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
         )
         Text(
             text = stringResource(id = R.string.instruction_to_enable_nfc),

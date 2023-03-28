@@ -56,7 +56,7 @@ class NfcViewModel @Inject constructor(
         )
     }
 
-    private fun showScanTag() {
+    fun showScanTag() {
         _state.value = _state.value.copy(state = NfcScanTag)
     }
 

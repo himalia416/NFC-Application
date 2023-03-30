@@ -9,6 +9,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.nfcapplication.repository.MifareClassicTag
+import com.example.nfcapplication.repository.NdefTag
 import com.example.nfcapplication.viewmodel.*
 
 @RequiresApi(Build.VERSION_CODES.S)
@@ -17,21 +19,23 @@ fun NfcScreen() {
         val context = LocalContext.current
         val nfcViewModel: NfcViewModel = hiltViewModel()
         val nfcState by nfcViewModel.state.collectAsState()
-        val sn = nfcState.nfcScanningState.serialNumber
-        val allAvailableTechnology = nfcState.nfcScanningState.tagTechnology
 
         when (nfcState.state) {
-            NfcScanTag -> ScanNfcTagView()
-            NfcNotEnabled -> ShowEnableNfcView(
+            NfcNotSupported -> NfcNotSupportedView()
+            NfcNotEnabled -> EnableNfcView(
                 onSettingClicked = { context.startActivity(Intent(Settings.ACTION_NFC_SETTINGS)) },
                 onCancelClicked = { nfcViewModel.enableNfc() }
             )
-            NfcNotSupported -> ShowNfcNotSupportedView()
-            NfcTagDiscovered -> ShowTagInformationView(
-                serialNumber = sn,
-                allAvailableTechnology = allAvailableTechnology,
-                onBackButtonClicked = { nfcViewModel.showScanTag() }
-            )
-            EnableNfc -> ShowNfcNotEnableView()
+            EnableNfc -> NfcNotEnableView()
+            ScanNfcTag -> ScanNfcTagView()
+            NfcTagDiscovered ->
+                when (val tag = nfcState.nfcScanningState.tag) {
+                    is MifareClassicTag -> MifareClassicTagView { nfcViewModel.showScanTag() }
+                    is NdefTag -> NdefTagView(
+                        generalTagInfo = tag.general,
+                        nfcNdefMessage = tag.nfcNdefMessage,
+                        onBackButtonClicked = { nfcViewModel.showScanTag() })
+                    null -> LoadingView()
+                }
         }
 }

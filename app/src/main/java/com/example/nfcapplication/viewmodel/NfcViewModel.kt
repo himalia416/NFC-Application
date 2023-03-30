@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 data class NfcViewState(
-    val state: NfcState = NfcScanTag,
+    val state: NfcState = ScanNfcTag,
     val nfcScanningState: NfcScanningState = NfcScanningState(),
 )
 
@@ -31,10 +31,10 @@ class NfcViewModel @Inject constructor(
         nfcManager
             .apply {
                 nfcScanningState.onEach {
-                    when{
+                    when {
                         !it.isNfcSupported -> showNfcNotSupported()
                         !it.isNfcEnabled -> showNfcNotEnabledPage()
-                        it.serialNumber.isNotEmpty() -> tagDiscovered()
+                        it.tag != null -> tagDiscovered()
                         else -> showScanTag()
                     }
                 }.launchIn(viewModelScope)
@@ -57,7 +57,7 @@ class NfcViewModel @Inject constructor(
     }
 
     fun showScanTag() {
-        _state.value = _state.value.copy(state = NfcScanTag)
+        _state.value = _state.value.copy(state = ScanNfcTag)
     }
 
     fun enableNfc() {

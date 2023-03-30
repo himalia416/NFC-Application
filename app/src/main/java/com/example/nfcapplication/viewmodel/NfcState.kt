@@ -2,7 +2,7 @@ package com.example.nfcapplication.viewmodel
 
 sealed class NfcState
 
-object NfcScanTag: NfcState()
+object ScanNfcTag: NfcState()
 
 object NfcNotEnabled : NfcState()
 

@@ -4,12 +4,12 @@ import android.app.Activity
 import android.content.Context
 import android.nfc.NfcAdapter
 import android.nfc.Tag
+import android.nfc.tech.*
 import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import com.example.nfcapplication.data.ReaderFlag
-import com.example.nfcapplication.utility.bytesToHex
-import com.example.nfcapplication.utility.tagTypeSplitter
+import com.example.nfcapplication.data.*
+import com.example.nfcapplication.utility.toHex
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,10 +18,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 data class NfcScanningState(
-    val serialNumber: String = "",
-    val tagTechnology: List<String> = emptyList(),
     val isNfcSupported: Boolean = false,
     val isNfcEnabled: Boolean = false,
+    val tag: NfcTag? = null,
 )
 
 @Singleton
@@ -56,23 +55,96 @@ class NfcScanningManager @Inject constructor(
 
     private fun onTagDiscovered(tag: Tag?) {
         try {
-            if (tag == null) return
-            _nfcScanningState.value = _nfcScanningState.value.copy(
-                serialNumber = bytesToHex(tag.id),
-                tagTechnology = emptyList()
-            )
-            Log.d(TAG, "Serial Number: ${bytesToHex(tag.id)}")
-            tagTypeSplitter(tag = tag.toString()).forEach { t ->
-                val tagTech = _nfcScanningState.value.tagTechnology
-                // Check for duplicate
-                if (!tagTech.any { it == t }) {
-                    _nfcScanningState.value =
-                        _nfcScanningState.value.copy(tagTechnology = tagTech + listOf(t))
-                    Log.d("readNfcTag", "Each tag: $t")
+            tag?.let {
+                Log.d(TAG, "Serial Number: ${it.id.toHex()}")
+                val (allTags, maxTransceiveLength, transceiveTimeOut) = getAllTagAndTransceiveLength(
+                    tag
+                )
+                val generalTagInformation = GeneralTagInformation(
+                    serialNumber = it.id.toHex(),
+                    tagTechnology = allTags,
+                    icManufacturerName = getIcManufacturerName(tag),
+                    maxTransceiveLength = maxTransceiveLength,
+                    transceiveTimeout = transceiveTimeOut.toString()
+                )
+                when  {
+                    it.techList.contains(Ndef::class.java.name) -> { onNdefTagDiscovered(it, generalTagInformation) }
+                    it.techList.contains(MifareClassic::class.java.name) -> onMifareClassicTagDiscovered(it)
+                    else -> {}
                 }
             }
         } catch (e: IOException) {
             Log.e(TAG, "Tag disconnected. Reason: " + e.message)
+        }
+    }
+
+    private fun getAllTagAndTransceiveLength(tag: Tag): Triple<List<String>, Int, Int> {
+        val allTagList = tag.techList.map { it.split('.').last() }
+        val (maxTransceiveLength, timeout) = when {
+            tag.techList.contains(NfcA::class.java.name) -> NfcA.get(tag).use { Pair(it.maxTransceiveLength, it.timeout) }
+            tag.techList.contains(NfcB::class.java.name) -> NfcB.get(tag).use { Pair(it.maxTransceiveLength, 0) }
+            tag.techList.contains(NfcF::class.java.name) -> NfcF.get(tag).use { Pair(it.maxTransceiveLength, it.timeout) }
+            tag.techList.contains(NfcV::class.java.name) -> NfcV.get(tag).use { Pair(it.maxTransceiveLength, 0) }
+            tag.techList.contains(IsoDep::class.java.name) -> IsoDep.get(tag)
+                .use { Pair(it.maxTransceiveLength, it.timeout) }
+            else -> Pair(0, 0)
+        }
+        return Triple(allTagList, maxTransceiveLength, timeout)
+    }
+
+    private fun getIcManufacturerName(tag: Tag): String {
+        val tagId = tag.id
+        return if (tagId.toHex().startsWith("5f")) {
+            Log.d(TAG, "getIcManufacturerName: Nordic SemiConductor")
+            "Nordic SemiConductor"
+        } else "Other company"
+    }
+
+    private fun onMifareClassicTagDiscovered(tag: Tag) {
+        val mifareClassic = MifareClassic.get(tag)
+        mifareClassic?.let {
+            mifareClassic.connect()
+            val sectorCount = mifareClassic.sectorCount
+            Log.d(
+                TAG, "onTagDiscovered: Number of sector $sectorCount " +
+                        "\n type: ${mifareClassic.type} " +
+                        "\nSize ${mifareClassic.size} " +
+                        "\nnumber of blocks in each sector: ${mifareClassic.getBlockCountInSector(2)} " +
+                        "\nBlock count: ${mifareClassic.blockCount}"
+            )
+            //                    mifareClassic.readBlock()
+            mifareClassic.close()
+        }
+    }
+
+    private fun onNdefTagDiscovered(it: Tag, generalTagInformation: GeneralTagInformation) {
+        val ndef = Ndef.get(it)
+        ndef?.let {
+            ndef.connect()
+            val message = ndef.ndefMessage
+            ndef.cachedNdefMessage
+            message?.let { ndefMessage ->
+                val t = ndefMessage.records[0].tnf
+                val ndefRecord = NdefRecord(
+                    typeNameFormat = TnfNameFormatter.getTnfName(t.toInt()),
+                    type = String(ndefMessage.records[0].type),
+                    payloadLength = ndefMessage.records[0].payload.size,
+                    payloadData = String(ndefMessage.records[0].payload),
+                )
+                val ndefTag = NdefTag(
+                    general = generalTagInformation,
+                    nfcNdefMessage = NfcNdefMessage(
+                        recordCount = ndefMessage.records.size ,
+                        currentMessageSize = ndefMessage.byteArrayLength,
+                        maximumMessageSize = ndef.maxSize,
+                        isNdefWritable = ndef.isWritable,
+                        ndefRecord = ndefRecord,
+                        ndefType = ndef.type
+                    )
+                )
+                _nfcScanningState.value = _nfcScanningState.value.copy(tag = ndefTag)
+            }
+            ndef.close()
         }
     }
 

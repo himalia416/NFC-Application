@@ -26,7 +26,7 @@ import no.nordicsemi.android.common.theme.view.NordicAppBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ShowNfcNotEnableView() {
+fun NfcNotEnableView() {
     Column {
         NordicAppBar(text = stringResource(id = R.string.app_name))
         Column(
@@ -55,8 +55,8 @@ fun ShowNfcNotEnableView() {
 
 @Preview
 @Composable
-fun ShowNfcNotEnableViewPreview() {
+fun NfcNotEnableViewPreview() {
     NordicTheme {
-        ShowNfcNotEnableView()
+        NfcNotEnableView()
     }
 }

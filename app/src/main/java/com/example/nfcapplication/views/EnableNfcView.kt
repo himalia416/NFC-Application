@@ -11,7 +11,7 @@ import no.nordicsemi.android.common.theme.view.NordicAppBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ShowEnableNfcView(
+fun EnableNfcView(
     onSettingClicked: () -> Unit,
     onCancelClicked: () -> Unit
 ) {
@@ -46,9 +46,9 @@ fun ShowEnableNfcView(
 
 @Preview
 @Composable
-fun ShowEnableNfcViewPreview() {
+fun EnableNfcViewPreview() {
     NordicTheme {
-        ShowEnableNfcView(
+        EnableNfcView(
             onSettingClicked = {},
             onCancelClicked = {}
         )

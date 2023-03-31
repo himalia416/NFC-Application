@@ -28,6 +28,7 @@
     <string name="ndef_type">Ndef Type</string>
     <string name="nfc_data_access_type">NFC Data Access Type</string>
 
+    <string name="record_info">Ndef Record Information</string>
     <string name="bytes">%s bytes</string>
     <string name="ms">%sms</string>
 </resources>

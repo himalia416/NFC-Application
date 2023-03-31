@@ -124,21 +124,23 @@ class NfcScanningManager @Inject constructor(
             val message = ndef.ndefMessage
             ndef.cachedNdefMessage
             message?.let { ndefMessage ->
-                val t = ndefMessage.records[0].tnf
-                val ndefRecord = NdefRecord(
-                    typeNameFormat = TnfNameFormatter.getTnfName(t.toInt()),
-                    type = String(ndefMessage.records[0].type),
-                    payloadLength = ndefMessage.records[0].payload.size,
-                    payloadData = String(ndefMessage.records[0].payload),
-                )
+                val ndefRecords = ndefMessage.records.map {
+                    NdefRecord(
+                        typeNameFormat = TnfNameFormatter.getTnfName(it.tnf.toInt()),
+                        type = String(it.type),
+                        payloadLength = it.payload.size,
+                        payloadData = String(it.payload),
+                    )
+                }
+
                 val ndefTag = NdefTag(
                     general = generalTagInformation,
                     nfcNdefMessage = NfcNdefMessage(
-                        recordCount = ndefMessage.records.size ,
+                        recordCount = ndefMessage.records.size,
                         currentMessageSize = ndefMessage.byteArrayLength,
                         maximumMessageSize = ndef.maxSize,
                         isNdefWritable = ndef.isWritable,
-                        ndefRecord = ndefRecord,
+                        ndefRecord = ndefRecords,
                         ndefType = ndef.type
                     )
                 )

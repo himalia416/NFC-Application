@@ -5,7 +5,7 @@ data class NfcNdefMessage(
     val currentMessageSize: Int ,
     val maximumMessageSize: Int,
     val isNdefWritable: Boolean,
-    val ndefRecord: NdefRecord,
+    val ndefRecord: List<NdefRecord>,
     val ndefType: String
 ) {
     fun getAccessDataType(isNdefWritable: Boolean) =

@@ -15,6 +15,7 @@ dependencies {
     implementation(libs.nordic.navigation)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.compose.material.iconsExtended)
+    implementation(libs.androidx.compose.bom)
 
     implementation(libs.androidx.hilt.navigation.compose)
 }

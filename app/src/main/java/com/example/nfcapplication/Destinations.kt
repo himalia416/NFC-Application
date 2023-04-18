@@ -4,7 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.nfcapplication.views.NfcWelcomeScreen
-import com.example.nfcapplication.views.NfcScreen
+import com.example.nfcapplication.views.Nfc
 import no.nordicsemi.android.common.navigation.createSimpleDestination
 import no.nordicsemi.android.common.navigation.defineDestination
 import no.nordicsemi.android.common.navigation.viewmodel.SimpleNavigationViewModel
@@ -19,4 +19,4 @@ val NfcWelcomeScreen = defineDestination(NfcWelcomeDestinationId) {
 }
 
 @RequiresApi(Build.VERSION_CODES.S)
-val ScanningDestination = defineDestination(ScanningDestinationId) { NfcScreen() }
+val ScanningDestination = defineDestination(ScanningDestinationId) { Nfc() }

@@ -15,7 +15,7 @@ import com.example.nfcapplication.viewmodel.*
 
 @RequiresApi(Build.VERSION_CODES.S)
 @Composable
-fun NfcScreen() {
+fun Nfc() {
         val context = LocalContext.current
         val nfcViewModel: NfcViewModel = hiltViewModel()
         val nfcState by nfcViewModel.state.collectAsState()

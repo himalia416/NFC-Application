@@ -7,14 +7,18 @@
     <string name="ok">OK</string>
 
     <string name="scan_nfc_tag">Scan an NFC tag.</string>
+    <string name="nfc_not_enabled_appbar">NFC not Enabled</string>
     <string name="nfc_not_enabled">NFC not Enabled</string>
     <string name="enable_nfc">Please enable NFC from the device setting.</string>
     <string name="setting">Setting</string>
     <string name="cancel">Cancel</string>
     <string name="instruction_to_enable_nfc">NFC is not Enabled in this device.\nGo to the Settings > Connected Devices to turn NFC on. </string>
+    <string name="nfc_not_supported_appbar">NFC not Supported</string>
     <string name="nfc_not_supported">NFC is not supported in this device</string>
 
     <string name="tag_info">Tag Information</string>
+    <string name="mifare_classic_tag">MiFare Classic Tag</string>
+    <string name="ndef_tag">Ndef Tag</string>
     <string name="serial_number">Serial Number</string>
     <string name="ic_manufacturer">Ic Manufacturer</string>
     <string name="maximum_transceive_len">Maximum Transceive Length</string>
@@ -30,5 +34,5 @@
 
     <string name="record_info">Ndef Record Information</string>
     <string name="bytes">%s bytes</string>
-    <string name="ms">%sms</string>
+    <string name="millisecond">%sms</string>
 </resources>

@@ -28,7 +28,7 @@ import no.nordicsemi.android.common.theme.view.NordicAppBar
 @Composable
 fun NfcNotEnableView() {
     Column {
-        NordicAppBar(text = stringResource(id = R.string.app_name))
+        NordicAppBar(text = stringResource(id = R.string.nfc_not_enabled_appbar))
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier

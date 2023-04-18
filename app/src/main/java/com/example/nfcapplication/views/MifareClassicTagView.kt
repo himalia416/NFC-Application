@@ -14,7 +14,7 @@ fun MifareClassicTagView(
     onBackNavigation: () -> Unit
 ){
     Column {
-        NordicAppBar(text = stringResource(id = R.string.app_name),
+        NordicAppBar(text = stringResource(id = R.string.mifare_classic_tag),
         onNavigationButtonClick = onBackNavigation
         )
         Text(text = "This is miFareClassic tag!")

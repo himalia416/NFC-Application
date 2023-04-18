@@ -20,7 +20,7 @@ import no.nordicsemi.android.common.theme.view.NordicAppBar
 @Composable
 fun NfcNotSupportedView() {
     Column {
-        NordicAppBar(text = stringResource(id = R.string.app_name))
+        NordicAppBar(text = stringResource(id = R.string.nfc_not_supported_appbar))
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center

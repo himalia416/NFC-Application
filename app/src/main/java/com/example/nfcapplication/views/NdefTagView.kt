@@ -29,7 +29,7 @@ fun NdefTagView(
 ) {
     Column {
         NordicAppBar(
-            text = stringResource(id = R.string.app_name),
+            text = stringResource(id = R.string.ndef_tag),
             onNavigationButtonClick = onBackButtonClicked
         )
         LazyColumn {
@@ -73,7 +73,7 @@ fun GeneralTagView(generalTagInfo: GeneralTagInformation) {
             )
             RowInABoxView(
                 stringResource(id = R.string.transceive_time_out),
-                stringResource(id = R.string.ms, generalTagInfo.transceiveTimeout)
+                stringResource(id = R.string.millisecond, generalTagInfo.transceiveTimeout)
             )
 
             Text(

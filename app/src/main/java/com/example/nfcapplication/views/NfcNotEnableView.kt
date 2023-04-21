@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -36,11 +37,12 @@ fun NfcNotEnableView() {
                 .padding(16.dp)
         ) {
             Image(
-                painter = painterResource(id = R.drawable.nfc),
+                painter = painterResource(id = R.drawable.cellphone_nfc_off),
                 contentDescription = null,
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
                     .fillMaxWidth()
+                    .size(200.dp)
                     .clip(RoundedCornerShape(10.dp))
                     .padding(16.dp),
                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)

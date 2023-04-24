@@ -11,8 +11,3 @@ data class NdefTag(
     override val general: GeneralTagInformation,
     val nfcNdefMessage: NfcNdefMessage
 ) : NfcTag
-
-data class MifareClassicTag(
-    override val general: GeneralTagInformation,
-    val mifareClassicField1: NfcNdefMessage
-) : NfcTag

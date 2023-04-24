@@ -69,7 +69,7 @@ class NfcScanningManager @Inject constructor(
                 )
                 when  {
                     it.techList.contains(Ndef::class.java.name) -> { onNdefTagDiscovered(it, generalTagInformation) }
-                    it.techList.contains(MifareClassic::class.java.name) -> onMifareClassicTagDiscovered(it)
+                    it.techList.contains(MifareClassic::class.java.name) -> { onMifareClassicTagDiscovered(it, generalTagInformation) }
                     else -> {}
                 }
             }
@@ -100,18 +100,32 @@ class NfcScanningManager @Inject constructor(
         } else "Other company"
     }
 
-    private fun onMifareClassicTagDiscovered(tag: Tag) {
+    private fun onMifareClassicTagDiscovered(tag: Tag, generalTagInformation: GeneralTagInformation) {
         val mifareClassic = MifareClassic.get(tag)
         mifareClassic?.let {
             mifareClassic.connect()
             val sectorCount = mifareClassic.sectorCount
+            val mifareClassicTagType = mifareClassic.type
+            val mifareClassicTagSize = mifareClassic.size
             Log.d(
                 TAG, "onTagDiscovered: Number of sector $sectorCount " +
-                        "\n type: ${mifareClassic.type} " +
+                        "\ntype: ${MifareClassicTagType.getTagType(mifareClassicTagType)} " +
                         "\nSize ${mifareClassic.size} " +
                         "\nnumber of blocks in each sector: ${mifareClassic.getBlockCountInSector(2)} " +
                         "\nBlock count: ${mifareClassic.blockCount}"
             )
+//            for (i in sectorCount)
+            val a = mifareClassic.getBlockCountInSector(2)
+//            val sector = mifareClassic.blockToSector()
+            val mifareClassicMessage = MifareClassicMessage(
+               sectorCount = sectorCount,
+               tagType = MifareClassicTagType.getTagType(mifareClassicTagType),
+               tagSize = mifareClassicTagSize,
+               blockCount = mifareClassic.blockCount,
+            )
+            val mifareClassicTag = MifareClassicTag(generalTagInformation, mifareClassicMessage)
+
+            _nfcScanningState.value = _nfcScanningState.value.copy(tag = mifareClassicTag )
             //                    mifareClassic.readBlock()
             mifareClassic.close()
         }

@@ -9,6 +9,7 @@ import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.example.nfcapplication.data.*
+import com.example.nfcapplication.utility.serialNumberFormatter
 import com.example.nfcapplication.utility.toHex
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -56,10 +57,15 @@ class NfcScanningManager @Inject constructor(
     private fun onTagDiscovered(tag: Tag?) {
         try {
             tag?.let {
-                Log.d(TAG, "Serial Number: ${it.id.toHex()}")
+                val a = tag.id.toString()
+                Log.d(TAG, "onTagDiscovered: tag ide:  $a")
+                Log.d(TAG, "Serial Number: ${serialNumberFormatter(it.id.toHex())}")
                 val (allTags, maxTransceiveLength, transceiveTimeOut) = getAllTagAndTransceiveLength(
                     tag
                 )
+                allTags.forEach {tag ->
+                    Log.d(TAG, "onTagDiscovered: available tags: $tag")
+                }
                 val generalTagInformation = GeneralTagInformation(
                     serialNumber = it.id.toHex(),
                     tagTechnology = allTags,
@@ -107,6 +113,8 @@ class NfcScanningManager @Inject constructor(
             val sectorCount = mifareClassic.sectorCount
             val mifareClassicTagType = mifareClassic.type
             val mifareClassicTagSize = mifareClassic.size
+            Log.d(TAG, "onMifareClassicTagDiscovered: serial number: ${tag.id.toHex()}")
+            Log.d(TAG, "onMifareClassicTagDiscovered: serial number: ${tag.id.toHex()}")
             Log.d(
                 TAG, "onTagDiscovered: Number of sector $sectorCount " +
                         "\ntype: ${MifareClassicTagType.getTagType(mifareClassicTagType)} " +

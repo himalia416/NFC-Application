@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.nordic.application.compose)
     alias(libs.plugins.nordic.hilt)
+    alias(libs.plugins.google.services)
+//    id ("com.google.gms.google-services") //Google services Gradle plugin
 }
 
 android {
@@ -18,4 +20,7 @@ dependencies {
     implementation(libs.androidx.compose.bom)
 
     implementation(libs.androidx.hilt.navigation.compose)
+
+    implementation ("com.google.firebase:firebase-database-ktx:20.2.0")
+    implementation ("com.google.firebase:firebase-analytics-ktx:21.2.2")
 }

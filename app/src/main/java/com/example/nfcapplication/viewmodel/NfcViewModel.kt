@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.nfcapplication.database.ManufacturerNameRepository
 import com.example.nfcapplication.repository.NfcScanningManager
 import com.example.nfcapplication.repository.NfcScanningState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,8 +19,9 @@ data class NfcViewState(
 @RequiresApi(Build.VERSION_CODES.S)
 @HiltViewModel
 class NfcViewModel @Inject constructor(
-    private val nfcManager: NfcScanningManager
-) : ViewModel() {
+    private val nfcManager: NfcScanningManager,
+    manufacturerNameRepository: ManufacturerNameRepository
+) : DataViewModel(manufacturerNameRepository) {
     private val _state: MutableStateFlow<NfcViewState> = MutableStateFlow(NfcViewState())
     val state = _state.asStateFlow()
 

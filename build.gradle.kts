@@ -8,4 +8,5 @@ plugins {
     alias(libs.plugins.nordic.library.compose) apply false
     alias(libs.plugins.nordic.hilt) apply false
     alias(libs.plugins.nordic.feature) apply false
+    alias(libs.plugins.google.services) apply true
 }

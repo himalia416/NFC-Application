@@ -9,8 +9,3 @@ data class GeneralTagInformation(
     val transceiveTimeout: String = "0 ms",
     val ndefMessage: NfcNdefMessage? = null
 )
-
-data class ManufacturerName(
-    val identifier: String,
-    val name: String,
-)

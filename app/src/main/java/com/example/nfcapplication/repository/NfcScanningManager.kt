@@ -9,11 +9,14 @@ import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.example.nfcapplication.data.*
+import com.example.nfcapplication.database.ManufacturerNameRepository
 import com.example.nfcapplication.utility.serialNumberFormatter
 import com.example.nfcapplication.utility.toHex
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -27,6 +30,8 @@ data class NfcScanningState(
 @Singleton
 class NfcScanningManager @Inject constructor(
     @ApplicationContext private val context: Context,
+    private val scope: CoroutineScope,
+    private val manufacturerNameRepository: ManufacturerNameRepository,
 ) : DefaultLifecycleObserver {
     private val TAG = NfcScanningManager::class.java.simpleName
     private var nfcAdapter: NfcAdapter? = null
@@ -36,12 +41,10 @@ class NfcScanningManager @Inject constructor(
 
     override fun onResume(owner: LifecycleOwner) {
         nfcAdapter = NfcAdapter.getDefaultAdapter(context)
-
         nfcAdapter?.let {
             _nfcScanningState.value = _nfcScanningState.value.copy(isNfcSupported = true)
             if (it.isEnabled) {
                 _nfcScanningState.value = _nfcScanningState.value.copy(isNfcEnabled = true)
-                // Returns an array of all the enum member and combines each values using  Bitwise OR operator.
                 val readerFlags =
                     enumValues<ReaderFlag>().fold(0) { acc, flag -> acc or flag.value }
                 // Enable ReaderMode for all types of card and disable platform sounds
@@ -57,26 +60,31 @@ class NfcScanningManager @Inject constructor(
     private fun onTagDiscovered(tag: Tag?) {
         try {
             tag?.let {
-                val a = tag.id.toString()
-                Log.d(TAG, "onTagDiscovered: tag ide:  $a")
                 Log.d(TAG, "Serial Number: ${serialNumberFormatter(it.id.toHex())}")
                 val (allTags, maxTransceiveLength, transceiveTimeOut) = getAllTagAndTransceiveLength(
                     tag
                 )
-                allTags.forEach {tag ->
+                allTags.forEach { tag ->
                     Log.d(TAG, "onTagDiscovered: available tags: $tag")
                 }
-                val generalTagInformation = GeneralTagInformation(
-                    serialNumber = it.id.toHex(),
-                    tagTechnology = allTags,
-                    icManufacturerName = getIcManufacturerName(tag),
-                    maxTransceiveLength = maxTransceiveLength,
-                    transceiveTimeout = transceiveTimeOut.toString()
-                )
-                when  {
-                    it.techList.contains(Ndef::class.java.name) -> { onNdefTagDiscovered(it, generalTagInformation) }
-                    it.techList.contains(MifareClassic::class.java.name) -> { onMifareClassicTagDiscovered(it, generalTagInformation) }
-                    else -> {}
+                val identifier = tag.id.toHex().subSequence(0, 2).toString()
+                scope.launch {
+                    val generalTagInformation = GeneralTagInformation(
+                        serialNumber = it.id.toHex(),
+                        tagTechnology = allTags,
+                        icManufacturerName = getIcManufacturerName(identifier),
+                        maxTransceiveLength = maxTransceiveLength,
+                        transceiveTimeout = transceiveTimeOut.toString()
+                    )
+                    when {
+                        it.techList.contains(Ndef::class.java.name) -> {
+                            onNdefTagDiscovered(it, generalTagInformation)
+                        }
+                        it.techList.contains(MifareClassic::class.java.name) -> {
+                            onMifareClassicTagDiscovered(it, generalTagInformation)
+                        }
+                        else -> {}
+                    }
                 }
             }
         } catch (e: IOException) {
@@ -98,22 +106,20 @@ class NfcScanningManager @Inject constructor(
         return Triple(allTagList, maxTransceiveLength, timeout)
     }
 
-    private fun getIcManufacturerName(tag: Tag): String {
-        val tagId = tag.id
-        return if (tagId.toHex().startsWith("5f")) {
-            Log.d(TAG, "getIcManufacturerName: Nordic SemiConductor")
-            "Nordic SemiConductor"
-        } else "Other company"
+    private suspend fun getIcManufacturerName(identifier: String): String {
+        return manufacturerNameRepository.getManufacturerName(identifier)?.company ?: "Company not found"
     }
 
-    private fun onMifareClassicTagDiscovered(tag: Tag, generalTagInformation: GeneralTagInformation) {
+    private fun onMifareClassicTagDiscovered(
+        tag: Tag,
+        generalTagInformation: GeneralTagInformation
+    ) {
         val mifareClassic = MifareClassic.get(tag)
         mifareClassic?.let {
             mifareClassic.connect()
             val sectorCount = mifareClassic.sectorCount
             val mifareClassicTagType = mifareClassic.type
             val mifareClassicTagSize = mifareClassic.size
-            Log.d(TAG, "onMifareClassicTagDiscovered: serial number: ${tag.id.toHex()}")
             Log.d(TAG, "onMifareClassicTagDiscovered: serial number: ${tag.id.toHex()}")
             Log.d(
                 TAG, "onTagDiscovered: Number of sector $sectorCount " +
@@ -122,19 +128,15 @@ class NfcScanningManager @Inject constructor(
                         "\nnumber of blocks in each sector: ${mifareClassic.getBlockCountInSector(2)} " +
                         "\nBlock count: ${mifareClassic.blockCount}"
             )
-//            for (i in sectorCount)
-            val a = mifareClassic.getBlockCountInSector(2)
-//            val sector = mifareClassic.blockToSector()
             val mifareClassicMessage = MifareClassicMessage(
-               sectorCount = sectorCount,
-               tagType = MifareClassicTagType.getTagType(mifareClassicTagType),
-               tagSize = mifareClassicTagSize,
-               blockCount = mifareClassic.blockCount,
+                sectorCount = sectorCount,
+                tagType = MifareClassicTagType.getTagType(mifareClassicTagType),
+                tagSize = mifareClassicTagSize,
+                blockCount = mifareClassic.blockCount,
             )
             val mifareClassicTag = MifareClassicTag(generalTagInformation, mifareClassicMessage)
 
-            _nfcScanningState.value = _nfcScanningState.value.copy(tag = mifareClassicTag )
-            //                    mifareClassic.readBlock()
+            _nfcScanningState.value = _nfcScanningState.value.copy(tag = mifareClassicTag)
             mifareClassic.close()
         }
     }

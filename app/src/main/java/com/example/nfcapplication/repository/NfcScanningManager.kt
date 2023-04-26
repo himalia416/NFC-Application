@@ -10,7 +10,6 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.example.nfcapplication.data.*
 import com.example.nfcapplication.database.ManufacturerNameRepository
-import com.example.nfcapplication.utility.serialNumberFormatter
 import com.example.nfcapplication.utility.toHex
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
@@ -49,40 +48,25 @@ class NfcScanningManager @Inject constructor(
                     enumValues<ReaderFlag>().fold(0) { acc, flag -> acc or flag.value }
                 // Enable ReaderMode for all types of card and disable platform sounds
                 it.enableReaderMode(owner as Activity, ::onTagDiscovered, readerFlags, null)
-            } else Log.d(TAG, "NFC not enabled on the device!")
-        } ?: run {
-            Log.d(TAG, "NFC not supported on the device!")
-            return
+            }
         }
-
     }
 
     private fun onTagDiscovered(tag: Tag?) {
         try {
             tag?.let {
-                Log.d(TAG, "Serial Number: ${serialNumberFormatter(it.id.toHex())}")
-                val (allTags, maxTransceiveLength, transceiveTimeOut) = getAllTagAndTransceiveLength(
-                    tag
-                )
-                allTags.forEach { tag ->
-                    Log.d(TAG, "onTagDiscovered: available tags: $tag")
-                }
-                val identifier = tag.id.toHex().subSequence(0, 2).toString()
+                val (allTags, maxTransceiveLength, transceiveTimeOut) = getAllTagAndTransceiveLength(tag)
                 scope.launch {
                     val generalTagInformation = GeneralTagInformation(
                         serialNumber = it.id.toHex(),
                         tagTechnology = allTags,
-                        icManufacturerName = getIcManufacturerName(identifier),
+                        icManufacturerName = getIcManufacturerName(getIdentifier(tag)),
                         maxTransceiveLength = maxTransceiveLength,
                         transceiveTimeout = transceiveTimeOut.toString()
                     )
                     when {
-                        it.techList.contains(Ndef::class.java.name) -> {
-                            onNdefTagDiscovered(it, generalTagInformation)
-                        }
-                        it.techList.contains(MifareClassic::class.java.name) -> {
-                            onMifareClassicTagDiscovered(it, generalTagInformation)
-                        }
+                        it.techList.contains(Ndef::class.java.name) -> { onNdefTagDiscovered(it, generalTagInformation) }
+                        it.techList.contains(MifareClassic::class.java.name) -> { onMifareClassicTagDiscovered(it, generalTagInformation) }
                         else -> {}
                     }
                 }
@@ -91,6 +75,8 @@ class NfcScanningManager @Inject constructor(
             Log.e(TAG, "Tag disconnected. Reason: " + e.message)
         }
     }
+
+    private fun getIdentifier(tag: Tag) = tag.id.toHex().subSequence(0, 2).toString()
 
     private fun getAllTagAndTransceiveLength(tag: Tag): Triple<List<String>, Int, Int> {
         val allTagList = tag.techList.map { it.split('.').last() }

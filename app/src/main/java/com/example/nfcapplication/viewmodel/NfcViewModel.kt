@@ -1,13 +1,14 @@
 package com.example.nfcapplication.viewmodel
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.nfcapplication.repository.NfcScanningManager
 import com.example.nfcapplication.repository.NfcScanningState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 data class NfcViewState(
@@ -15,7 +16,6 @@ data class NfcViewState(
     val nfcScanningState: NfcScanningState = NfcScanningState(),
 )
 
-@RequiresApi(Build.VERSION_CODES.S)
 @HiltViewModel
 class NfcViewModel @Inject constructor(
     private val nfcManager: NfcScanningManager

@@ -25,3 +25,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "NFCApplication"
 include(":app")
+include(":profile_nfc")

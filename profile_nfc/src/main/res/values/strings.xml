@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NFC Application</string>
+
+    <string name="welcome">Welcome</string>
+    <string name="welcome_message">Welcome to NFC Application. \nThis is NFC application where you can read any NFC tag.
+    This also allows you to write to the NFC tags, however, only reading the tag is possible.</string>
+    <string name="ok">OK</string>
+
+    <string name="scan_nfc_tag">Scan an NFC tag…</string>
+    <string name="nfc_not_enabled_appbar">NFC not Enabled</string>
+    <string name="nfc_not_enabled">NFC not Enabled</string>
+    <string name="enable_nfc">Please enable NFC from the device setting.</string>
+    <string name="setting">Setting</string>
+    <string name="cancel">Cancel</string>
+    <string name="instruction_to_enable_nfc">NFC is not Enabled in this device.\nGo to the Settings > Connected Devices to turn NFC on. </string>
+    <string name="nfc_not_supported_appbar">NFC not Supported</string>
+    <string name="nfc_not_supported">NFC is not supported in this device</string>
+
+    <string name="tag_info">Tag Info</string>
+    <string name="mifare_classic_tag">MiFare Classic Tag</string>
+    <string name="ndef_tag">Ndef Tag</string>
+    <string name="serial_number">Serial Number</string>
+    <string name="ic_manufacturer">Ic Manufacturer</string>
+    <string name="maximum_transceive_len">Maximum Transceive Length</string>
+    <string name="available_tag_technologies">Available Tag Technologies</string>
+    <string name="transceive_time_out">Default Transceive Timeout</string>
+
+    <string name="ndef_info">Ndef Data Info</string>
+    <string name="record_count">Number of Records</string>
+    <string name="max_message_size">Maximum Message Size</string>
+    <string name="current_message_size">Current Message Size</string>
+    <string name="ndef_type">Ndef Type</string>
+    <string name="nfc_data_access_type">Data Access Type</string>
+
+    <string name="record_info">Ndef Records</string>
+    <string name="bytes">%s bytes</string>
+    <string name="millisecond">%sms</string>
+    <string name="expand_records">Show all Records</string>
+    <string name="hide_records">Hide Records</string>
+    <string name="record_name_format">Data Format</string>
+    <string name="record_type">Payload Type</string>
+    <string name="record_payload_len">Payload Length</string>
+    <string name="record_payload_data">Payload Data</string>
+</resources>

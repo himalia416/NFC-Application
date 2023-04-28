@@ -1,4 +1,4 @@
-package com.example.nfcapplication.views.ndefTag
+package com.example.nfcapplication.views.tagViews.ndefTag
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -37,7 +37,7 @@ fun RecordView(ndefRecords: List<NdefRecord>) {
                 Text(
                     text = "Record ${index + 1}: Name of the Record",
                     modifier = Modifier.padding(8.dp)
-                ) // todo find the name of the Record
+                ) // todo: find the name of the Record
                 Column(modifier = Modifier.padding(8.dp)) {
                     RowInCardView(
                         firstItem = stringResource(id = R.string.record_name_format),

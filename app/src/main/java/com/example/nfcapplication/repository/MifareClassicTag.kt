@@ -1,12 +1,5 @@
 package com.example.nfcapplication.repository
 
-import com.example.nfcapplication.data.GeneralTagInformation
-
-data class MifareClassicTag(
-    override val general: GeneralTagInformation,
-    val mifareClassicField1: MifareClassicMessage
-) : NfcTag
-
 data class MifareClassicMessage(
     val sectorCount: Int,
     val tagType: String,

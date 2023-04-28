@@ -1,4 +1,4 @@
-package com.example.nfcapplication.views.ndefTag
+package com.example.nfcapplication.views.tagViews.ndefTag
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column

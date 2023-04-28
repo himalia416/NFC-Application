@@ -67,7 +67,7 @@ class NfcScanningManager @Inject constructor(
                     when {
                         it.techList.contains(Ndef::class.java.name) -> { onNdefTagDiscovered(it, generalTagInformation) }
                         it.techList.contains(MifareClassic::class.java.name) -> { onMifareClassicTagDiscovered(it, generalTagInformation) }
-                        else -> {}
+                        else -> { onOtherTagDiscovered(generalTagInformation) }
                     }
                 }
             }
@@ -158,6 +158,11 @@ class NfcScanningManager @Inject constructor(
             }
             ndef.close()
         }
+    }
+
+    private fun onOtherTagDiscovered(generalTagInformation: GeneralTagInformation) {
+        val otherTag = OtherTag(generalTagInformation)
+        _nfcScanningState.value = _nfcScanningState.value.copy(tag = otherTag)
     }
 
     override fun onPause(owner: LifecycleOwner) {

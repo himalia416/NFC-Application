@@ -30,7 +30,7 @@ class MainActivity : NordicActivity() {
 
         setContent {
             NordicTheme {
-                NavigationView(destinations = NfcWelcomeScreen + ScanningDestination)
+                NavigationView(destinations = NfcWelcomeScreen + ScanningDestination + NfcSettingDestination)
             }
         }
     }

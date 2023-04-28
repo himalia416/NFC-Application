@@ -15,4 +15,6 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
 
     implementation(project(":profile_nfc"))
+    implementation(project(":settings"))
+    implementation(project(":welcome"))
 }

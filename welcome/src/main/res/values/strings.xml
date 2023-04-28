@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="welcome">Welcome</string>
+    <string name="welcome_message">Welcome to NFC Application. \nThis is NFC application where you can read any NFC tag.
+    This also allows you to write to the NFC tags, however, only reading the tag is possible.</string>
+    <string name="ok">OK</string>
+</resources>

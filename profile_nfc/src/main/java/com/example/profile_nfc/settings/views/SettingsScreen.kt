@@ -1,7 +1,6 @@
 package com.example.profile_nfc.settings.views
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,12 +12,16 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ClearAll
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.HearingDisabled
+import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Nfc
+import androidx.compose.material.icons.filled.StayPrimaryPortrait
 import androidx.compose.material.icons.filled.Upload
 import androidx.compose.material.icons.filled.Vibration
 import androidx.compose.material.icons.filled.VolumeOff
 import androidx.compose.material.icons.filled.VolumeUp
-import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.Download
+import androidx.compose.material.icons.outlined.Help
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
@@ -28,8 +31,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.profile_nfc.R
 import no.nordicsemi.android.common.theme.NordicTheme
 import no.nordicsemi.android.common.theme.view.NordicAppBar
 
@@ -40,79 +45,88 @@ fun SettingsScreen(
 ) {
     Column {
         NordicAppBar(
-            text = "Settings",
+            text = stringResource(id = R.string.settings),
             onNavigationButtonClick = onBackNavigation,
         )
         LazyColumn {
             item {
-                Headline("Scan Report")
+                Headline(stringResource(id = R.string.scan_report))
 
                 SettingsButtonWithIcon(
-                    title = "Import Scan XML File",
-                    description = "Import scan result locally in XML format.",
+                    title = stringResource(id = R.string.import_scan),
+                    description = stringResource(id = R.string.import_scan_des),
                     icon = Icons.Filled.Download,
                     onClick = { /*TODO*/ }
                 )
                 SettingsButtonWithIcon(
-                    title = "Export Scan Result",
+                    title = stringResource(id = R.string.export_scan),
+                    description = stringResource(id = R.string.export_scan_des),
                     icon = Icons.Filled.Upload,
-                    description = "Export previous scan result to view.",
                     onClick = { /*TODO*/ }
                 )
 
                 SettingsButtonWithIcon(
-                    title = "Clear Scan Report",
-                    description = "Clear exported scan report.",
+                    title = stringResource(id = R.string.clear_scan),
+                    description = stringResource(id = R.string.clear_scan_des),
                     icon = Icons.Filled.ClearAll,
                     onClick = { /*TODO*/ }
                 )
 
-                Spacer(modifier = Modifier.size(16.dp))
-                Headline("Share Scan Report")
                 SettingsButtonWithIcon(
-                    title = "Email",
-                    description = "Attach scan result in Email.",
+                    title = stringResource(id = R.string.scan_history),
+                    description = stringResource(id = R.string.scan_history_des),
+                    icon = Icons.Filled.History,
+                    onClick = { /*TODO*/ }
+                )
+
+                Spacer(modifier = Modifier.size(16.dp))
+                Headline(stringResource(id = R.string.share_scan_report))
+                SettingsButtonWithIcon(
+                    title = stringResource(id = R.string.email),
+                    description = stringResource(id = R.string.attach_email_des),
                     icon = Icons.Filled.Email,
                     onClick = { /*TODO*/ }
                 )
 
                 Spacer(modifier = Modifier.size(16.dp))
-                Headline("User Interface")
+                Headline(stringResource(id = R.string.user_interface))
                 SettingsButtonWithIcon(
-                    title = "Play Sound",
-                    description = "Turn on sound at the start or finish of scan.",
+                    title = stringResource(id = R.string.play_sound),
+                    description = stringResource(id = R.string.play_sound_des),
                     icon = Icons.Filled.VolumeOff,
                     onEnabledIcon = Icons.Filled.VolumeUp,
                     onClick = { /*TODO*/ }
                 )
 
                 SettingsButtonWithIcon(
-                    title = "Vibrate",
-                    description = "Vibrate when starting or finishing a scan.",
+                    title = stringResource(id = R.string.vibrate),
+                    description = stringResource(id = R.string.vibrate_des),
                     icon = Icons.Filled.Vibration,
+                    onEnabledIcon = Icons.Filled.HearingDisabled,
                     onClick = { /*TODO*/ }
                 )
 
                 Spacer(modifier = Modifier.size(16.dp))
-                Headline("Other")
+                Headline(stringResource(id = R.string.other))
                 SettingsButtonWithIcon(
-                    title = "About NFC",
-                    description = "NFC Documentation on Nordic's Info-center.",
+                    title = stringResource(id = R.string.about_nfc),
+                    description = stringResource(id = R.string.about_nfc_des),
                     icon = Icons.Filled.Nfc,
                     onClick = { }
                 )
                 SettingsButtonWithIcon(
-                    title = "Tutorial",
-                    description = "Shows welcome screen.",
-                    icon = Icons.Outlined.Info,
+                    title = stringResource(id = R.string.help),
+                    description = stringResource(id = R.string.help_des),
+                    icon = Icons.Outlined.Help,
                     onClick = { /*TODO*/ }
                 )
 
                 SettingsButtonWithIcon(
-                    title = "Version",
-                    icon = null,
+                    title = stringResource(id = R.string.version),
+                    icon = Icons.Filled.StayPrimaryPortrait,
                     onClick = { /*TODO*/ }
                 )
+                Spacer(modifier = Modifier.size(16.dp))
             }
 
         }
@@ -142,12 +156,25 @@ private fun SettingsButtonWithIcon(
         LocalContentColor.current.copy(alpha = 0.38f)
     }
     Row(
-        horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .clickable(enabled = enabled) { onClick() }
             .fillMaxWidth()
     ) {
+        icon?.let {
+            if (enabled) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = null,
+                    modifier = Modifier.padding(16.dp)
+                )
+            } else onEnabledIcon?.let {
+                Icon(
+                    imageVector = it,
+                    contentDescription = null
+                )
+            }
+        }
         Column(
             modifier = Modifier
                 .padding(16.dp)
@@ -166,27 +193,18 @@ private fun SettingsButtonWithIcon(
                 )
             }
         }
-        Spacer(Modifier.weight(1f))
-        if (icon != null) {
-            if (enabled) {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = null,
-                    modifier = Modifier.padding(16.dp)
-                )
-            } else onEnabledIcon?.let { Icon(imageVector = it, contentDescription = null) }
-        }
     }
 }
 
 @Preview
 @Composable
-fun SettingsButtonPreview() {
+fun SettingsButtonWithIconPreview() {
     NordicTheme {
         SettingsButtonWithIcon(
-            title = "Import Scan XML File",
-            description = "Import scan result locally in XML format.",
+            title = stringResource(id = R.string.import_scan),
+            description = stringResource(id = R.string.import_scan_des),
             icon = Icons.Filled.Download,
+            onEnabledIcon = Icons.Outlined.Download,
             onClick = {}
         )
     }
@@ -204,8 +222,8 @@ private fun Headline(text: String) {
 
 @Preview
 @Composable
-fun HeadlinePreview(){
+fun HeadlinePreview() {
     NordicTheme {
-        Headline("Share scan report")
+        Headline(stringResource(id = R.string.share_scan_report))
     }
 }

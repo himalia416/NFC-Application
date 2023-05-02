@@ -14,7 +14,6 @@ dependencies {
     implementation(libs.nordic.navigation)
     implementation(libs.androidx.hilt.navigation.compose)
 
+    implementation(project(":navigation"))
     implementation(project(":profile_nfc"))
-    implementation(project(":settings"))
-    implementation(project(":welcome"))
 }

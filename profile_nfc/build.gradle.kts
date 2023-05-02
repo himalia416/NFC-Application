@@ -18,6 +18,8 @@ dependencies {
     implementation(libs.androidx.compose.bom)
     implementation(libs.androidx.hilt.navigation.compose)
 
-    implementation ("com.google.firebase:firebase-database-ktx:20.2.0")
+    implementation ("com.google.firebase:firebase-database-ktx:20.2.1")
     implementation ("com.google.firebase:firebase-analytics-ktx:21.2.2")
+
+    implementation(project(":settings"))
 }

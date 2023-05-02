@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.nordic.library.compose)
     alias(libs.plugins.nordic.hilt)
+    id("kotlin-parcelize")
 }
 
 android {
@@ -17,4 +18,7 @@ dependencies {
     implementation(libs.androidx.compose.material.iconsExtended)
     implementation(libs.androidx.compose.bom)
     implementation(libs.androidx.hilt.navigation.compose)
+
+    // Datastore
+    implementation(libs.androidx.dataStore.preferences)
 }

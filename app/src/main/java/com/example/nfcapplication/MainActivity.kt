@@ -8,6 +8,7 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import com.example.navigation.NfcDestinations
 import com.example.profile_nfc.repository.NfcScanningManager
 import dagger.hilt.android.AndroidEntryPoint
 import no.nordicsemi.android.common.navigation.NavigationView
@@ -28,7 +29,7 @@ class MainActivity : NordicActivity() {
 
         setContent {
             NordicTheme {
-                NavigationView(destinations = NfcWelcomeScreen + ScanningDestination + NfcSettingDestination)
+                NavigationView(destinations = NfcDestinations)
             }
         }
     }

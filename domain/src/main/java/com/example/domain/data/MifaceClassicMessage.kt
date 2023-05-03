@@ -1,4 +1,4 @@
-package com.example.profile_nfc.repository
+package com.example.domain.data
 
 data class MifareClassicMessage(
     val sectorCount: Int,

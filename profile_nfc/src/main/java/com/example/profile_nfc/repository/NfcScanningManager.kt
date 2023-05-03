@@ -1,7 +1,6 @@
 package com.example.profile_nfc.repository
 
 import android.app.Activity
-import android.content.Context
 import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.nfc.tech.IsoDep
@@ -27,7 +26,6 @@ import com.example.profile_nfc.data.ReaderFlag
 import com.example.profile_nfc.data.TnfNameFormatter
 import com.example.profile_nfc.utility.toHex
 import com.example.remotedatabase.domain.ManufacturerNameRepository
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -44,18 +42,16 @@ data class NfcScanningState(
 
 @Singleton
 class NfcScanningManager @Inject constructor(
-    @ApplicationContext private val context: Context,
-    private val scope: CoroutineScope,
     private val manufacturerNameRepository: ManufacturerNameRepository,
+    private val nfcAdapter: NfcAdapter?,
+    private val scope: CoroutineScope,
 ) : DefaultLifecycleObserver {
     private val TAG = NfcScanningManager::class.java.simpleName
-    private var nfcAdapter: NfcAdapter? = null
     private val _nfcScanningState: MutableStateFlow<NfcScanningState> =
         MutableStateFlow(NfcScanningState())
     val nfcScanningState = _nfcScanningState.asStateFlow()
 
     override fun onResume(owner: LifecycleOwner) {
-        nfcAdapter = NfcAdapter.getDefaultAdapter(context)
         nfcAdapter?.let {
             _nfcScanningState.value = _nfcScanningState.value.copy(isNfcSupported = true)
             if (it.isEnabled) {
@@ -184,6 +180,6 @@ class NfcScanningManager @Inject constructor(
     override fun onPause(owner: LifecycleOwner) {
         super.onPause(owner)
         // Disable ReaderMode
-        if (nfcAdapter != null) nfcAdapter?.disableReaderMode(owner as Activity)
+        nfcAdapter?.disableReaderMode(owner as Activity)
     }
 }

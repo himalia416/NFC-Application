@@ -4,6 +4,8 @@ import com.example.domain.data.MifareClassicTag
 import com.example.domain.data.NdefTag
 import com.example.domain.data.NfcTag
 import com.example.domain.data.OtherTag
+import com.example.serialization.domain.NfcJsonAdapter
+import com.example.serialization.repository.NfcSerialization
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory
@@ -30,6 +32,12 @@ object JsonAdapterModule {
             )
             .add(KotlinJsonAdapterFactory())
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun bindNfcJsonAdapter(jsonAdapter: JsonAdapter<NfcTag>) : NfcJsonAdapter{
+        return NfcSerialization(jsonAdapter)
     }
 
     @Provides

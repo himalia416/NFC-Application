@@ -1,21 +1,13 @@
 package com.example.remotedatabase.repository
 
+import com.example.remotedatabase.domain.ManufacturerName
+import com.example.remotedatabase.domain.ManufacturerNameRepository
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.getValue
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-data class ManufacturerName(
-    val identifier: String = "",
-    val company: String = "",
-    val country: String = "",
-)
-
-interface ManufacturerNameRepository {
-    suspend fun getManufacturerName(identifier: String): ManufacturerName?
-}
-
-class ManufacturerNameRepositoryImp @Inject constructor(
+internal class ManufacturerNameRepositoryImp @Inject constructor(
     private val databaseReference: DatabaseReference,
 ) : ManufacturerNameRepository {
 

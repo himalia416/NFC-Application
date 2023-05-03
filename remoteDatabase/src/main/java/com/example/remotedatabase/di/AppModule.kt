@@ -1,6 +1,6 @@
 package com.example.remotedatabase.di
 
-import com.example.remotedatabase.repository.ManufacturerNameRepository
+import com.example.remotedatabase.domain.ManufacturerNameRepository
 import com.example.remotedatabase.repository.ManufacturerNameRepositoryImp
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase

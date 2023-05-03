@@ -5,7 +5,7 @@ import com.example.serialization.domain.NfcJsonAdapter
 import com.squareup.moshi.JsonAdapter
 import javax.inject.Inject
 
-class NfcSerialization @Inject constructor(
+internal class NfcSerialization @Inject constructor(
     private val jsonAdapter: JsonAdapter<NfcTag>
 ): NfcJsonAdapter {
 

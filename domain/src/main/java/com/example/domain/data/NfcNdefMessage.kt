@@ -1,4 +1,4 @@
-package com.example.profile_nfc.data
+package com.example.domain.data
 
 data class NfcNdefMessage(
     val recordCount: Int,
@@ -18,3 +18,4 @@ data class NdefRecord(
     val payloadLength: Int = 0,
     val payloadData: String = "",
 )
+

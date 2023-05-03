@@ -2,6 +2,7 @@ package com.example.profile_nfc.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.domain.data.NfcTag
 import com.example.profile_nfc.repository.NfcScanningManager
 import com.example.profile_nfc.repository.NfcScanningState
 import dagger.hilt.android.lifecycle.HiltViewModel

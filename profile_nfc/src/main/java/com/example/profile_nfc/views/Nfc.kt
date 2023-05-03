@@ -16,9 +16,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.domain.data.MifareClassicTag
+import com.example.domain.data.NdefTag
 import com.example.profile_nfc.R
-import com.example.profile_nfc.repository.MifareClassicTag
-import com.example.profile_nfc.repository.NdefTag
 import com.example.profile_nfc.viewmodel.EnableNfc
 import com.example.profile_nfc.viewmodel.NfcNotEnabled
 import com.example.profile_nfc.viewmodel.NfcNotSupported

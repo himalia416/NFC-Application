@@ -1,4 +1,4 @@
-package com.example.profile_nfc.data
+package com.example.domain.data
 
 data class GeneralTagInformation(
     val serialNumber: String = "",

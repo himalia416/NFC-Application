@@ -6,8 +6,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import com.example.profile_nfc.data.GeneralTagInformation
-import com.example.profile_nfc.data.NfcNdefMessage
+import com.example.domain.data.GeneralTagInformation
+import com.example.domain.data.NfcNdefMessage
 import com.example.profile_nfc.views.tagViews.ndefTag.DataInfoView
 import com.example.profile_nfc.views.tagViews.ndefTag.RecordView
 import com.example.profile_nfc.views.tagViews.ndefTag.TagInfoView

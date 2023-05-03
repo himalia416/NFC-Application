@@ -21,6 +21,7 @@ import com.example.profile_nfc.data.ReaderFlag
 import com.example.profile_nfc.data.TnfNameFormatter
 import com.example.profile_nfc.database.ManufacturerNameRepository
 import com.example.profile_nfc.utility.toHex
+import com.example.remotedatabase.repository.ManufacturerNameRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -1,4 +1,4 @@
-package com.example.profile_nfc.database
+package com.example.remotedatabase.repository
 
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.getValue

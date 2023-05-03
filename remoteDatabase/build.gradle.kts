@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.profile_nfc"
+    namespace = "com.example.remotedatabase"
 }
 
 dependencies {
@@ -14,14 +14,10 @@ dependencies {
     implementation(libs.nordic.theme)
     implementation(libs.nordic.navigation)
     implementation(libs.androidx.lifecycle.runtime.compose)
-    implementation(libs.androidx.compose.material.iconsExtended)
     implementation(libs.androidx.compose.bom)
     implementation(libs.androidx.hilt.navigation.compose)
-//    implementation(libs.androidx.compose.runtime.livedata)
 
-
-    implementation(project(":settings"))
-    implementation(project(":domain"))
-    implementation(project(":serialization"))
-    implementation(project(":remoteDatabase"))
+    // Firebase
+    implementation ("com.google.firebase:firebase-database-ktx:20.2.1")
+    implementation ("com.google.firebase:firebase-analytics-ktx:21.2.2")
 }

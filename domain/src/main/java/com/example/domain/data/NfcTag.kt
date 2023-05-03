@@ -1,7 +1,4 @@
-package com.example.profile_nfc.repository
-
-import com.example.profile_nfc.data.GeneralTagInformation
-import com.example.profile_nfc.data.NfcNdefMessage
+package com.example.domain.data
 
 sealed interface NfcTag {
     val general: GeneralTagInformation

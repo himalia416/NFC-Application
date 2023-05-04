@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.nordic.library.compose)
+    alias(libs.plugins.kotlin.parcelize)
 }
 
 android {

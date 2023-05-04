@@ -14,5 +14,5 @@ val ScanningDestinationId = createSimpleDestination("nfc-scanning-screen")
 @RequiresApi(Build.VERSION_CODES.S)
 val ScanningDestination = defineDestination(ScanningDestinationId) {
     val viewModel: SimpleNavigationViewModel = hiltViewModel()
-    Nfc { viewModel.navigateTo(NfcSettingScreenId) }
+    Nfc { viewModel.navigateTo(NfcSettingScreenId, it) }
 }

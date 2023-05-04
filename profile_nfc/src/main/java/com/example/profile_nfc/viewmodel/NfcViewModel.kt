@@ -1,12 +1,9 @@
 package com.example.profile_nfc.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.data.NfcTag
 import com.example.profile_nfc.repository.NfcScanningManager
 import com.example.profile_nfc.repository.NfcScanningState
-import com.example.serialization.domain.NfcJsonAdapter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,7 +19,6 @@ data class NfcViewState(
 @HiltViewModel
 class NfcViewModel @Inject constructor(
     private val nfcManager: NfcScanningManager,
-    private val nfcSerialization: NfcJsonAdapter
 ) : ViewModel() {
     private val _state: MutableStateFlow<NfcViewState> = MutableStateFlow(NfcViewState())
     val state = _state.asStateFlow()
@@ -58,7 +54,6 @@ class NfcViewModel @Inject constructor(
             state = NfcTagDiscovered,
             nfcScanningState = nfcManager.nfcScanningState.value
         )
-        nfcManager.nfcScanningState.value.tag?.let { serializationOfNfcTag(it) }
     }
 
     fun showScanTag() {
@@ -67,9 +62,5 @@ class NfcViewModel @Inject constructor(
 
     fun enableNfc() {
         _state.value = _state.value.copy(state = EnableNfc)
-    }
-
-    private fun serializationOfNfcTag(nfcTag: NfcTag){
-        Log.d("TAG", "serializationOfNfcTag: ${nfcSerialization.toJson(nfcTag)}")
     }
 }

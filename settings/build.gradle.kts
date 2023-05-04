@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.nordic.library.compose)
     alias(libs.plugins.nordic.hilt)
-    id("kotlin-parcelize")
+    alias(libs.plugins.kotlin.parcelize)
 }
 
 android {
@@ -21,4 +21,6 @@ dependencies {
 
     // Datastore
     implementation(libs.androidx.dataStore.preferences)
+    implementation(project(":domain"))
+    implementation(project(":serialization"))
 }

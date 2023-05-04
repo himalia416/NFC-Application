@@ -13,4 +13,6 @@ plugins {
     alias(libs.plugins.nordic.feature) apply false
     alias(libs.plugins.google.services) apply true
     alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.kotlin.parcelize) apply false
+
 }

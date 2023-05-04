@@ -18,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.domain.data.MifareClassicTag
 import com.example.domain.data.NdefTag
+import com.example.domain.data.NfcTag
 import com.example.profile_nfc.R
 import com.example.profile_nfc.viewmodel.EnableNfc
 import com.example.profile_nfc.viewmodel.NfcNotEnabled
@@ -31,7 +32,7 @@ import no.nordicsemi.android.common.theme.view.NordicAppBar
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.S)
 @Composable
-fun Nfc(onSettingScreenNavigation: () -> Unit) {
+fun Nfc(onSettingScreenNavigation: (NfcTag) -> Unit) {
     val context = LocalContext.current
     val nfcViewModel: NfcViewModel = hiltViewModel()
     val nfcState by nfcViewModel.state.collectAsState()
@@ -51,7 +52,7 @@ fun Nfc(onSettingScreenNavigation: () -> Unit) {
                     text = stringResource(id = R.string.ndef_tag),
                     onNavigationButtonClick = { nfcViewModel.showScanTag() },
                     actions = {
-                        IconButton(onClick = onSettingScreenNavigation) {
+                        IconButton(onClick = { onSettingScreenNavigation(nfcState.nfcScanningState.tag!!) }) {
                             Icon(
                                 imageVector = Icons.Outlined.Settings,
                                 contentDescription = null,

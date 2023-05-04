@@ -27,13 +27,18 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.setting.BuildConfig
 import com.example.setting.R
+import com.example.setting.viewmodel.SettingsViewModel
 import no.nordicsemi.android.common.theme.NordicTheme
 import no.nordicsemi.android.common.theme.view.NordicAppBar
 
@@ -47,19 +52,24 @@ fun SettingsScreen(
             text = stringResource(id = R.string.settings),
             onNavigationButtonClick = onBackNavigation,
         )
+        val viewModel: SettingsViewModel = hiltViewModel()
+        val state by viewModel.state.collectAsStateWithLifecycle()
+        val onEvent:(SettingsScreenViewEvent) -> Unit = {viewModel.onEvent(it)}
+
         LazyColumn {
             item {
                 Headline(stringResource(id = R.string.scan_report))
 
                 SettingsButtonWithIcon(
-                    title = stringResource(id = R.string.import_scan),
-                    description = stringResource(id = R.string.import_scan_des),
-                    icon = Icons.Filled.Download,
-                    onClick = { /*TODO*/ }
-                )
-                SettingsButtonWithIcon(
                     title = stringResource(id = R.string.export_scan),
                     description = stringResource(id = R.string.export_scan_des),
+                    icon = Icons.Filled.Download,
+                    onClick = { onEvent(OnExportScanResultClick) }
+
+                )
+                SettingsButtonWithIcon(
+                    title = stringResource(id = R.string.import_scan),
+                    description = stringResource(id = R.string.import_scan_des),
                     icon = Icons.Filled.Upload,
                     onClick = { /*TODO*/ }
                 )
@@ -111,7 +121,7 @@ fun SettingsScreen(
                     title = stringResource(id = R.string.about_nfc),
                     description = stringResource(id = R.string.about_nfc_des),
                     icon = Icons.Filled.Nfc,
-                    onClick = { }
+                    onClick = { onEvent(OnAboutNfcClick) }
                 )
                 SettingsButtonWithIcon(
                     title = stringResource(id = R.string.help),
@@ -122,6 +132,7 @@ fun SettingsScreen(
 
                 SettingsButtonWithIcon(
                     title = stringResource(id = R.string.version),
+                    description = BuildConfig.VERSION_NAME,
                     icon = Icons.Filled.StayPrimaryPortrait,
                     onClick = { /*TODO*/ }
                 )

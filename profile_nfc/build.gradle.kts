@@ -17,11 +17,8 @@ dependencies {
     implementation(libs.androidx.compose.material.iconsExtended)
     implementation(libs.androidx.compose.bom)
     implementation(libs.androidx.hilt.navigation.compose)
-//    implementation(libs.androidx.compose.runtime.livedata)
-
 
     implementation(project(":settings"))
     implementation(project(":domain"))
-    implementation(project(":serialization"))
     implementation(project(":remoteDatabase"))
 }

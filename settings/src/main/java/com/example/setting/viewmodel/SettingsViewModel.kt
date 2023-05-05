@@ -1,5 +1,6 @@
 package com.example.setting.viewmodel
 
+import android.content.ContentResolver
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
@@ -19,8 +20,11 @@ import com.example.setting.views.OnScanHistoryClick
 import com.example.setting.views.OnVibrateClick
 import com.example.setting.views.SettingsScreenViewEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import no.nordicsemi.android.common.navigation.Navigator
 import no.nordicsemi.android.common.navigation.viewmodel.SimpleNavigationViewModel
 import javax.inject.Inject
@@ -36,8 +40,10 @@ internal class SettingsViewModel @Inject constructor(
     private val jsonAdapter: NfcJsonAdapter,
 ) : SimpleNavigationViewModel(navigator, savedStateHandle) {
     val state = repository.settings.stateIn(viewModelScope, SharingStarted.Eagerly, NFCSettings())
+    private val _exportState = MutableStateFlow<ExportState>(Unknown)
+    val exportState = _exportState.asStateFlow()
 
-    private val nfcTag = parameterOf(NfcSettingScreenId)
+    val nfcTag = parameterOf(NfcSettingScreenId)
 
     fun onEvent(event: SettingsScreenViewEvent) {
         when (event) {
@@ -74,7 +80,25 @@ internal class SettingsViewModel @Inject constructor(
     }
 
     private fun exportScanResult() {
-        Log.d("TAG", "importScanResult: ${jsonAdapter.toJson(nfcTag)}")
+        viewModelScope.launch {
+            _exportState.value = ExportStarted
+        }
+    }
+
+    fun export(contentResolver: ContentResolver, uri: Uri) {
+       try {
+           Log.d("TAG", "importScanResult: ${jsonAdapter.toJson(nfcTag)}")
+           viewModelScope.launch {
+               val data = jsonAdapter.toJson(nfcTag).toByteArray()
+               contentResolver.openOutputStream(uri)?.run {
+                   write(data)
+                   close()
+               }
+           }
+           _exportState.value = Success
+       } catch (e:Exception){
+           _exportState.value = Error(e)
+       }
     }
 
     private fun importScanResult() {

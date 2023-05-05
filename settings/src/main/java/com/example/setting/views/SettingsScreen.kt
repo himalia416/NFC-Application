@@ -1,5 +1,7 @@
 package com.example.setting.views
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,10 +29,12 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -38,10 +42,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.setting.BuildConfig
 import com.example.setting.R
+import com.example.setting.viewmodel.ExportStarted
 import com.example.setting.viewmodel.SettingsViewModel
+import com.example.setting.viewmodel.Success
 import no.nordicsemi.android.common.theme.NordicTheme
 import no.nordicsemi.android.common.theme.view.NordicAppBar
 
+@RequiresApi(Build.VERSION_CODES.N)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
@@ -55,6 +62,16 @@ fun SettingsScreen(
         val viewModel: SettingsViewModel = hiltViewModel()
         val state by viewModel.state.collectAsStateWithLifecycle()
         val onEvent:(SettingsScreenViewEvent) -> Unit = {viewModel.onEvent(it)}
+        val exportState by viewModel.exportState.collectAsState()
+
+        val resolver = LocalContext.current.contentResolver
+
+        when(exportState){
+            is ExportStarted -> ExportScreen(onExportClicked = {viewModel.export(resolver, it)})
+            is Success -> {}
+            is Error -> {}
+            else -> {}
+        }
 
         LazyColumn {
             item {
@@ -85,7 +102,8 @@ fun SettingsScreen(
                     title = stringResource(id = R.string.scan_history),
                     description = stringResource(id = R.string.scan_history_des),
                     icon = Icons.Filled.History,
-                    onClick = { /*TODO*/ }
+                    onClick = {/*TODO*/}
+//                    onClick = { onEvent(OnScanHistoryClick) }
                 )
 
                 Spacer(modifier = Modifier.size(16.dp))
@@ -94,7 +112,8 @@ fun SettingsScreen(
                     title = stringResource(id = R.string.email),
                     description = stringResource(id = R.string.attach_email_des),
                     icon = Icons.Filled.Email,
-                    onClick = { /*TODO*/ }
+                    onClick = {/*TODO*/}
+//                    onClick = { onEvent(OnEmailClick) }
                 )
 
                 Spacer(modifier = Modifier.size(16.dp))
@@ -104,7 +123,8 @@ fun SettingsScreen(
                     description = stringResource(id = R.string.play_sound_des),
                     icon = Icons.Filled.VolumeOff,
                     onEnabledIcon = Icons.Filled.VolumeUp,
-                    onClick = { /*TODO*/ }
+                    onClick = {/*TODO*/}
+//                    onClick = { onEvent(OnPlaySoundClick) }
                 )
 
                 SettingsButtonWithIcon(
@@ -112,7 +132,8 @@ fun SettingsScreen(
                     description = stringResource(id = R.string.vibrate_des),
                     icon = Icons.Filled.Vibration,
                     onEnabledIcon = Icons.Filled.HearingDisabled,
-                    onClick = { /*TODO*/ }
+                    onClick = {/*TODO*/}
+//                    onClick = { onEvent(OnVibrateClick) }
                 )
 
                 Spacer(modifier = Modifier.size(16.dp))
@@ -127,7 +148,8 @@ fun SettingsScreen(
                     title = stringResource(id = R.string.help),
                     description = stringResource(id = R.string.help_des),
                     icon = Icons.Filled.Help,
-                    onClick = { /*TODO*/ }
+                    onClick = {/*TODO*/}
+//                    onClick = { onEvent(OnHelpClick)}
                 )
 
                 SettingsButtonWithIcon(
@@ -143,6 +165,7 @@ fun SettingsScreen(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.N)
 @Preview
 @Composable
 fun SettingsScreenPreview() {

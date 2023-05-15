@@ -40,6 +40,12 @@ data class NfcScanningState(
     val tag: NfcTag? = null,
 )
 
+data class TagInfo(
+    val allTags: List<String> = emptyList(),
+    val maxTransceiveLength: Int = 0,
+    val transceiveTimeOut: Int = 0,
+)
+
 @Singleton
 class NfcScanningManager @Inject constructor(
     private val manufacturerNameRepository: ManufacturerNameRepository,
@@ -90,7 +96,7 @@ class NfcScanningManager @Inject constructor(
 
     private fun getIdentifier(tag: Tag) = tag.id.toHex().subSequence(0, 2).toString()
 
-    private fun getAllTagAndTransceiveLength(tag: Tag): Triple<List<String>, Int, Int> {
+    private fun getAllTagAndTransceiveLength(tag: Tag): TagInfo {
         val allTagList = tag.techList.map { it.split('.').last() }
         val (maxTransceiveLength, timeout) = when {
             tag.techList.contains(NfcA::class.java.name) -> NfcA.get(tag).use { Pair(it.maxTransceiveLength, it.timeout) }
@@ -101,7 +107,7 @@ class NfcScanningManager @Inject constructor(
                 .use { Pair(it.maxTransceiveLength, it.timeout) }
             else -> Pair(0, 0)
         }
-        return Triple(allTagList, maxTransceiveLength, timeout)
+        return TagInfo(allTagList, maxTransceiveLength, timeout)
     }
 
     private suspend fun getIcManufacturerName(identifier: String): String {

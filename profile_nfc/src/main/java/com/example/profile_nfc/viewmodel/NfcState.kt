@@ -2,12 +2,12 @@ package com.example.profile_nfc.viewmodel
 
 sealed class NfcState
 
-object ScanNfcTag: NfcState()
+internal object ScanNfcTag: NfcState()
 
-object NfcNotEnabled : NfcState()
+internal object NfcNotEnabled : NfcState()
 
-object NfcNotSupported : NfcState()
+internal object NfcNotSupported : NfcState()
 
-object NfcTagDiscovered : NfcState()
+internal object NfcTagDiscovered : NfcState()
 
-object EnableNfc : NfcState()
+internal object EnableNfc : NfcState()

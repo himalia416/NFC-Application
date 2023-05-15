@@ -31,7 +31,7 @@ class SettingsDataSource @Inject constructor(
         }
     }
 
-    suspend fun storeSettings(settings: NFCSettings){
+    suspend fun storeSettings(settings: NFCSettings) {
         context.dataStore.edit {
             it[PLAY_SOUND_KEY] = settings.playSound
             it[VIBRATION_KEY] = settings.vibration
@@ -41,7 +41,7 @@ class SettingsDataSource @Inject constructor(
         }
     }
 
-    private fun Preferences.toSettings(): NFCSettings{
+    private fun Preferences.toSettings(): NFCSettings {
         return NFCSettings(
             this[PLAY_SOUND_KEY] ?: false,
             this[VIBRATION_KEY] ?: false,

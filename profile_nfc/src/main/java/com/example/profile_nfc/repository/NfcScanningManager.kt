@@ -19,11 +19,12 @@ import com.example.domain.data.MifareClassicTag
 import com.example.domain.data.MifareClassicTagType
 import com.example.domain.data.NdefRecord
 import com.example.domain.data.NdefTag
+import com.example.domain.data.NdefTagType.Companion.getTagType
 import com.example.domain.data.NfcNdefMessage
 import com.example.domain.data.NfcTag
 import com.example.domain.data.OtherTag
+import com.example.domain.data.TnfNameFormatter
 import com.example.profile_nfc.data.ReaderFlag
-import com.example.profile_nfc.data.TnfNameFormatter
 import com.example.profile_nfc.utility.toHex
 import com.example.remotedatabase.domain.ManufacturerNameRepository
 import kotlinx.coroutines.CoroutineScope
@@ -169,7 +170,7 @@ class NfcScanningManager @Inject constructor(
                         maximumMessageSize = ndef.maxSize,
                         isNdefWritable = ndef.isWritable,
                         ndefRecord = ndefRecords,
-                        ndefType = ndef.type
+                        ndefType = getTagType(ndef.type)
                     )
                 )
                 _nfcScanningState.value = _nfcScanningState.value.copy(tag = ndefTag)

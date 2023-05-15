@@ -18,7 +18,6 @@ import com.example.domain.data.NfcNdefMessage
 import com.example.profile_nfc.R
 import com.example.profile_nfc.component.RowInCardView
 import com.example.profile_nfc.component.TitleWithIcon
-import com.example.profile_nfc.utility.ndefTypeFormatter
 import no.nordicsemi.android.common.theme.NordicTheme
 
 @Composable
@@ -60,7 +59,7 @@ fun DataInfoView(
                 )
                 RowInCardView(
                     firstItem = stringResource(id = R.string.ndef_type),
-                    secondItem = ndefTypeFormatter(nfcNdefMessage.ndefType)
+                    secondItem = nfcNdefMessage.ndefType
                 )
                 RowInCardView(
                     firstItem = stringResource(id = R.string.nfc_data_access_type),

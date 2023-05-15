@@ -112,8 +112,8 @@ fun SettingsScreen(
                     title = stringResource(id = R.string.email),
                     description = stringResource(id = R.string.attach_email_des),
                     icon = Icons.Filled.Email,
-                    onClick = {/*TODO*/}
-//                    onClick = { onEvent(OnEmailClick) }
+//                    onClick = {/*TODO*/}
+                    onClick = { onEvent(OnEmailClick) }
                 )
 
                 Spacer(modifier = Modifier.size(16.dp))

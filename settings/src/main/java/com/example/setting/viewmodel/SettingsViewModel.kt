@@ -1,8 +1,12 @@
 package com.example.setting.viewmodel
 
+import android.content.ActivityNotFoundException
 import android.content.ContentResolver
+import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.util.Log
+import androidx.core.content.FileProvider
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.example.serialization.domain.NfcJsonAdapter
@@ -20,6 +24,7 @@ import com.example.setting.views.OnScanHistoryClick
 import com.example.setting.views.OnVibrateClick
 import com.example.setting.views.SettingsScreenViewEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
@@ -27,6 +32,9 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import no.nordicsemi.android.common.navigation.Navigator
 import no.nordicsemi.android.common.navigation.viewmodel.SimpleNavigationViewModel
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 import javax.inject.Inject
 
 private val NFC_INFOCENTER_LINK =
@@ -38,12 +46,14 @@ internal class SettingsViewModel @Inject constructor(
     navigator: Navigator,
     savedStateHandle: SavedStateHandle,
     private val jsonAdapter: NfcJsonAdapter,
+    @ApplicationContext private val context: Context,
 ) : SimpleNavigationViewModel(navigator, savedStateHandle) {
+    private val TAG =  "NfcSettings"
     val state = repository.settings.stateIn(viewModelScope, SharingStarted.Eagerly, NFCSettings())
     private val _exportState = MutableStateFlow<ExportState>(Unknown)
     val exportState = _exportState.asStateFlow()
 
-    val nfcTag = parameterOf(NfcSettingScreenId)
+    private val nfcTag = parameterOf(NfcSettingScreenId)
 
     fun onEvent(event: SettingsScreenViewEvent) {
         when (event) {
@@ -70,11 +80,6 @@ internal class SettingsViewModel @Inject constructor(
     private fun onPlaySoundClick() {
         TODO("Not yet implemented")
     }
-
-    private fun shareScanResultInEmail() {
-        TODO("Not yet implemented")
-    }
-
     private fun showScanHistory() {
         TODO("Not yet implemented")
     }
@@ -86,19 +91,47 @@ internal class SettingsViewModel @Inject constructor(
     }
 
     fun export(contentResolver: ContentResolver, uri: Uri) {
-       try {
-           Log.d("TAG", "importScanResult: ${jsonAdapter.toJson(nfcTag)}")
-           viewModelScope.launch {
-               val data = jsonAdapter.toJson(nfcTag).toByteArray()
-               contentResolver.openOutputStream(uri)?.run {
-                   write(data)
-                   close()
-               }
-           }
-           _exportState.value = Success
-       } catch (e:Exception){
-           _exportState.value = Error(e)
-       }
+        try {
+            viewModelScope.launch {
+                val data = jsonAdapter.toJson(nfcTag).toByteArray()
+                contentResolver.openOutputStream(uri)?.run {
+                    write(data)
+                    close()
+                }
+            }
+            _exportState.value = ExportSuccess
+        } catch (e: Exception) {
+            _exportState.value = ErrorInExport(e)
+        }
+    }
+
+    private fun shareScanResultInEmail() {
+        try {
+            val jsonData = jsonAdapter.toJson(nfcTag)
+            val uri = createJsonFile(context, jsonData)
+            val intent = Intent(Intent.ACTION_SEND).apply {
+                type = "application/json"
+                putExtra(Intent.EXTRA_SUBJECT, "JSON Data")
+                putExtra(Intent.EXTRA_STREAM, uri)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            viewModelScope.launch {
+                context.startActivities(arrayOf(intent))
+            }
+        } catch (e: ActivityNotFoundException) {
+            Log.d(TAG, "ActivityNotFoundException: $e")
+        } catch (t: Throwable) {
+            Log.d(TAG, "Throwable: $t")
+        }
+    }
+
+    @Throws(IOException::class)
+    private fun createJsonFile(context: Context, jsonData: String): Uri {
+        val file = File(context.externalCacheDir, "json_data.json")
+        FileOutputStream(file).use {
+            it.write(jsonData.toByteArray())
+        }
+        return FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
     }
 
     private fun importScanResult() {

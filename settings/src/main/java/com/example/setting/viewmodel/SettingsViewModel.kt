@@ -50,7 +50,7 @@ internal class SettingsViewModel @Inject constructor(
 ) : SimpleNavigationViewModel(navigator, savedStateHandle) {
     private val TAG =  "NfcSettings"
     val state = repository.settings.stateIn(viewModelScope, SharingStarted.Eagerly, NFCSettings())
-    private val _exportState = MutableStateFlow<ExportState>(Unknown)
+    private val _exportState = MutableStateFlow<ExportState>(ExportStateUnknown)
     val exportState = _exportState.asStateFlow()
 
     private val nfcTag = parameterOf(NfcSettingScreenId)
@@ -58,7 +58,7 @@ internal class SettingsViewModel @Inject constructor(
     fun onEvent(event: SettingsScreenViewEvent) {
         when (event) {
             is OnImportScanClick -> importScanResult()
-            is OnExportScanResultClick -> exportScanResult()
+            is OnExportScanResultClick -> { _exportState.value = ExportStarted }
             is OnScanHistoryClick -> showScanHistory()
             is OnEmailClick -> shareScanResultInEmail()
             is OnPlaySoundClick -> onPlaySoundClick()
@@ -82,12 +82,6 @@ internal class SettingsViewModel @Inject constructor(
     }
     private fun showScanHistory() {
         TODO("Not yet implemented")
-    }
-
-    private fun exportScanResult() {
-        viewModelScope.launch {
-            _exportState.value = ExportStarted
-        }
     }
 
     fun export(contentResolver: ContentResolver, uri: Uri) {

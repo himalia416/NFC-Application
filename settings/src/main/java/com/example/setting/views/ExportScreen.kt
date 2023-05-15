@@ -15,9 +15,7 @@ import com.example.setting.R
 fun ExportScreen(
     onExportClicked: (Uri) -> Unit,
 ) {
-
-    val currentTime = System.currentTimeMillis()
-
+    val currentTime = System.currentTimeMillis()/1000
     val createDocument = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.CreateDocument(stringResource(R.string.document_type)),
         onResult = { uri -> uri?.let { onExportClicked(it) } })
@@ -26,11 +24,3 @@ fun ExportScreen(
         createDocument.launch("nfc-scan-result-$currentTime.json")
     }
 }
-/*
-
-@Composable
-fun ImportScreen(
-    onImportClicked: () -> Unit
-){
-    Text(text = "Select a file from document")
-}*/

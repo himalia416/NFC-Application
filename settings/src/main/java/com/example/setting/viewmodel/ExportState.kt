@@ -4,10 +4,10 @@ sealed interface ExportState
 
 object ExportStarted : ExportState
 
-object Success : ExportState
+object ExportSuccess : ExportState
 
-data class Error(val throwable: Throwable) : ExportState
+data class ErrorInExport(val throwable: Throwable) : ExportState
 
-object Unknown : ExportState
+object ExportStateUnknown : ExportState
 
 

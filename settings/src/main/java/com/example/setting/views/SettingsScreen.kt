@@ -42,9 +42,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.setting.BuildConfig
 import com.example.setting.R
+import com.example.setting.viewmodel.ErrorInExport
 import com.example.setting.viewmodel.ExportStarted
+import com.example.setting.viewmodel.ExportStateUnknown
+import com.example.setting.viewmodel.ExportSuccess
 import com.example.setting.viewmodel.SettingsViewModel
-import com.example.setting.viewmodel.Success
 import no.nordicsemi.android.common.theme.NordicTheme
 import no.nordicsemi.android.common.theme.view.NordicAppBar
 
@@ -66,11 +68,11 @@ fun SettingsScreen(
 
         val resolver = LocalContext.current.contentResolver
 
-        when(exportState){
-            is ExportStarted -> ExportScreen(onExportClicked = {viewModel.export(resolver, it)})
-            is Success -> {}
-            is Error -> {}
-            else -> {}
+        when(val es = exportState){
+            ExportStarted -> ExportScreen(onExportClicked = {viewModel.export(resolver, it)})
+            ExportSuccess -> {}
+            is ErrorInExport -> {}
+            ExportStateUnknown -> { }
         }
 
         LazyColumn {

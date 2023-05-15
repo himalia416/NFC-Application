@@ -19,8 +19,8 @@ dependencies {
     implementation(libs.androidx.compose.bom)
     implementation(libs.androidx.hilt.navigation.compose)
 
-    // Datastore
-    implementation(libs.androidx.dataStore.preferences)
     implementation(project(":domain"))
     implementation(project(":serialization"))
+    implementation(project(":settingsStorage"))
+    implementation(project(":welcome"))
 }

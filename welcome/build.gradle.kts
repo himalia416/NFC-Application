@@ -18,5 +18,5 @@ dependencies {
     implementation(libs.androidx.compose.bom)
     implementation(libs.androidx.hilt.navigation.compose)
 
-    implementation(project(":profile_nfc"))
+    implementation(project(":settingsStorage"))
 }

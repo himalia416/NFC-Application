@@ -37,40 +37,46 @@ fun Nfc(onSettingScreenNavigation: (NfcTag) -> Unit) {
     val nfcViewModel: NfcViewModel = hiltViewModel()
     val nfcState by nfcViewModel.state.collectAsState()
 
-    when (nfcState.state) {
-        NfcNotSupported -> NfcNotSupportedView()
-        NfcNotEnabled -> EnableNfcView(
-            onSettingClicked = { context.startActivity(Intent(Settings.ACTION_NFC_SETTINGS)) },
-            onCancelClicked = { nfcViewModel.enableNfc() }
-        )
+    when (nfcState.setting?.showWelcomeScreen) {
+        true -> { nfcViewModel.showWelcomeScreen() }
+        false ->
+            when (nfcState.state) {
+                NfcNotSupported -> NfcNotSupportedView()
+                NfcNotEnabled -> EnableNfcView(
+                    onSettingClicked = { context.startActivity(Intent(Settings.ACTION_NFC_SETTINGS)) },
+                    onCancelClicked = { nfcViewModel.enableNfc() }
+                )
 
-        EnableNfc -> NfcNotEnableView()
-        ScanNfcTag -> ScanNfcTagView()
-        NfcTagDiscovered ->
-            Column {
-                NordicAppBar(
-                    text = stringResource(id = R.string.ndef_tag),
-                    onNavigationButtonClick = { nfcViewModel.showScanTag() },
-                    actions = {
-                        IconButton(onClick = { onSettingScreenNavigation(nfcState.nfcScanningState.tag!!) }) {
-                            Icon(
-                                imageVector = Icons.Outlined.Settings,
-                                contentDescription = null,
+                EnableNfc -> NfcNotEnableView()
+                ScanNfcTag -> ScanNfcTagView()
+                NfcTagDiscovered ->
+                    Column {
+                        NordicAppBar(
+                            text = stringResource(id = R.string.ndef_tag),
+                            onNavigationButtonClick = { nfcViewModel.showScanTag() },
+                            actions = {
+                                IconButton(onClick = { onSettingScreenNavigation(nfcState.nfcScanningState.tag!!) }) {
+                                    Icon(
+                                        imageVector = Icons.Outlined.Settings,
+                                        contentDescription = null,
+                                    )
+                                }
+                            }
+                        )
+                        when (val tag = nfcState.nfcScanningState.tag) {
+                            is MifareClassicTag -> MifareClassicTagView(generalTagInfo = tag.general)
+
+                            is NdefTag -> NdefTagView(
+                                generalTagInfo = tag.general,
+                                nfcNdefMessage = tag.nfcNdefMessage
                             )
+
+                            null -> LoadingView()
+                            else -> OtherTagView(generalTagInfo = tag.general)
                         }
                     }
-                )
-                when (val tag = nfcState.nfcScanningState.tag) {
-                    is MifareClassicTag -> MifareClassicTagView(generalTagInfo = tag.general)
-
-                    is NdefTag -> NdefTagView(
-                        generalTagInfo = tag.general,
-                        nfcNdefMessage = tag.nfcNdefMessage
-                    )
-
-                    null -> LoadingView()
-                    else -> OtherTagView(generalTagInfo = tag.general)
-                }
             }
+
+        null -> LoadingView()
     }
 }

@@ -7,4 +7,4 @@ import com.example.setting.NfcSettingsDestination
 import com.example.welcome.NfcWelcomeDestination
 
 @RequiresApi(Build.VERSION_CODES.S)
-val NfcDestinations = NfcWelcomeDestination + ScanningDestination + NfcSettingsDestination
+val NfcDestinations = ScanningDestination + NfcSettingsDestination + NfcWelcomeDestination

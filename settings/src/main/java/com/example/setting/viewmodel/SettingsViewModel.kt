@@ -11,18 +11,17 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.example.serialization.domain.NfcJsonAdapter
 import com.example.setting.NfcSettingScreenId
-import com.example.setting.domain.NFCSettings
-import com.example.setting.repository.SettingsRepository
 import com.example.setting.views.NavigateUp
 import com.example.setting.views.OnAboutNfcClick
 import com.example.setting.views.OnEmailClick
 import com.example.setting.views.OnExportScanResultClick
-import com.example.setting.views.OnHelpClick
+import com.example.setting.views.OnAboutAppClick
 import com.example.setting.views.OnImportScanClick
 import com.example.setting.views.OnPlaySoundClick
 import com.example.setting.views.OnScanHistoryClick
 import com.example.setting.views.OnVibrateClick
 import com.example.setting.views.SettingsScreenViewEvent
+import com.example.welcome.NfcWelcomeDestinationId
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,6 +31,8 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import no.nordicsemi.android.common.navigation.Navigator
 import no.nordicsemi.android.common.navigation.viewmodel.SimpleNavigationViewModel
+import no.nordicsemi.settingsstorage.domain.NFCSettings
+import no.nordicsemi.settingsstorage.repository.SettingsRepository
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -43,7 +44,7 @@ private val NFC_INFOCENTER_LINK =
 @HiltViewModel
 internal class SettingsViewModel @Inject constructor(
     repository: SettingsRepository,
-    navigator: Navigator,
+    private val navigator: Navigator,
     savedStateHandle: SavedStateHandle,
     private val jsonAdapter: NfcJsonAdapter,
     @ApplicationContext private val context: Context,
@@ -64,13 +65,9 @@ internal class SettingsViewModel @Inject constructor(
             is OnPlaySoundClick -> onPlaySoundClick()
             is OnVibrateClick -> onVibrationClick()
             is OnAboutNfcClick -> open(NFC_INFOCENTER_LINK)
-            is OnHelpClick -> showWelcomeScreen()
-            is NavigateUp -> navigateUp()
+            is OnAboutAppClick -> { navigator.navigateTo(NfcWelcomeDestinationId) }
+            is NavigateUp -> navigator.navigateUp()
         }
-    }
-
-    private fun showWelcomeScreen() {
-        TODO("Not yet implemented")
     }
 
     private fun onVibrationClick() {

@@ -16,6 +16,6 @@ internal object OnVibrateClick : SettingsScreenViewEvent
 
 internal object OnAboutNfcClick : SettingsScreenViewEvent
 
-internal object OnHelpClick : SettingsScreenViewEvent
+internal object OnAboutAppClick : SettingsScreenViewEvent
 
 internal object NavigateUp : SettingsScreenViewEvent

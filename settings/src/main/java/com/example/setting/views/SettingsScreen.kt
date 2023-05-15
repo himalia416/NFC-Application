@@ -53,19 +53,16 @@ import no.nordicsemi.android.common.theme.view.NordicAppBar
 @RequiresApi(Build.VERSION_CODES.N)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsScreen(
-    onBackNavigation: () -> Unit
-) {
+fun SettingsScreen() {
+    val viewModel: SettingsViewModel = hiltViewModel()
+    val onEvent:(SettingsScreenViewEvent) -> Unit = {viewModel.onEvent(it)}
     Column {
         NordicAppBar(
             text = stringResource(id = R.string.settings),
-            onNavigationButtonClick = onBackNavigation,
+            onNavigationButtonClick = { onEvent(NavigateUp) },
         )
-        val viewModel: SettingsViewModel = hiltViewModel()
         val state by viewModel.state.collectAsStateWithLifecycle()
-        val onEvent:(SettingsScreenViewEvent) -> Unit = {viewModel.onEvent(it)}
         val exportState by viewModel.exportState.collectAsState()
-
         val resolver = LocalContext.current.contentResolver
 
         when(val es = exportState){
@@ -114,7 +111,6 @@ fun SettingsScreen(
                     title = stringResource(id = R.string.email),
                     description = stringResource(id = R.string.attach_email_des),
                     icon = Icons.Filled.Email,
-//                    onClick = {/*TODO*/}
                     onClick = { onEvent(OnEmailClick) }
                 )
 
@@ -147,11 +143,10 @@ fun SettingsScreen(
                     onClick = { onEvent(OnAboutNfcClick) }
                 )
                 SettingsButtonWithIcon(
-                    title = stringResource(id = R.string.help),
+                    title = stringResource(id = R.string.about_nfc_app),
                     description = stringResource(id = R.string.help_des),
                     icon = Icons.Filled.Help,
-                    onClick = {/*TODO*/}
-//                    onClick = { onEvent(OnHelpClick)}
+                    onClick = { onEvent(OnAboutAppClick)}
                 )
 
                 SettingsButtonWithIcon(
@@ -172,7 +167,7 @@ fun SettingsScreen(
 @Composable
 fun SettingsScreenPreview() {
     NordicTheme {
-        SettingsScreen {}
+        SettingsScreen ()
     }
 }
 

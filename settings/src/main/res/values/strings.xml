@@ -21,7 +21,7 @@
     <string name="other">Other</string>
     <string name="about_nfc">About NFC</string>
     <string name="about_nfc_des">NFC Documentation on Nordic\'s Info-center.</string>
-    <string name="help">Help</string>
+    <string name="about_nfc_app">About NFC app</string>
     <string name="help_des">Shows welcome screen.</string>
     <string name="version">Version</string>
 

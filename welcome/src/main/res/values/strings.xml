@@ -3,5 +3,6 @@
     <string name="welcome">Welcome</string>
     <string name="welcome_message">Welcome to NFC Application. \nThis is NFC application where you can read any NFC tag.
     This also allows you to write to the NFC tags, however, only reading the tag is possible.</string>
-    <string name="ok">OK</string>
+    <string name="about_app">About NFC app</string>
+    <string name="start">Start</string>
 </resources>

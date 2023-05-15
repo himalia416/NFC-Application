@@ -21,4 +21,6 @@ dependencies {
     implementation(project(":settings"))
     implementation(project(":domain"))
     implementation(project(":remoteDatabase"))
+    implementation(project(":settingsStorage"))
+    implementation(project(":welcome"))
 }

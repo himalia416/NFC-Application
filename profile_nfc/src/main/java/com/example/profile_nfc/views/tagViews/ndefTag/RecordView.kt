@@ -35,7 +35,7 @@ fun RecordView(ndefRecords: List<NdefRecord>) {
         ) {
             Column {
                 Text(
-                    text = "Record ${index + 1}: Name of the Record",
+                    text = "Record ${index + 1}: ${ndefRecord.getRecordName().recordName} record",
                     modifier = Modifier.padding(8.dp)
                 ) // todo: find the name of the Record
                 Column(modifier = Modifier.padding(8.dp)) {
@@ -49,12 +49,45 @@ fun RecordView(ndefRecords: List<NdefRecord>) {
                     )
                     RowInCardView(
                         firstItem = stringResource(id = R.string.record_payload_len),
-                        ndefRecord.payloadLength.toString()
+                        stringResource(id = R.string.bytes, ndefRecord.payloadLength.toString())
                     )
-                    RowInCardView(
-                        firstItem = stringResource(id = R.string.record_payload_data),
-                        secondItem = ndefRecord.payloadData
-                    )
+                    when (ndefRecord.type) {
+                        "U" -> {
+                            ndefRecord.payloadData!![0].let {
+                                ndefRecord.getUriProtocol(
+                                    it.toInt())
+                            }.let {
+                                RowInCardView(
+                                    firstItem = "Protocol Field",
+                                    secondItem = it
+                                )
+                                RowInCardView(
+                                    firstItem = ndefRecord.getRecordName().payloadName,
+                                    secondItem = String(ndefRecord.payloadData!!)
+                                )
+                            }
+                        }
+                        "T" -> {
+                            RowInCardView(
+                                firstItem = "Language code",
+                                secondItem = ndefRecord.getLanguageCode(ndefRecord.payloadData!!).langCode
+                            )
+                            RowInCardView(
+                                firstItem = "Encoding",
+                                secondItem = ndefRecord.getLanguageCode(ndefRecord.payloadData!!).encoding
+                            )
+                            RowInCardView(
+                                firstItem = ndefRecord.getRecordName().payloadName,
+                                secondItem = ndefRecord.getLanguageCode(ndefRecord.payloadData!!).actualText
+                            )
+                        }
+                        else -> {
+                            RowInCardView(
+                                firstItem = ndefRecord.getRecordName().payloadName,
+                                secondItem = String(ndefRecord.payloadData!!)
+                            )
+                        }
+                    }
                 }
             }
         }

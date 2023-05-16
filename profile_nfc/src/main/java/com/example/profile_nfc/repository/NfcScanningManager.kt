@@ -153,12 +153,13 @@ class NfcScanningManager @Inject constructor(
             val message = ndef.ndefMessage
             ndef.cachedNdefMessage
             message?.let { ndefMessage ->
-                val ndefRecords = ndefMessage.records.map {
+                val ndefRecords = ndefMessage.records.map { record ->
+                    Log.d(TAG, "Uri Protocol field: ${record.payload[0]}")
                     NdefRecord(
-                        typeNameFormat = TnfNameFormatter.getTnfName(it.tnf.toInt()),
-                        type = String(it.type),
-                        payloadLength = it.payload.size,
-                        payloadData = String(it.payload),
+                        typeNameFormat = TnfNameFormatter.getTnfName(record.tnf.toInt()),
+                        type = String(record.type),
+                        payloadLength = record.payload.size,
+                        payloadData = record.payload,
                     )
                 }
 

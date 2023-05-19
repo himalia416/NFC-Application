@@ -18,6 +18,7 @@ import com.example.domain.data.HandoverCarrier
 import com.example.domain.data.HandoverReceive
 import com.example.domain.data.HandoverSelect
 import com.example.domain.data.NdefRecord
+import com.example.domain.data.OtherExternalType
 import com.example.domain.data.TextRecordStructure
 import com.example.domain.data.SmartPoster
 import com.example.domain.data.URIRecordStructure
@@ -56,6 +57,7 @@ fun RecordView(ndefRecords: List<NdefRecord>) {
                     is HandoverCarrier -> DisplayHandoverCarrierRecord(ndefRecord, index)
                     is HandoverReceive -> DisplayHandoverReceiveRecord(ndefRecord, index)
                     is HandoverSelect -> DisplayHandoverSelectRecord(ndefRecord, index)
+                    is OtherExternalType -> TODO()
                     Unknown -> DisplayAlternativeCarrierRecord(ndefRecord, index)
                 }
             }

@@ -6,6 +6,7 @@ import com.example.domain.data.HandoverCarrier
 import com.example.domain.data.HandoverReceive
 import com.example.domain.data.HandoverSelect
 import com.example.domain.data.NdefRecordType
+import com.example.domain.data.OtherExternalType
 import com.example.domain.data.SmartPoster
 import com.example.domain.data.TextRecordStructure
 import com.example.domain.data.TnfNameFormatter
@@ -28,7 +29,7 @@ object NdefRecordTypeMapper {
 
             TnfNameFormatter.TNF_EXTERNAL_TYPE.tnf -> when (type) {
                 "android.com:pkg" -> AndroidPackage()
-                else -> throw IllegalArgumentException("Unknown Record Type")
+                else -> OtherExternalType()
             }
 
             else -> throw IllegalArgumentException("Unknown Record Type")

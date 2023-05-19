@@ -75,3 +75,11 @@ data class AndroidPackage(
     val payloadFieldName: String = "Package",
     val payload: String = "",
 ) : NdefRecordType
+
+@Parcelize
+data class OtherExternalType(
+    val recordName: String = "Externally Added record",
+    val payloadType: String = "",
+    val payloadFieldName: String = "Package",
+    val payload: String = "",
+): NdefRecordType

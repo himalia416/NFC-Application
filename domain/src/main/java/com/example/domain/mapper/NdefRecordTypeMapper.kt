@@ -16,13 +16,13 @@ object NdefRecordTypeMapper {
     fun getNdefRecordType(typeNameFormat: String, type: String): NdefRecordType {
         return when (typeNameFormat) {
             TnfNameFormatter.TNF_WELL_KNOWN.tnf -> when (type) {
-                "T" -> TextRecordStructure()
-                "U" -> URIRecordStructure()
-                "Sp" -> SmartPoster()
-                "ac" -> AlternativeCarrier()
-                "Hc" -> HandoverCarrier()
-                "Hr" -> HandoverReceive()
-                "Hs" -> HandoverSelect()
+                String(byteArrayOf(0x54)) -> TextRecordStructure()
+                String(byteArrayOf(0x55)) -> URIRecordStructure()
+                String(byteArrayOf(0x53, 0x70)) -> SmartPoster()
+                String(byteArrayOf(0x61, 0x63)) -> AlternativeCarrier()
+                String(byteArrayOf(0x48, 0x63)) -> HandoverCarrier()
+                String(byteArrayOf(0x48, 0x72)) -> HandoverReceive()
+                String(byteArrayOf(0x48, 0x73)) -> HandoverSelect()
                 else -> throw IllegalArgumentException("Unknown Record Type")
             }
 

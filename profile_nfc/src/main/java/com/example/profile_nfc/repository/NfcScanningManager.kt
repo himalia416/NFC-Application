@@ -14,16 +14,8 @@ import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.example.domain.data.GeneralTagInformation
-import com.example.domain.data.MifareClassicMessage
-import com.example.domain.data.MifareClassicTag
-import com.example.domain.data.MifareClassicTagType
-import com.example.domain.data.NdefRecord
-import com.example.domain.data.NdefTag
-import com.example.domain.data.NdefTagType.Companion.getTagType
-import com.example.domain.data.NfcNdefMessage
 import com.example.domain.data.NfcTag
 import com.example.domain.data.OtherTag
-import com.example.domain.data.TnfNameFormatter
 import com.example.profile_nfc.data.ReaderFlag
 import com.example.profile_nfc.utility.toHex
 import com.example.remotedatabase.domain.ManufacturerNameRepository
@@ -84,9 +76,19 @@ class NfcScanningManager @Inject constructor(
                         transceiveTimeout = transceiveTimeOut.toString()
                     )
                     when {
-                        it.techList.contains(Ndef::class.java.name) -> { onNdefTagDiscovered(it, generalTagInformation) }
-                        it.techList.contains(MifareClassic::class.java.name) -> { onMifareClassicTagDiscovered(it, generalTagInformation) }
-                        else -> { onOtherTagDiscovered(generalTagInformation) }
+                        it.techList.contains(Ndef::class.java.name) -> {
+                            val ndef = NdefTagParser.parse(it, generalTagInformation)
+                            _nfcScanningState.value = _nfcScanningState.value.copy(tag = ndef)
+                        }
+
+                        it.techList.contains(MifareClassic::class.java.name) -> {
+                            val mifare = MifareTagParser.parse(it, generalTagInformation)
+                            _nfcScanningState.value = _nfcScanningState.value.copy(tag = mifare)
+                        }
+//                        it.techList.contains(IsoDep::class.java.name) -> {onIsoDepTagDiscovered(it, generalTagInformation)}
+                        else -> {
+                            onOtherTagDiscovered(generalTagInformation)
+                        }
                     }
                 }
             }
@@ -112,72 +114,8 @@ class NfcScanningManager @Inject constructor(
     }
 
     private suspend fun getIcManufacturerName(identifier: String): String {
-        return manufacturerNameRepository.getManufacturerName(identifier)?.company ?: "Company not found"
-    }
-
-    private fun onMifareClassicTagDiscovered(
-        tag: Tag,
-        generalTagInformation: GeneralTagInformation
-    ) {
-        val mifareClassic = MifareClassic.get(tag)
-        mifareClassic?.let {
-            mifareClassic.connect()
-            val sectorCount = mifareClassic.sectorCount
-            val mifareClassicTagType = mifareClassic.type
-            val mifareClassicTagSize = mifareClassic.size
-            Log.d(TAG, "onMifareClassicTagDiscovered: serial number: ${tag.id.toHex()}")
-            Log.d(
-                TAG, "onTagDiscovered: Number of sector $sectorCount " +
-                        "\ntype: ${MifareClassicTagType.getTagType(mifareClassicTagType)} " +
-                        "\nSize ${mifareClassic.size} " +
-                        "\nnumber of blocks in each sector: ${mifareClassic.getBlockCountInSector(2)} " +
-                        "\nBlock count: ${mifareClassic.blockCount}"
-            )
-            val mifareClassicMessage = MifareClassicMessage(
-                sectorCount = sectorCount,
-                tagType = MifareClassicTagType.getTagType(mifareClassicTagType),
-                tagSize = mifareClassicTagSize,
-                blockCount = mifareClassic.blockCount,
-            )
-            val mifareClassicTag = MifareClassicTag(generalTagInformation, mifareClassicMessage)
-
-            _nfcScanningState.value = _nfcScanningState.value.copy(tag = mifareClassicTag)
-            mifareClassic.close()
-        }
-    }
-
-    private fun onNdefTagDiscovered(it: Tag, generalTagInformation: GeneralTagInformation) {
-        val ndef = Ndef.get(it)
-        ndef?.let {
-            ndef.connect()
-            val message = ndef.ndefMessage
-            ndef.cachedNdefMessage
-            message?.let { ndefMessage ->
-                val ndefRecords = ndefMessage.records.map { record ->
-                    Log.d(TAG, "Uri Protocol field: ${record.payload[0]}")
-                    NdefRecord(
-                        typeNameFormat = TnfNameFormatter.getTnfName(record.tnf.toInt()),
-                        type = String(record.type),
-                        payloadLength = record.payload.size,
-                        payloadData = record.payload,
-                    )
-                }
-
-                val ndefTag = NdefTag(
-                    general = generalTagInformation,
-                    nfcNdefMessage = NfcNdefMessage(
-                        recordCount = ndefMessage.records.size,
-                        currentMessageSize = ndefMessage.byteArrayLength,
-                        maximumMessageSize = ndef.maxSize,
-                        isNdefWritable = ndef.isWritable,
-                        ndefRecord = ndefRecords,
-                        ndefType = getTagType(ndef.type)
-                    )
-                )
-                _nfcScanningState.value = _nfcScanningState.value.copy(tag = ndefTag)
-            }
-            ndef.close()
-        }
+        return manufacturerNameRepository.getManufacturerName(identifier)?.company
+            ?: "Company not found"
     }
 
     private fun onOtherTagDiscovered(generalTagInformation: GeneralTagInformation) {

@@ -2,7 +2,10 @@
 <resources>
     <string name="welcome">Welcome</string>
     <string name="welcome_message">Welcome to NFC Application. \nThis is NFC application where you can read any NFC tag.
-    This also allows you to write to the NFC tags, however, only reading the tag is possible.</string>
+     To scan a tag, hold your phone close to it. The tag\'s content will be displayed on a new screen. On the detail page,
+        you can access settings to export or import results, share via email, and adjust scanning preferences such as sound settings.
+    Writing to tag is currently unavailable but will be added later.
+    </string>
     <string name="about_app">About NFC app</string>
     <string name="start">Start</string>
 </resources>

@@ -4,8 +4,6 @@ import android.app.Activity
 import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.nfc.tech.IsoDep
-import android.nfc.tech.MifareClassic
-import android.nfc.tech.Ndef
 import android.nfc.tech.NfcA
 import android.nfc.tech.NfcB
 import android.nfc.tech.NfcF
@@ -16,6 +14,13 @@ import androidx.lifecycle.LifecycleOwner
 import com.example.domain.data.GeneralTagInformation
 import com.example.domain.data.NfcTag
 import com.example.domain.data.OtherTag
+import com.example.profile_nfc.data.NfcTech.ISPDEP
+import com.example.profile_nfc.data.NfcTech.MIFARE_CLASSIC
+import com.example.profile_nfc.data.NfcTech.NDEF
+import com.example.profile_nfc.data.NfcTech.NFCA
+import com.example.profile_nfc.data.NfcTech.NFCB
+import com.example.profile_nfc.data.NfcTech.NFCF
+import com.example.profile_nfc.data.NfcTech.NFCV
 import com.example.profile_nfc.data.ReaderFlag
 import com.example.profile_nfc.utility.toHex
 import com.example.remotedatabase.domain.ManufacturerNameRepository
@@ -31,12 +36,6 @@ data class NfcScanningState(
     val isNfcSupported: Boolean = false,
     val isNfcEnabled: Boolean = false,
     val tag: NfcTag? = null,
-)
-
-data class TagInfo(
-    val allTags: List<String> = emptyList(),
-    val maxTransceiveLength: Int = 0,
-    val transceiveTimeOut: Int = 0,
 )
 
 @Singleton
@@ -66,7 +65,10 @@ class NfcScanningManager @Inject constructor(
     private fun onTagDiscovered(tag: Tag?) {
         try {
             tag?.let {
-                val (allTags, maxTransceiveLength, transceiveTimeOut) = getAllTagAndTransceiveLength(tag)
+                val allTags = getAllTagList(it)
+                val maxTransceiveLength = getMaxTransceiveLength(it)
+                val transceiveTimeOut = getTransceiveTimeOut(it)
+
                 scope.launch {
                     val generalTagInformation = GeneralTagInformation(
                         serialNumber = it.id.toHex(),
@@ -76,13 +78,13 @@ class NfcScanningManager @Inject constructor(
                         transceiveTimeout = transceiveTimeOut.toString()
                     )
                     when {
-                        it.techList.contains(Ndef::class.java.name) -> {
-                            val ndef = NdefTagParser.parse(it, generalTagInformation)
+                        NDEF in it.techList -> {
+                            val ndef = OnNdefTagDiscovered.parse(it, generalTagInformation)
                             _nfcScanningState.value = _nfcScanningState.value.copy(tag = ndef)
                         }
 
-                        it.techList.contains(MifareClassic::class.java.name) -> {
-                            val mifare = MifareTagParser.parse(it, generalTagInformation)
+                        MIFARE_CLASSIC in it.techList -> {
+                            val mifare = OnMifareTagDiscovered.parse(it, generalTagInformation)
                             _nfcScanningState.value = _nfcScanningState.value.copy(tag = mifare)
                         }
 //                        it.techList.contains(IsoDep::class.java.name) -> {onIsoDepTagDiscovered(it, generalTagInformation)}
@@ -99,20 +101,44 @@ class NfcScanningManager @Inject constructor(
 
     private fun getIdentifier(tag: Tag) = tag.id.toHex().subSequence(0, 2).toString()
 
-    private fun getAllTagAndTransceiveLength(tag: Tag): TagInfo {
-        val allTagList = tag.techList.map { it.split('.').last() }
-        val (maxTransceiveLength, timeout) = when {
-            tag.techList.contains(NfcA::class.java.name) -> NfcA.get(tag).use { Pair(it.maxTransceiveLength, it.timeout) }
-            tag.techList.contains(NfcB::class.java.name) -> NfcB.get(tag).use { Pair(it.maxTransceiveLength, 0) }
-            tag.techList.contains(NfcF::class.java.name) -> NfcF.get(tag).use { Pair(it.maxTransceiveLength, it.timeout) }
-            tag.techList.contains(NfcV::class.java.name) -> NfcV.get(tag).use { Pair(it.maxTransceiveLength, 0) }
-            tag.techList.contains(IsoDep::class.java.name) -> IsoDep.get(tag)
-                .use { Pair(it.maxTransceiveLength, it.timeout) }
-            else -> Pair(0, 0)
+    /**
+     * Return the maximum number of bytes that can be sent with transceive.
+     * Returns: the maximum number of bytes that can be sent with transceive.
+     */
+    private fun getMaxTransceiveLength(tag: Tag): Int {
+        val tagList = tag.techList
+        return when {
+            NFCA in tagList -> NfcA.get(tag).use { it.maxTransceiveLength }
+            NFCB in tagList -> NfcB.get(tag).use { it.maxTransceiveLength }
+            NFCF in tagList -> NfcF.get(tag).use { it.maxTransceiveLength }
+            NFCV in tagList -> NfcV.get(tag).use { it.maxTransceiveLength }
+            ISPDEP in tagList -> IsoDep.get(tag).use { it.maxTransceiveLength }
+            else -> 0
         }
-        return TagInfo(allTagList, maxTransceiveLength, timeout)
     }
 
+    /**
+     * Get the current transceive timeout in milliseconds.
+     * Returns: timeout value in milliseconds
+     */
+    private fun getTransceiveTimeOut(tag: Tag): Int {
+        val tagList = tag.techList
+        return when{
+            NFCA in tagList -> NfcA.get(tag).use { it.timeout }
+            NFCF in tagList -> NfcF.get(tag).use { it.timeout }
+            ISPDEP in tagList -> IsoDep.get(tag).use { it.timeout }
+            else -> 0
+        }
+    }
+
+    /**
+     * Returns technologies available in this tag
+     */
+    private fun getAllTagList(tag: Tag): List<String> =  tag.techList.map { it.split('.').last() }
+
+    /**
+     * Get Ic Manufacturer Name.
+     */
     private suspend fun getIcManufacturerName(identifier: String): String {
         return manufacturerNameRepository.getManufacturerName(identifier)?.company
             ?: "Company not found"

@@ -52,7 +52,7 @@ object UriProtocolMapper {
         0x24..0xFF to ""
     )
 
-    fun getUriProtocol(firstPayloadIndex: Int): String {
+    fun getUriPrefix(firstPayloadIndex: Int): String {
         return uriProtocolMap[firstPayloadIndex] ?: ""
     }
 }

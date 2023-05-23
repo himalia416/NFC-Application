@@ -43,7 +43,7 @@ data class NdefRecord(
     }
 
     fun getUriData(payloadData: ByteArray): URIRecordStructure {
-        val protocolField = UriProtocolMapper.getUriProtocol(payloadData[0].toInt())
+        val protocolField = UriProtocolMapper.getUriPrefix(payloadData[0].toInt())
         val actualPayload = String(payloadData)
         return URIRecordStructure(
             payloadType = type,

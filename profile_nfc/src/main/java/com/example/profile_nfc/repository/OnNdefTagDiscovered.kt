@@ -9,7 +9,7 @@ import com.example.domain.data.NdefTagType.Companion.getTagType
 import com.example.domain.data.NfcNdefMessage
 import com.example.domain.data.TnfNameFormatter
 
-object NdefTagParser {
+object OnNdefTagDiscovered {
     fun parse(tag: Tag, generalTagInformation: GeneralTagInformation): NdefTag? {
         val ndef = Ndef.get(tag)
         ndef?.let {

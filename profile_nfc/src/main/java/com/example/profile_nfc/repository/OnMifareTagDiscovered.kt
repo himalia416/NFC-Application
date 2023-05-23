@@ -9,7 +9,7 @@ import com.example.domain.data.MifareClassicTag
 import com.example.domain.data.MifareClassicTagType
 import com.example.profile_nfc.utility.toHex
 
-object MifareTagParser {
+object OnMifareTagDiscovered {
     val TAG = "MiFareClassicTag"
     fun parse(tag: Tag, generalTagInformation: GeneralTagInformation): MifareClassicTag? {
         val mifareClassic = MifareClassic.get(tag)

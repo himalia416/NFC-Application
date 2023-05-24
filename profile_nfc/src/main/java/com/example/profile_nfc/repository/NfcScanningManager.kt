@@ -105,15 +105,15 @@ class NfcScanningManager @Inject constructor(
      * Return the maximum number of bytes that can be sent with transceive.
      * Returns: the maximum number of bytes that can be sent with transceive.
      */
-    private fun getMaxTransceiveLength(tag: Tag): Int {
-        val tagList = tag.techList
+    private fun getMaxTransceiveLength(tag: Tag): Int? {
+        val tagTechList = tag.techList
         return when {
-            NFCA in tagList -> NfcA.get(tag).use { it.maxTransceiveLength }
-            NFCB in tagList -> NfcB.get(tag).use { it.maxTransceiveLength }
-            NFCF in tagList -> NfcF.get(tag).use { it.maxTransceiveLength }
-            NFCV in tagList -> NfcV.get(tag).use { it.maxTransceiveLength }
-            ISPDEP in tagList -> IsoDep.get(tag).use { it.maxTransceiveLength }
-            else -> 0
+            NFCA in tagTechList -> NfcA.get(tag).use { it.maxTransceiveLength }
+            NFCB in tagTechList -> NfcB.get(tag).use { it.maxTransceiveLength }
+            NFCF in tagTechList -> NfcF.get(tag).use { it.maxTransceiveLength }
+            NFCV in tagTechList -> NfcV.get(tag).use { it.maxTransceiveLength }
+            ISPDEP in tagTechList -> IsoDep.get(tag).use { it.maxTransceiveLength }
+            else -> null
         }
     }
 
@@ -121,13 +121,13 @@ class NfcScanningManager @Inject constructor(
      * Get the current transceive timeout in milliseconds.
      * Returns: timeout value in milliseconds
      */
-    private fun getTransceiveTimeOut(tag: Tag): Int {
-        val tagList = tag.techList
+    private fun getTransceiveTimeOut(tag: Tag): Int? {
+        val tagTechList = tag.techList
         return when{
-            NFCA in tagList -> NfcA.get(tag).use { it.timeout }
-            NFCF in tagList -> NfcF.get(tag).use { it.timeout }
-            ISPDEP in tagList -> IsoDep.get(tag).use { it.timeout }
-            else -> 0
+            NFCA in tagTechList -> NfcA.get(tag).use { it.timeout }
+            NFCF in tagTechList -> NfcF.get(tag).use { it.timeout }
+            ISPDEP in tagTechList -> IsoDep.get(tag).use { it.timeout }
+            else -> null
         }
     }
 

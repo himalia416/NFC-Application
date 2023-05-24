@@ -42,20 +42,24 @@ fun TagInfoView(generalTagInfo: GeneralTagInformation) {
                     firstItem = stringResource(id = R.string.serial_number),
                     secondItem = serialNumberFormatter(generalTagInfo.serialNumber)
                 )
-                RowInCardView(
-                    firstItem = stringResource(id = R.string.maximum_transceive_len),
-                    secondItem = stringResource(
-                        id = R.string.bytes,
-                        generalTagInfo.maxTransceiveLength.toString()
+                generalTagInfo.maxTransceiveLength?.let {
+                    RowInCardView(
+                        firstItem = stringResource(id = R.string.maximum_transceive_len),
+                        secondItem = stringResource(
+                            id = R.string.bytes,
+                            it.toString()
+                        )
                     )
-                )
-                RowInCardView(
-                    firstItem = stringResource(id = R.string.transceive_time_out),
-                    secondItem = stringResource(
-                        id = R.string.millisecond,
-                        generalTagInfo.transceiveTimeout
+                }
+                generalTagInfo.transceiveTimeout?.let {
+                    RowInCardView(
+                        firstItem = stringResource(id = R.string.transceive_time_out),
+                        secondItem = stringResource(
+                            id = R.string.millisecond,
+                            it
+                        )
                     )
-                )
+                }
                 Text(
                     text = stringResource(id = R.string.available_tag_technologies),
                     style = MaterialTheme.typography.titleMedium

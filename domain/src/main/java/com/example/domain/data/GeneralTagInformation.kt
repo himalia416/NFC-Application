@@ -9,7 +9,7 @@ data class GeneralTagInformation(
     val tagTechnology: List<String> = emptyList(),
     val icManufacturerName: String = "",
     val tagType: String = "",
-    val maxTransceiveLength: Int = 0,
-    val transceiveTimeout: String = "0 ms",
+    val maxTransceiveLength: Int? = null,
+    val transceiveTimeout: String? = null,
     val ndefMessage: NfcNdefMessage? = null
 ) : Parcelable

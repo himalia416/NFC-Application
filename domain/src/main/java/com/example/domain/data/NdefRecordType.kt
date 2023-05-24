@@ -7,60 +7,74 @@ import kotlinx.parcelize.Parcelize
 sealed interface NdefRecordType : Parcelable
 
 @Parcelize
-data class TextRecordStructure(
+data class TextRecord(
+    val recordName: String = "Text Field Record",
+    val typeNameFormat: String = "",
     val payloadType: String = "",
+    val payloadLength: Int,
     val langCode: String = "",
     val encoding: String = "",
     val actualText: String = "",
-    val payloadFieldName: String = "Text",
-    val recordName: String = "Text Field record"
+    val payloadFieldName: String = "Text"
 ) : NdefRecordType
 
 @Parcelize
-data class URIRecordStructure(
+data class URIRecord(
+    val recordName: String = "URI Field Record",
+    val typeNameFormat: String = "",
     val payloadType: String = "",
+    val payloadLength: Int,
     val protocol: String = "",
     val actualUri: String = "",
-    val payloadFieldName: String = "URI",
-    val recordName: String = "URI Field record"
+    val payloadFieldName: String = "URI"
 ) : NdefRecordType
 
 @Parcelize
 data class SmartPoster(
-    val recordName: String = "Smart Poster record",
+    val recordName: String = "Smart Poster Record",
+    val typeNameFormat: String = "",
     val payloadType: String = "",
+    val payloadLength: Int,
     val payloadFieldName: String = "Payload",
     val payload: String = "",
 ) : NdefRecordType
 
 @Parcelize
 data class AlternativeCarrier(
-    val recordName: String = "Smart Poster record",
+    val recordName: String = "Smart Poster Record",
+    val typeNameFormat: String = "",
     val payloadType: String = "",
+    val payloadLength: Int,
     val payloadFieldName: String = "Payload",
     val payload: String = "",
 ) : NdefRecordType
 
 @Parcelize
 data class HandoverCarrier(
-    val recordName: String = "Smart Poster record",
+    val recordName: String = "Smart Poster Record",
+    val typeNameFormat: String = "",
     val payloadType: String = "",
+    val payloadLength: Int,
     val payloadFieldName: String = "Payload",
     val payload: String = "",
 ) : NdefRecordType
 
 @Parcelize
 data class HandoverSelect(
-    val recordName: String = "Smart Poster record",
+    val recordName: String = "Smart Poster Record",
+    val typeNameFormat: String = "",
     val payloadType: String = "",
+    val payloadLength: Int,
     val payloadFieldName: String = "Payload",
     val payload: String = "",
 ) : NdefRecordType
 
 @Parcelize
 data class HandoverReceive(
-    val recordName: String = "Smart Poster record",
+    val recordName: String = "Smart Poster Record",
+    val typeNameFormat: String = "",
     val payloadType: String = "",
+    val payloadLength: Int,
     val payloadFieldName: String = "Payload",
     val payload: String = "",
 ) : NdefRecordType
@@ -70,16 +84,20 @@ object Unknown : NdefRecordType
 
 @Parcelize
 data class AndroidPackage(
-    val recordName: String = "Android Application record",
+    val recordName: String = "Android Application Record",
+    val typeNameFormat: String = "",
     val payloadType: String = "",
+    val payloadLength: Int,
     val payloadFieldName: String = "Package",
     val payload: String = "",
 ) : NdefRecordType
 
 @Parcelize
 data class OtherExternalType(
-    val recordName: String = "Externally Added record",
+    val recordName: String = "Externally Added Record",
+    val typeNameFormat: String = "",
     val payloadType: String = "",
+    val payloadLength: Int,
     val payloadFieldName: String = "Package",
     val payload: String = "",
 ): NdefRecordType

@@ -8,6 +8,7 @@ import com.example.domain.data.NdefTag
 import com.example.domain.data.NdefTagType.Companion.getTagType
 import com.example.domain.data.NfcNdefMessage
 import com.example.domain.data.TnfNameFormatter
+import com.example.domain.mapper.NdefRecordTypeMapper
 
 object OnNdefTagDiscovered {
     fun parse(tag: Tag, generalTagInformation: GeneralTagInformation): NdefTag? {
@@ -17,11 +18,13 @@ object OnNdefTagDiscovered {
             val message = ndef.ndefMessage
             message?.let { ndefMessage ->
                 val ndefRecords = ndefMessage.records.map { record ->
+                    val tnfNameFormat = TnfNameFormatter.getTnfName(record.tnf.toInt())
                     NdefRecord(
-                        typeNameFormat = TnfNameFormatter.getTnfName(record.tnf.toInt()),
-                        type = String(record.type),
-                        payloadLength = record.payload.size,
-                        payloadData = record.payload
+                        type = NdefRecordTypeMapper.getNdefRecordType(
+                            tnfNameFormat,
+                            String(record.type),
+                            record.payload,
+                        )
                     )
                 }
 

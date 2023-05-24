@@ -19,11 +19,10 @@ import com.example.domain.data.HandoverReceive
 import com.example.domain.data.HandoverSelect
 import com.example.domain.data.NdefRecord
 import com.example.domain.data.OtherExternalType
-import com.example.domain.data.TextRecordStructure
 import com.example.domain.data.SmartPoster
-import com.example.domain.data.URIRecordStructure
+import com.example.domain.data.TextRecord
+import com.example.domain.data.URIRecord
 import com.example.domain.data.Unknown
-import com.example.domain.mapper.NdefRecordTypeMapper
 import com.example.profile_nfc.R
 import com.example.profile_nfc.component.RowInCardView
 import com.example.profile_nfc.component.TitleWithIcon
@@ -45,20 +44,18 @@ fun RecordView(ndefRecords: List<NdefRecord>) {
                 .fillMaxWidth()
         ) {
             Column(modifier = Modifier.padding(8.dp)) {
-                when (NdefRecordTypeMapper.getNdefRecordType(
-                    ndefRecord.typeNameFormat,
-                    ndefRecord.type
-                )) {
-                    is TextRecordStructure -> DisplayTextRecord(ndefRecord, index)
-                    is URIRecordStructure -> DisplayUriRecord(ndefRecord, index)
-                    is AndroidPackage -> DisplayAndroidPackageRecord(ndefRecord, index)
-                    is SmartPoster -> DisplaySmartPosterRecord(ndefRecord, index)
-                    is AlternativeCarrier -> DisplayAlternativeCarrierRecord(ndefRecord, index)
-                    is HandoverCarrier -> DisplayHandoverCarrierRecord(ndefRecord, index)
-                    is HandoverReceive -> DisplayHandoverReceiveRecord(ndefRecord, index)
-                    is HandoverSelect -> DisplayHandoverSelectRecord(ndefRecord, index)
+                when (val recordType = ndefRecord.type) {
+                    is TextRecord -> DisplayTextRecord(recordType, index)
+                    is URIRecord -> DisplayUriRecord(recordType, index)
+                    is AndroidPackage -> DisplayAndroidPackageRecord(recordType, index)
+                    is SmartPoster -> DisplaySmartPosterRecord(recordType, index)
+                    is AlternativeCarrier -> DisplayAlternativeCarrierRecord(recordType, index)
+                    is HandoverCarrier -> DisplayHandoverCarrierRecord(recordType, index)
+                    is HandoverReceive -> DisplayHandoverReceiveRecord(recordType, index)
+                    is HandoverSelect -> DisplayHandoverSelectRecord(recordType, index)
                     is OtherExternalType -> TODO()
-                    Unknown -> DisplayAlternativeCarrierRecord(ndefRecord, index)
+                    Unknown -> TODO()
+                    else -> TODO()
                 }
             }
         }
@@ -66,253 +63,269 @@ fun RecordView(ndefRecords: List<NdefRecord>) {
 }
 
 @Composable
-fun DisplayHandoverSelectRecord(ndefRecord: NdefRecord, index: Int) {
-    val data = ndefRecord.getHandoverSelectData(ndefRecord.payloadData!!)
+fun DisplayHandoverSelectRecord(
+    handoverSelectRecord: HandoverSelect,
+    index: Int
+) {
     Text(
-        text = "Record ${index + 1}: ${data.recordName}",
+        text = "Record ${index + 1}: ${handoverSelectRecord.recordName}",
         modifier = Modifier.padding(8.dp)
     )
     Column(modifier = Modifier.padding(8.dp)) {
         RowInCardView(
             firstItem = stringResource(id = R.string.record_name_format),
-            secondItem = ndefRecord.typeNameFormat
+            secondItem = handoverSelectRecord.typeNameFormat
         )
         RowInCardView(
             firstItem = stringResource(id = R.string.record_type),
-            secondItem = ndefRecord.type
+            secondItem = handoverSelectRecord.payloadType
         )
         RowInCardView(
             firstItem = stringResource(id = R.string.record_payload_len),
             stringResource(
                 id = R.string.bytes,
-                ndefRecord.payloadLength.toString()
+                handoverSelectRecord.payloadLength.toString()
             )
         )
         RowInCardView(
-            firstItem = data.payloadFieldName,
-            secondItem = data.payload
+            firstItem = handoverSelectRecord.payloadFieldName,
+            secondItem = handoverSelectRecord.payload
         )
     }
 }
 
 @Composable
-fun DisplayHandoverReceiveRecord(ndefRecord: NdefRecord, index: Int) {
-    val data = ndefRecord.getHandoverReceiveData(ndefRecord.payloadData!!)
+fun DisplayHandoverReceiveRecord(
+    handoverReceiveRecord: HandoverReceive,
+    index: Int
+) {
     Text(
-        text = "Record ${index + 1}: ${data.recordName}",
+        text = "Record ${index + 1}: ${handoverReceiveRecord.recordName}",
         modifier = Modifier.padding(8.dp)
     )
     Column(modifier = Modifier.padding(8.dp)) {
         RowInCardView(
             firstItem = stringResource(id = R.string.record_name_format),
-            secondItem = ndefRecord.typeNameFormat
+            secondItem = handoverReceiveRecord.typeNameFormat
         )
         RowInCardView(
             firstItem = stringResource(id = R.string.record_type),
-            secondItem = ndefRecord.type
+            secondItem = handoverReceiveRecord.payloadType
         )
         RowInCardView(
             firstItem = stringResource(id = R.string.record_payload_len),
             stringResource(
                 id = R.string.bytes,
-                ndefRecord.payloadLength.toString()
+                handoverReceiveRecord.payloadLength.toString()
             )
         )
         RowInCardView(
-            firstItem = data.payloadFieldName,
-            secondItem = data.payload
+            firstItem = handoverReceiveRecord.payloadFieldName,
+            secondItem = handoverReceiveRecord.payload
         )
     }
 }
 
 @Composable
-fun DisplayHandoverCarrierRecord(ndefRecord: NdefRecord, index: Int) {
-    val data = ndefRecord.getHandoverCarrierData(ndefRecord.payloadData!!)
+fun DisplayHandoverCarrierRecord(
+    handoverCarrierRecord: HandoverCarrier,
+    index: Int
+) {
     Text(
-        text = "Record ${index + 1}: ${data.recordName}",
+        text = "Record ${index + 1}: ${handoverCarrierRecord.recordName}",
         modifier = Modifier.padding(8.dp)
     )
     Column(modifier = Modifier.padding(8.dp)) {
         RowInCardView(
             firstItem = stringResource(id = R.string.record_name_format),
-            secondItem = ndefRecord.typeNameFormat
+            secondItem = handoverCarrierRecord.typeNameFormat
         )
         RowInCardView(
             firstItem = stringResource(id = R.string.record_type),
-            secondItem = ndefRecord.type
+            secondItem = handoverCarrierRecord.payloadType
         )
         RowInCardView(
             firstItem = stringResource(id = R.string.record_payload_len),
             stringResource(
                 id = R.string.bytes,
-                ndefRecord.payloadLength.toString()
+                handoverCarrierRecord.payloadLength.toString()
             )
         )
         RowInCardView(
-            firstItem = data.payloadFieldName,
-            secondItem = data.payload
+            firstItem = handoverCarrierRecord.payloadFieldName,
+            secondItem = handoverCarrierRecord.payload
         )
     }
 }
 
 @Composable
-fun DisplayAlternativeCarrierRecord(ndefRecord: NdefRecord, index: Int) {
-    val data = ndefRecord.getAlternativeCarrierData(ndefRecord.payloadData!!)
+fun DisplayAlternativeCarrierRecord(
+    alternativeCarrierRecord: AlternativeCarrier,
+    index: Int
+) {
     Text(
-        text = "Record ${index + 1}: ${data.recordName}",
+        text = "Record ${index + 1}: ${alternativeCarrierRecord.recordName}",
         modifier = Modifier.padding(8.dp)
     )
     Column(modifier = Modifier.padding(8.dp)) {
         RowInCardView(
             firstItem = stringResource(id = R.string.record_name_format),
-            secondItem = ndefRecord.typeNameFormat
+            secondItem = alternativeCarrierRecord.typeNameFormat
         )
         RowInCardView(
             firstItem = stringResource(id = R.string.record_type),
-            secondItem = ndefRecord.type
+            secondItem = alternativeCarrierRecord.payloadType
         )
         RowInCardView(
             firstItem = stringResource(id = R.string.record_payload_len),
             stringResource(
                 id = R.string.bytes,
-                ndefRecord.payloadLength.toString()
+                alternativeCarrierRecord.payloadLength.toString()
             )
         )
         RowInCardView(
-            firstItem = data.payloadFieldName,
-            secondItem = data.payload
+            firstItem = alternativeCarrierRecord.payloadFieldName,
+            secondItem = alternativeCarrierRecord.payload
         )
     }
 }
 
 @Composable
-fun DisplaySmartPosterRecord(ndefRecord: NdefRecord, index: Int) {
-    val data = ndefRecord.getSmartPosterData(ndefRecord.payloadData!!)
+fun DisplaySmartPosterRecord(
+    smartPosterRecord: SmartPoster,
+    index: Int
+) {
     Text(
-        text = "Record ${index + 1}: ${data.recordName}",
+        text = "Record ${index + 1}: ${smartPosterRecord.recordName}",
         modifier = Modifier.padding(8.dp)
     )
     Column(modifier = Modifier.padding(8.dp)) {
         RowInCardView(
             firstItem = stringResource(id = R.string.record_name_format),
-            secondItem = ndefRecord.typeNameFormat
+            secondItem = smartPosterRecord.typeNameFormat
         )
         RowInCardView(
             firstItem = stringResource(id = R.string.record_type),
-            secondItem = ndefRecord.type
+            secondItem = smartPosterRecord.payloadType
         )
         RowInCardView(
             firstItem = stringResource(id = R.string.record_payload_len),
             stringResource(
                 id = R.string.bytes,
-                ndefRecord.payloadLength.toString()
+                smartPosterRecord.payloadLength.toString()
             )
         )
         RowInCardView(
-            firstItem = data.payloadFieldName,
-            secondItem = data.payload
+            firstItem = smartPosterRecord.payloadFieldName,
+            secondItem = smartPosterRecord.payload
         )
     }
 }
 
 @Composable
-private fun DisplayAndroidPackageRecord(ndefRecord: NdefRecord, index: Int) {
-    val data = ndefRecord.getAndroidPackageData(ndefRecord.payloadData!!)
+private fun DisplayAndroidPackageRecord(
+    androidPackageRecord: AndroidPackage,
+    index: Int
+) {
     Text(
-        text = "Record ${index + 1}: ${data.recordName}",
+        text = "Record ${index + 1}: ${androidPackageRecord.recordName}",
         modifier = Modifier.padding(8.dp)
     )
     Column(modifier = Modifier.padding(8.dp)) {
         RowInCardView(
             firstItem = stringResource(id = R.string.record_name_format),
-            secondItem = ndefRecord.typeNameFormat
+            secondItem = androidPackageRecord.typeNameFormat
         )
         RowInCardView(
             firstItem = stringResource(id = R.string.record_type),
-            secondItem = ndefRecord.type
+            secondItem = androidPackageRecord.payloadType
         )
         RowInCardView(
             firstItem = stringResource(id = R.string.record_payload_len),
             stringResource(
                 id = R.string.bytes,
-                ndefRecord.payloadLength.toString()
+                androidPackageRecord.payloadLength.toString()
             )
         )
         RowInCardView(
-            firstItem = data.payloadFieldName,
-            secondItem = data.payload
+            firstItem = androidPackageRecord.payloadFieldName,
+            secondItem = androidPackageRecord.payload
         )
     }
 }
 
 @Composable
-private fun DisplayUriRecord(ndefRecord: NdefRecord, index: Int) {
-    val data = ndefRecord.getUriData(ndefRecord.payloadData!!)
+private fun DisplayUriRecord(
+    uriRecord: URIRecord,
+    index: Int
+) {
     Text(
-        text = "Record ${index + 1}: ${data.recordName}",
+        text = "Record ${index + 1}: ${uriRecord.recordName}",
         modifier = Modifier.padding(8.dp)
     )
     Column(modifier = Modifier.padding(8.dp)) {
         RowInCardView(
             firstItem = stringResource(id = R.string.record_name_format),
-            secondItem = ndefRecord.typeNameFormat
+            secondItem = uriRecord.typeNameFormat
         )
         RowInCardView(
             firstItem = stringResource(id = R.string.record_type),
-            secondItem = ndefRecord.type
+            secondItem = uriRecord.payloadType
         )
         RowInCardView(
             firstItem = stringResource(id = R.string.record_payload_len),
             stringResource(
                 id = R.string.bytes,
-                ndefRecord.payloadLength.toString()
+                uriRecord.payloadLength.toString()
             )
         )
         RowInCardView(
             firstItem = "Protocol Field",
-            secondItem = data.protocol
+            secondItem = uriRecord.protocol
         )
         RowInCardView(
-            firstItem = data.payloadFieldName,
-            secondItem = String(ndefRecord.payloadData!!)
+            firstItem = uriRecord.payloadFieldName,
+            secondItem = uriRecord.actualUri
         )
     }
 }
 
 @Composable
-private fun DisplayTextRecord(ndefRecord: NdefRecord, index: Int) {
-    val data = ndefRecord.getTextData(ndefRecord.payloadData!!)
+private fun DisplayTextRecord(
+    textRecord: TextRecord,
+    index: Int
+) {
     Text(
-        text = "Record ${index + 1}: ${data.recordName}",
+        text = "Record ${index + 1}: ${textRecord.recordName}",
         modifier = Modifier.padding(8.dp)
     )
     Column(modifier = Modifier.padding(8.dp)) {
         RowInCardView(
             firstItem = stringResource(id = R.string.record_name_format),
-            secondItem = ndefRecord.typeNameFormat
+            secondItem = textRecord.typeNameFormat
         )
         RowInCardView(
             firstItem = stringResource(id = R.string.record_type),
-            secondItem = ndefRecord.type
+            secondItem = textRecord.payloadType
         )
         RowInCardView(
             firstItem = stringResource(id = R.string.record_payload_len),
             stringResource(
                 id = R.string.bytes,
-                ndefRecord.payloadLength.toString()
+                textRecord.payloadLength.toString()
             )
         )
         RowInCardView(
             firstItem = "Language code",
-            secondItem = data.langCode
+            secondItem = textRecord.langCode
         )
         RowInCardView(
             firstItem = "Encoding",
-            secondItem = ndefRecord.getTextData(ndefRecord.payloadData!!).encoding
+            secondItem = textRecord.encoding
         )
         RowInCardView(
-            firstItem = data.payloadFieldName,
-            secondItem = ndefRecord.getTextData(ndefRecord.payloadData!!).actualText
+            firstItem = textRecord.payloadFieldName,
+            secondItem = textRecord.actualText
         )
     }
 }

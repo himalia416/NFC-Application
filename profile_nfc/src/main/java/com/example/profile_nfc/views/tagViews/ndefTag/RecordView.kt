@@ -68,7 +68,8 @@ fun DisplayHandoverSelectRecord(
     index: Int
 ) {
     Text(
-        text = "Record ${index + 1}: ${handoverSelectRecord.recordName}",
+        text = stringResource(id =R.string.record_name,
+            index+1, handoverSelectRecord.recordName),
         modifier = Modifier.padding(8.dp)
     )
     Column(modifier = Modifier.padding(8.dp)) {
@@ -100,7 +101,8 @@ fun DisplayHandoverReceiveRecord(
     index: Int
 ) {
     Text(
-        text = "Record ${index + 1}: ${handoverReceiveRecord.recordName}",
+        text = stringResource(id =R.string.record_name,
+            index+1, handoverReceiveRecord.recordName),
         modifier = Modifier.padding(8.dp)
     )
     Column(modifier = Modifier.padding(8.dp)) {
@@ -132,7 +134,8 @@ fun DisplayHandoverCarrierRecord(
     index: Int
 ) {
     Text(
-        text = "Record ${index + 1}: ${handoverCarrierRecord.recordName}",
+        text = stringResource(id =R.string.record_name,
+            index+1, handoverCarrierRecord.recordName),
         modifier = Modifier.padding(8.dp)
     )
     Column(modifier = Modifier.padding(8.dp)) {
@@ -164,7 +167,8 @@ fun DisplayAlternativeCarrierRecord(
     index: Int
 ) {
     Text(
-        text = "Record ${index + 1}: ${alternativeCarrierRecord.recordName}",
+        text = stringResource(id =R.string.record_name,
+            index+1, alternativeCarrierRecord.recordName),
         modifier = Modifier.padding(8.dp)
     )
     Column(modifier = Modifier.padding(8.dp)) {
@@ -196,7 +200,8 @@ fun DisplaySmartPosterRecord(
     index: Int
 ) {
     Text(
-        text = "Record ${index + 1}: ${smartPosterRecord.recordName}",
+        text = stringResource(id =R.string.record_name,
+            index+1, smartPosterRecord.recordName),
         modifier = Modifier.padding(8.dp)
     )
     Column(modifier = Modifier.padding(8.dp)) {
@@ -228,7 +233,8 @@ private fun DisplayAndroidPackageRecord(
     index: Int
 ) {
     Text(
-        text = "Record ${index + 1}: ${androidPackageRecord.recordName}",
+        text = stringResource(id =R.string.record_name,
+            index+1, androidPackageRecord.recordName),
         modifier = Modifier.padding(8.dp)
     )
     Column(modifier = Modifier.padding(8.dp)) {
@@ -260,7 +266,8 @@ private fun DisplayUriRecord(
     index: Int
 ) {
     Text(
-        text = "Record ${index + 1}: ${uriRecord.recordName}",
+        text = stringResource(id =R.string.record_name,
+            index+1, uriRecord.recordName),
         modifier = Modifier.padding(8.dp)
     )
     Column(modifier = Modifier.padding(8.dp)) {
@@ -280,7 +287,7 @@ private fun DisplayUriRecord(
             )
         )
         RowInCardView(
-            firstItem = "Protocol Field",
+            firstItem = stringResource(id = R.string.protocol_field),
             secondItem = uriRecord.protocol
         )
         RowInCardView(
@@ -296,7 +303,8 @@ private fun DisplayTextRecord(
     index: Int
 ) {
     Text(
-        text = "Record ${index + 1}: ${textRecord.recordName}",
+        text = stringResource(id =R.string.record_name,
+            index+1, textRecord.recordName),
         modifier = Modifier.padding(8.dp)
     )
     Column(modifier = Modifier.padding(8.dp)) {
@@ -316,11 +324,11 @@ private fun DisplayTextRecord(
             )
         )
         RowInCardView(
-            firstItem = "Language code",
+            firstItem = stringResource(id = R.string.language_code),
             secondItem = textRecord.langCode
         )
         RowInCardView(
-            firstItem = "Encoding",
+            firstItem = stringResource(id = R.string.encoding),
             secondItem = textRecord.encoding
         )
         RowInCardView(

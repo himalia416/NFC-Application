@@ -37,4 +37,8 @@
     <string name="record_type">Payload Type</string>
     <string name="record_payload_len">Payload Length</string>
     <string name="record_payload_data">Payload Data</string>
+    <string name="record_name"> Record %d : %s</string>
+    <string name="language_code">Language code</string>
+    <string name="encoding">Encoding</string>
+    <string name="protocol_field">Protocol Field</string>
 </resources>

@@ -16,7 +16,7 @@ import com.example.domain.data.GeneralTagInformation
 import com.example.profile_nfc.R
 import com.example.profile_nfc.component.RowInCardView
 import com.example.profile_nfc.component.TitleWithIcon
-import com.example.profile_nfc.utility.serialNumberFormatter
+import com.example.profile_nfc.utility.toSerialNumber
 import no.nordicsemi.android.common.theme.NordicTheme
 
 @Composable
@@ -40,7 +40,7 @@ fun TagInfoView(generalTagInfo: GeneralTagInformation) {
                 )
                 RowInCardView(
                     firstItem = stringResource(id = R.string.serial_number),
-                    secondItem = serialNumberFormatter(generalTagInfo.serialNumber)
+                    secondItem = generalTagInfo.serialNumber.toSerialNumber()
                 )
                 generalTagInfo.maxTransceiveLength?.let {
                     RowInCardView(

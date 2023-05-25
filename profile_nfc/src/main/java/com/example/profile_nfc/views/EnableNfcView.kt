@@ -18,7 +18,7 @@ fun EnableNfcView(
     Column {
         NordicAppBar(text = stringResource(id = R.string.app_name))
         AlertDialog(
-            onDismissRequest = { },
+            onDismissRequest = onCancelClicked,
             title = { Text(text = stringResource(id = R.string.nfc_not_enabled)) },
             text = {
                 Text(

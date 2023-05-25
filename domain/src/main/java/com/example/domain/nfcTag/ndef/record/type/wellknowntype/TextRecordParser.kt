@@ -16,7 +16,7 @@ import java.nio.charset.Charset
  * And the length of language field is determined by masking the status byte with the value 0x3F.
  */
 
-object TextRecordParser {
+internal object TextRecordParser {
     private const val LANGUAGE_CODE_MASK = 0x03F
     private const val TEXT_ENCODING_MASK = 0x80
 

@@ -5,7 +5,7 @@ import com.example.domain.nfcTag.ndef.TnfNameFormatter
 import com.example.domain.nfcTag.ndef.record.URIRecord
 import com.example.domain.nfcTag.ndef.record.mapper.UriProtocolMapper
 
-object UriRecordParser {
+internal object UriRecordParser {
 
     fun parse(record: NdefRecord): URIRecord {
         val typeNameFormat = TnfNameFormatter.getTnfName(record.tnf.toInt())

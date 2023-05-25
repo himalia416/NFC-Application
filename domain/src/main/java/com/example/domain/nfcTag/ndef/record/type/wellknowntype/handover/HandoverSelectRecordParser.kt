@@ -4,7 +4,7 @@ import android.nfc.NdefRecord
 import com.example.domain.nfcTag.ndef.TnfNameFormatter
 import com.example.domain.nfcTag.ndef.record.HandoverSelect
 
-object HandoverSelectRecordParser {
+internal object HandoverSelectRecordParser {
 
     fun parse(record: NdefRecord): HandoverSelect {
         val typeNameFormat = TnfNameFormatter.getTnfName(record.tnf.toInt())

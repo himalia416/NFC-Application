@@ -4,7 +4,7 @@ import android.nfc.NdefRecord
 import com.example.domain.nfcTag.ndef.TnfNameFormatter
 import com.example.domain.nfcTag.ndef.record.AlternativeCarrier
 
-object AlternativeCarrierRecordParser {
+internal object AlternativeCarrierRecordParser {
 
     fun parse(record: NdefRecord): AlternativeCarrier {
         val typeNameFormat = TnfNameFormatter.getTnfName(record.tnf.toInt())

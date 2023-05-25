@@ -4,7 +4,7 @@ import android.nfc.NdefRecord
 import com.example.domain.nfcTag.ndef.TnfNameFormatter
 import com.example.domain.nfcTag.ndef.record.SmartPoster
 
-object SmartPosterRecordParser {
+internal object SmartPosterRecordParser {
 
     fun parse(record: NdefRecord): SmartPoster {
         val typeNameFormat = TnfNameFormatter.getTnfName(record.tnf.toInt())

@@ -2,13 +2,12 @@ package com.example.profile_nfc.repository
 
 import android.nfc.Tag
 import android.nfc.tech.Ndef
-import com.example.domain.data.GeneralTagInformation
-import com.example.domain.data.NdefRecord
-import com.example.domain.data.NdefTag
-import com.example.domain.data.NdefTagType.Companion.getTagType
-import com.example.domain.data.NfcNdefMessage
-import com.example.domain.data.TnfNameFormatter
-import com.example.domain.mapper.NdefRecordTypeMapper
+import com.example.domain.nfcTag.GeneralTagInformation
+import com.example.domain.nfcTag.NdefTag
+import com.example.domain.nfcTag.ndef.NdefRecord
+import com.example.domain.nfcTag.ndef.NdefTagType.Companion.getTagType
+import com.example.domain.nfcTag.ndef.NfcNdefMessage
+import com.example.domain.nfcTag.ndef.record.mapper.NdefRecordTypeMapper
 
 object OnNdefTagDiscovered {
     fun parse(tag: Tag, generalTagInformation: GeneralTagInformation): NdefTag? {
@@ -18,13 +17,8 @@ object OnNdefTagDiscovered {
             val message = ndef.ndefMessage
             message?.let { ndefMessage ->
                 val ndefRecords = ndefMessage.records.map { record ->
-                    val tnfNameFormat = TnfNameFormatter.getTnfName(record.tnf.toInt())
                     NdefRecord(
-                        type = NdefRecordTypeMapper.getNdefRecordType(
-                            tnfNameFormat,
-                            String(record.type),
-                            record.payload,
-                        )
+                        recordType = NdefRecordTypeMapper.getNdefRecordType(record)
                     )
                 }
 

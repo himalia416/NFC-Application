@@ -1,4 +1,4 @@
-package com.example.domain.mapper
+package com.example.domain.nfcTag.ndef.record.mapper
 
 /**
  * NFC Forum "URI Record Type Definition"

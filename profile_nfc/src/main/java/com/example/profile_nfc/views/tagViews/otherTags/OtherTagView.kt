@@ -3,7 +3,7 @@ package com.example.profile_nfc.views.tagViews.otherTags
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.domain.data.GeneralTagInformation
+import com.example.domain.nfcTag.GeneralTagInformation
 import com.example.profile_nfc.views.tagViews.ndefTag.TagInfoView
 import no.nordicsemi.android.common.theme.NordicTheme
 

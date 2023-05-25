@@ -2,7 +2,7 @@ package com.example.setting
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.example.domain.data.NfcTag
+import com.example.domain.nfcTag.NfcTag
 import com.example.setting.views.SettingsScreen
 import no.nordicsemi.android.common.navigation.createDestination
 import no.nordicsemi.android.common.navigation.defineDestination

@@ -1,4 +1,4 @@
-package com.example.domain.data
+package com.example.domain.nfcTag.ndef.record
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
@@ -80,7 +80,9 @@ data class HandoverReceive(
 ) : NdefRecordType
 
 @Parcelize
-object Unknown : NdefRecordType
+data class Unknown(
+    val recordName: String = "Unknown"
+) : NdefRecordType
 
 @Parcelize
 data class AndroidPackage(

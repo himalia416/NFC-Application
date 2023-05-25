@@ -1,4 +1,4 @@
-package com.example.domain.data
+package com.example.domain.nfcTag.miFareClassic
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

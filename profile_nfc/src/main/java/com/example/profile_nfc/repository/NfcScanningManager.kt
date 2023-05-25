@@ -11,9 +11,9 @@ import android.nfc.tech.NfcV
 import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import com.example.domain.data.GeneralTagInformation
-import com.example.domain.data.NfcTag
-import com.example.domain.data.OtherTag
+import com.example.domain.nfcTag.GeneralTagInformation
+import com.example.domain.nfcTag.NfcTag
+import com.example.domain.nfcTag.OtherTag
 import com.example.profile_nfc.data.NfcTech.ISPDEP
 import com.example.profile_nfc.data.NfcTech.MIFARE_CLASSIC
 import com.example.profile_nfc.data.NfcTech.NDEF

@@ -1,6 +1,6 @@
 package com.example.serialization.domain
 
-import com.example.domain.data.NfcTag
+import com.example.domain.nfcTag.NfcTag
 
 interface NfcJsonAdapter {
     fun fromJson(jsonData: String) : NfcTag?

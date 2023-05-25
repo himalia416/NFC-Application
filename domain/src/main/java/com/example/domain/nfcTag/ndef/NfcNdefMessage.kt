@@ -1,6 +1,7 @@
-package com.example.domain.data
+package com.example.domain.nfcTag.ndef
 
 import android.os.Parcelable
+import com.example.domain.nfcTag.ndef.record.NdefRecordType
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -18,7 +19,7 @@ data class NfcNdefMessage(
 
 @Parcelize
 data class NdefRecord(
-    val type: NdefRecordType? = null,
+    val recordType: NdefRecordType? = null,
 ) : Parcelable
 
 enum class NdefTagType(val type: String) {

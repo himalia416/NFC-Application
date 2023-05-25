@@ -1,6 +1,8 @@
-package com.example.domain.data
+package com.example.domain.nfcTag
 
 import android.os.Parcelable
+import com.example.domain.nfcTag.miFareClassic.MifareClassicMessage
+import com.example.domain.nfcTag.ndef.NfcNdefMessage
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

@@ -3,10 +3,10 @@ package com.example.profile_nfc.repository
 import android.nfc.Tag
 import android.nfc.tech.MifareClassic
 import android.util.Log
-import com.example.domain.data.GeneralTagInformation
-import com.example.domain.data.MifareClassicMessage
-import com.example.domain.data.MifareClassicTag
-import com.example.domain.data.MifareClassicTagType
+import com.example.domain.nfcTag.GeneralTagInformation
+import com.example.domain.nfcTag.miFareClassic.MifareClassicMessage
+import com.example.domain.nfcTag.MifareClassicTag
+import com.example.domain.nfcTag.miFareClassic.MifareClassicTagType
 import com.example.profile_nfc.utility.toHex
 
 object OnMifareTagDiscovered {

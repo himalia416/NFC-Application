@@ -12,17 +12,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.domain.data.AlternativeCarrier
-import com.example.domain.data.AndroidPackage
-import com.example.domain.data.HandoverCarrier
-import com.example.domain.data.HandoverReceive
-import com.example.domain.data.HandoverSelect
-import com.example.domain.data.NdefRecord
-import com.example.domain.data.OtherExternalType
-import com.example.domain.data.SmartPoster
-import com.example.domain.data.TextRecord
-import com.example.domain.data.URIRecord
-import com.example.domain.data.Unknown
+import com.example.domain.nfcTag.ndef.NdefRecord
+import com.example.domain.nfcTag.ndef.record.AlternativeCarrier
+import com.example.domain.nfcTag.ndef.record.AndroidPackage
+import com.example.domain.nfcTag.ndef.record.HandoverCarrier
+import com.example.domain.nfcTag.ndef.record.HandoverReceive
+import com.example.domain.nfcTag.ndef.record.HandoverSelect
+import com.example.domain.nfcTag.ndef.record.OtherExternalType
+import com.example.domain.nfcTag.ndef.record.SmartPoster
+import com.example.domain.nfcTag.ndef.record.TextRecord
+import com.example.domain.nfcTag.ndef.record.URIRecord
+import com.example.domain.nfcTag.ndef.record.Unknown
 import com.example.profile_nfc.R
 import com.example.profile_nfc.component.RowInCardView
 import com.example.profile_nfc.component.TitleWithIcon
@@ -44,7 +44,7 @@ fun RecordView(ndefRecords: List<NdefRecord>) {
                 .fillMaxWidth()
         ) {
             Column(modifier = Modifier.padding(8.dp)) {
-                when (val recordType = ndefRecord.type) {
+                when (val recordType = ndefRecord.recordType) {
                     is TextRecord -> DisplayTextRecord(recordType, index)
                     is URIRecord -> DisplayUriRecord(recordType, index)
                     is AndroidPackage -> DisplayAndroidPackageRecord(recordType, index)
@@ -54,7 +54,7 @@ fun RecordView(ndefRecords: List<NdefRecord>) {
                     is HandoverReceive -> DisplayHandoverReceiveRecord(recordType, index)
                     is HandoverSelect -> DisplayHandoverSelectRecord(recordType, index)
                     is OtherExternalType -> TODO()
-                    Unknown -> TODO()
+                    is Unknown -> TODO()
                     else -> TODO()
                 }
             }

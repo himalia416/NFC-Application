@@ -1,6 +1,6 @@
 package com.example.serialization.repository
 
-import com.example.domain.data.NfcTag
+import com.example.domain.nfcTag.NfcTag
 import com.example.serialization.domain.NfcJsonAdapter
 import com.squareup.moshi.JsonAdapter
 import javax.inject.Inject

@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 internal data class NfcViewState(
     val setting: NFCSettings? = null,
-    val state: NfcState = ScanNfcTag,
+    val state: NfcState = NfcState.ScanNfcTag,
     val nfcScanningState: NfcScanningState = NfcScanningState(),
 )
 
@@ -43,39 +43,37 @@ internal class NfcViewModel @Inject constructor(
     }
 
     private fun startNfcScanning() {
-        nfcManager
-            .apply {
-                nfcScanningState.onEach {
-                    when {
-                        !it.isNfcSupported -> showNfcNotSupported()
-                        !it.isNfcEnabled -> showNfcNotEnabledPage()
-                        it.tag != null -> tagDiscovered()
-                        else -> showScanTag()
-                    }
-                }.launchIn(viewModelScope)
+        nfcManager.nfcScanningState.onEach {
+            when {
+                !it.isNfcSupported -> showNfcNotSupported()
+                !it.isNfcEnabled -> showNfcNotEnabledPage()
+                it.tag != null -> tagDiscovered()
+                else -> showScanTag()
             }
+        }.launchIn(viewModelScope)
+
     }
 
     private fun showNfcNotEnabledPage() {
-        _state.value = _state.value.copy(state = NfcNotEnabled)
+        _state.value = _state.value.copy(state = NfcState.NfcNotEnabled)
     }
 
     private fun showNfcNotSupported() {
-        _state.value = _state.value.copy(state = NfcNotSupported)
+        _state.value = _state.value.copy(state = NfcState.NfcNotSupported)
     }
 
     private fun tagDiscovered() {
         _state.value = _state.value.copy(
-            state = NfcTagDiscovered,
+            state = NfcState.NfcTagDiscovered,
             nfcScanningState = nfcManager.nfcScanningState.value
         )
     }
 
     fun showScanTag() {
-        _state.value = _state.value.copy(state = ScanNfcTag)
+        _state.value = _state.value.copy(state = NfcState.ScanNfcTag)
     }
 
     fun enableNfc() {
-        _state.value = _state.value.copy(state = EnableNfc)
+        _state.value = _state.value.copy(state = NfcState.EnableNfc)
     }
 }

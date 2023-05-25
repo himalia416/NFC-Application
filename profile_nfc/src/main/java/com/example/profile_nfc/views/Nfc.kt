@@ -20,12 +20,8 @@ import com.example.domain.data.MifareClassicTag
 import com.example.domain.data.NdefTag
 import com.example.domain.data.NfcTag
 import com.example.profile_nfc.R
-import com.example.profile_nfc.viewmodel.EnableNfc
-import com.example.profile_nfc.viewmodel.NfcNotEnabled
-import com.example.profile_nfc.viewmodel.NfcNotSupported
-import com.example.profile_nfc.viewmodel.NfcTagDiscovered
+import com.example.profile_nfc.viewmodel.NfcState
 import com.example.profile_nfc.viewmodel.NfcViewModel
-import com.example.profile_nfc.viewmodel.ScanNfcTag
 import com.example.profile_nfc.views.tagViews.otherTags.OtherTagView
 import no.nordicsemi.android.common.theme.view.NordicAppBar
 
@@ -41,15 +37,15 @@ fun Nfc(onSettingScreenNavigation: (NfcTag) -> Unit) {
         true -> { nfcViewModel.showWelcomeScreen() }
         false ->
             when (nfcState.state) {
-                NfcNotSupported -> NfcNotSupportedView()
-                NfcNotEnabled -> EnableNfcView(
+                NfcState.NfcNotSupported -> NfcNotSupportedView()
+                NfcState.NfcNotEnabled -> EnableNfcView(
                     onSettingClicked = { context.startActivity(Intent(Settings.ACTION_NFC_SETTINGS)) },
                     onCancelClicked = { nfcViewModel.enableNfc() }
                 )
 
-                EnableNfc -> NfcNotEnableView()
-                ScanNfcTag -> ScanNfcTagView()
-                NfcTagDiscovered ->
+                NfcState.EnableNfc -> NfcNotEnableView()
+                NfcState.ScanNfcTag -> ScanNfcTagView()
+                NfcState.NfcTagDiscovered ->
                     Column {
                         NordicAppBar(
                             text = stringResource(id = R.string.ndef_tag),

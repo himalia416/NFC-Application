@@ -12,12 +12,13 @@ internal object UriRecordParser {
 
         val status = record.payload[0].toInt()
         val protocolField = UriProtocolMapper.getUriPrefix(status)
+        val actualUri = String(record.payload, 1, record.payload.size-1)
         return URIRecord(
             typeNameFormat = typeNameFormat,
             payloadType = String(record.type),
             payloadLength = record.payload.size,
             protocol = protocolField,
-            actualUri = String(record.payload),
+            actualUri = actualUri,
         )
     }
 }

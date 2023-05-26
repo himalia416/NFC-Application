@@ -19,7 +19,7 @@ data class NfcNdefMessage(
 
 @Parcelize
 data class NdefRecord(
-    val recordType: NdefRecordType? = null,
+    val record: NdefRecordType? = null,
 ) : Parcelable
 
 enum class NdefTagType(val type: String) {
@@ -47,16 +47,15 @@ enum class NdefTagType(val type: String) {
  * The TNF field value indicates the structure of the value of the TYPE field of the Ndef record.
  * The value 0x00 (Empty) indicates that there is no type or payload associated with this NDEF record.
  */
-
 enum class TnfNameFormatter(val index: Int, val tnf: String) {
-    TNF_EMPTY( 0x00,"Empty"),
-    TNF_WELL_KNOWN(0x01,"NFC Forum well-known type"),
-    TNF_MIME_MEDIA(0x02,"Media-type"),
-    TNF_ABSOLUTE_URI(0x03,"Absolute URI "),
-    TNF_EXTERNAL_TYPE(0x04,"NFC Forum external type"),
-    TNF_UNKNOWN(0x05,"Unknown"),
-    TNF_UNCHANGED(0x06,"Unchanged"),
-    TNF_RESERVED(0x07,"Reserved");
+    TNF_EMPTY(0x00, "Empty"),
+    TNF_WELL_KNOWN(0x01, "NFC Forum well-known type"),
+    TNF_MIME_MEDIA(0x02, "Media-type"),
+    TNF_ABSOLUTE_URI(0x03, "Absolute URI "),
+    TNF_EXTERNAL_TYPE(0x04, "NFC Forum external type"),
+    TNF_UNKNOWN(0x05, "Unknown"),
+    TNF_UNCHANGED(0x06, "Unchanged"),
+    TNF_RESERVED(0x07, "Reserved");
 
     companion object {
         fun getTnfName(tnfValue: Int): String {

@@ -25,7 +25,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideRealtimeDatabase(): FirebaseDatabase =
-        Firebase.database("https://nfc-application-dcc66-default-rtdb.europe-west1.firebasedatabase.app")
+        Firebase.database("https://nfcconnect-d277e-default-rtdb.europe-west1.firebasedatabase.app/")
 
     @Provides
     @Singleton

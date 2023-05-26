@@ -10,31 +10,25 @@ import no.nordicsemi.domain.nfcTag.ndef.NfcNdefMessage
 import no.nordicsemi.domain.nfcTag.ndef.record.mapper.NdefRecordTypeMapper
 
 object OnNdefTagDiscovered {
+
     fun parse(tag: Tag, generalTagInformation: GeneralTagInformation): NdefTag? {
-        val ndef = Ndef.get(tag)
-        ndef?.let {
-            ndef.connect()
-            val message = ndef.ndefMessage
-            message?.let { ndefMessage ->
-                val ndefRecords = ndefMessage.records.map { record ->
-                    NdefRecord(
-                        recordType = NdefRecordTypeMapper.getNdefRecordType(record)
-                    )
-                }
-
-                val nfcNdefMessage = NfcNdefMessage(
-                    recordCount = ndefMessage.records.size,
-                    currentMessageSize = ndefMessage.byteArrayLength,
-                    maximumMessageSize = ndef.maxSize,
-                    isNdefWritable = ndef.isWritable,
-                    ndefRecord = ndefRecords,
-                    ndefType = getTagType(ndef.type)
-                )
-
-                return NdefTag(general = generalTagInformation, nfcNdefMessage = nfcNdefMessage)
-            }
+        val ndef = Ndef.get(tag) ?: return null
+        ndef.connect()
+        val ndefMessage = ndef.ndefMessage ?: return null
+        val ndefRecords = ndefMessage.records.map { record ->
+            NdefRecord(record = NdefRecordTypeMapper.getNdefRecordType(record))
         }
 
-        return null
+        val nfcNdefMessage = NfcNdefMessage(
+            recordCount = ndefMessage.records.size,
+            currentMessageSize = ndefMessage.byteArrayLength,
+            maximumMessageSize = ndef.maxSize,
+            isNdefWritable = ndef.isWritable,
+            ndefRecord = ndefRecords,
+            ndefType = getTagType(ndef.type)
+        )
+        ndef.close()
+
+        return NdefTag(general = generalTagInformation, nfcNdefMessage = nfcNdefMessage)
     }
 }

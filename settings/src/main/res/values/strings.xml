@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings">Settings</string>
+    <string name="scan_report">Scan Report</string>
+    <string name="import_scan">Import Scan File</string>
+    <string name="import_scan_des">Import previous scan result to view.</string>
+    <string name="export_scan">Export Scan Result</string>
+    <string name="export_scan_des">Export scan result locally in JSON format.</string>
+    <string name="clear_scan">Clear Scan Report</string>
+    <string name="clear_scan_des">Clear imported scan report.</string>
+    <string name="scan_history">Scan History</string>
+    <string name="scan_history_des">Show previous search history.</string>
+    <string name="share_scan_report">Share Scan Report</string>
+    <string name="email">Email</string>
+    <string name="attach_email_des">Attach scan result in Email.</string>
+    <string name="user_interface">User Interface</string>
+    <string name="play_sound">Play Sound</string>
+    <string name="play_sound_des">Turn on sound at the start or finish of scan.</string>
+    <string name="vibrate">Vibrate</string>
+    <string name="vibrate_des">Vibrate when starting or finishing a scan.</string>
+    <string name="other">Other</string>
+    <string name="about_nfc">About NFC</string>
+    <string name="about_nfc_des">NFC Documentation on Nordic\'s Info-center.</string>
+    <string name="about_nfc_app">About NFC app</string>
+    <string name="help_des">Shows welcome screen.</string>
+    <string name="version">Version</string>
+
+    <string name="document_type">application/json</string>
+</resources>

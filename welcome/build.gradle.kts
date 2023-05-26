@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.welcome"
+    namespace = "no.nordicsemi.welcome"
 }
 
 dependencies {

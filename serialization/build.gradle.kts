@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.serialization"
+    namespace = "no.nordicsemi.serialization"
 }
 
 dependencies {

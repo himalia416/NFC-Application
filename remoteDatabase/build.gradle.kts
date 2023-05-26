@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.remotedatabase"
+    namespace = "no.nordicsemi.remotedatabase"
 }
 
 dependencies {

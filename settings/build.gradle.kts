@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.setting"
+    namespace = "no.nordicsemi.setting"
 }
 
 dependencies {

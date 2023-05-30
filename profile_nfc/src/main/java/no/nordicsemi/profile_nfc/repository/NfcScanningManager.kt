@@ -21,7 +21,7 @@ import no.nordicsemi.profile_nfc.data.NfcTech.NFCA
 import no.nordicsemi.profile_nfc.data.NfcTech.NFCB
 import no.nordicsemi.profile_nfc.data.NfcTech.NFCF
 import no.nordicsemi.profile_nfc.data.NfcTech.NFCV
-import no.nordicsemi.profile_nfc.data.ReaderFlag
+import no.nordicsemi.profile_nfc.data.NfcFlags
 import no.nordicsemi.profile_nfc.utility.toHex
 import no.nordicsemi.remotedatabase.domain.ManufacturerNameRepository
 import kotlinx.coroutines.CoroutineScope
@@ -55,7 +55,7 @@ class NfcScanningManager @Inject constructor(
             if (it.isEnabled) {
                 _nfcScanningState.value = _nfcScanningState.value.copy(isNfcEnabled = true)
                 val readerFlags =
-                    enumValues<ReaderFlag>().fold(0) { acc, flag -> acc or flag.value }
+                    enumValues<NfcFlags>().fold(0) { acc, flag -> acc or flag.value }
                 // Enable ReaderMode for all types of card and disable platform sounds
                 it.enableReaderMode(owner as Activity, ::onTagDiscovered, readerFlags, null)
             }

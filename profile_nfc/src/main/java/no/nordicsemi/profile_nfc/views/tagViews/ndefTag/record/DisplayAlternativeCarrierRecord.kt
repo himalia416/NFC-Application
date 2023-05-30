@@ -28,7 +28,7 @@ fun DisplayAlternativeCarrierRecord(
     )
     Column(modifier = Modifier.padding(8.dp)) {
         RowInCardView(
-            firstItem = stringResource(id = R.string.record_name_format),
+            firstItem = stringResource(id = R.string.record_type_name_format),
             secondItem = alternativeCarrierRecord.typeNameFormat
         )
         RowInCardView(

@@ -4,6 +4,7 @@ import android.nfc.NdefRecord
 import no.nordicsemi.domain.nfcTag.ndef.TnfNameFormatter
 import no.nordicsemi.domain.nfcTag.ndef.record.NdefRecordType
 import no.nordicsemi.domain.nfcTag.ndef.record.OtherExternalType
+import no.nordicsemi.domain.nfcTag.ndef.record.type.absoluteuri.AbsoluteUriParser
 import no.nordicsemi.domain.nfcTag.ndef.record.type.externaltype.AndroidPackageRecordParser
 import no.nordicsemi.domain.nfcTag.ndef.record.type.externaltype.TnfExternalType
 import no.nordicsemi.domain.nfcTag.ndef.record.type.wellknowntype.SmartPosterRecordParser
@@ -37,6 +38,8 @@ object NdefRecordTypeMapper {
                 type.contentEquals(TnfExternalType.RTD_ANDROID_APP.type) -> AndroidPackageRecordParser.parse(record)
                 else -> OtherExternalType(payloadLength = record.payload.size)
             }
+
+            TnfNameFormatter.TNF_ABSOLUTE_URI.tnf -> AbsoluteUriParser.parse(record)
 
             else -> throw IllegalArgumentException("Unknown Record Type")
         }

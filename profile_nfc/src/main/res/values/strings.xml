@@ -33,7 +33,7 @@
     <string name="millisecond">%sms</string>
     <string name="expand_records">Show all Records</string>
     <string name="hide_records">Hide Records</string>
-    <string name="record_name_format">Data Format</string>
+    <string name="record_type_name_format">Type Name Format</string>
     <string name="record_type">Payload Type</string>
     <string name="record_payload_len">Payload Length</string>
     <string name="record_payload_data">Payload Data</string>
@@ -41,4 +41,6 @@
     <string name="language_code">Language code</string>
     <string name="encoding">Encoding</string>
     <string name="protocol_field">Protocol Field</string>
+    <string name="uri_field">URI</string>
+    <string name="url_tag"> URL </string>
 </resources>

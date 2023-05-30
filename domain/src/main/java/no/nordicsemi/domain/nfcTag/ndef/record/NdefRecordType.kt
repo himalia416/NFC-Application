@@ -22,11 +22,12 @@ data class TextRecord(
 data class URIRecord(
     val recordName: String = "URI Field Record",
     val typeNameFormat: String = "",
-    val payloadType: String = "",
+    val payloadType: String? = null,
     val payloadLength: Int,
-    val protocol: String = "",
+    val protocol: String? = null,
+    val uri: String? = null,
     val actualUri: String = "",
-    val payloadFieldName: String = "URI"
+    val payloadFieldName: String = "Actual URL"
 ) : NdefRecordType
 
 @Parcelize
@@ -102,4 +103,4 @@ data class OtherExternalType(
     val payloadLength: Int,
     val payloadFieldName: String = "Package",
     val payload: String = "",
-): NdefRecordType
+) : NdefRecordType

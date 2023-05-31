@@ -18,42 +18,44 @@ fun DisplayTextRecord(
     textRecord: TextRecord,
     index: Int
 ) {
-    Text(
-        text = stringResource(
-            id = R.string.record_name,
-            index + 1,
-            textRecord.recordName
-        ),
-        modifier = Modifier.padding(8.dp)
-    )
     Column(modifier = Modifier.padding(8.dp)) {
-        RowInCardView(
-            firstItem = stringResource(id = R.string.record_type_name_format),
-            secondItem = textRecord.typeNameFormat
+        Text(
+            text = stringResource(
+                id = R.string.record_name,
+                index + 1,
+                textRecord.recordName
+            ),
+            modifier = Modifier.padding(8.dp)
         )
-        RowInCardView(
-            firstItem = stringResource(id = R.string.record_type),
-            secondItem = textRecord.payloadType
-        )
-        RowInCardView(
-            firstItem = stringResource(id = R.string.record_payload_len),
-            stringResource(
-                id = R.string.bytes,
-                textRecord.payloadLength.toString()
+        Column(modifier = Modifier.padding(8.dp)) {
+            RowInCardView(
+                firstItem = stringResource(id = R.string.record_type_name_format),
+                secondItem = textRecord.typeNameFormat
             )
-        )
-        RowInCardView(
-            firstItem = stringResource(id = R.string.language_code),
-            secondItem = textRecord.langCode
-        )
-        RowInCardView(
-            firstItem = stringResource(id = R.string.encoding),
-            secondItem = textRecord.encoding
-        )
-        RowInCardView(
-            firstItem = textRecord.payloadFieldName,
-            secondItem = textRecord.actualText
-        )
+            RowInCardView(
+                firstItem = stringResource(id = R.string.record_type),
+                secondItem = textRecord.payloadType
+            )
+            RowInCardView(
+                firstItem = stringResource(id = R.string.record_payload_len),
+                stringResource(
+                    id = R.string.bytes,
+                    textRecord.payloadLength.toString()
+                )
+            )
+            RowInCardView(
+                firstItem = stringResource(id = R.string.language_code),
+                secondItem = textRecord.langCode
+            )
+            RowInCardView(
+                firstItem = stringResource(id = R.string.encoding),
+                secondItem = textRecord.encoding
+            )
+            RowInCardView(
+                firstItem = textRecord.payloadFieldName,
+                secondItem = textRecord.actualText
+            )
+        }
     }
 }
 

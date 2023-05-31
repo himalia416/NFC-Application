@@ -18,34 +18,36 @@ fun DisplayAlternativeCarrierRecord(
     alternativeCarrierRecord: AlternativeCarrier,
     index: Int
 ) {
-    Text(
-        text = stringResource(
-            id = R.string.record_name,
-            index + 1,
-            alternativeCarrierRecord.recordName
-        ),
-        modifier = Modifier.padding(8.dp)
-    )
     Column(modifier = Modifier.padding(8.dp)) {
-        RowInCardView(
-            firstItem = stringResource(id = R.string.record_type_name_format),
-            secondItem = alternativeCarrierRecord.typeNameFormat
+        Text(
+            text = stringResource(
+                id = R.string.record_name,
+                index + 1,
+                alternativeCarrierRecord.recordName
+            ),
+            modifier = Modifier.padding(8.dp)
         )
-        RowInCardView(
-            firstItem = stringResource(id = R.string.record_type),
-            secondItem = alternativeCarrierRecord.payloadType
-        )
-        RowInCardView(
-            firstItem = stringResource(id = R.string.record_payload_len),
-            stringResource(
-                id = R.string.bytes,
-                alternativeCarrierRecord.payloadLength.toString()
+        Column(modifier = Modifier.padding(8.dp)) {
+            RowInCardView(
+                firstItem = stringResource(id = R.string.record_type_name_format),
+                secondItem = alternativeCarrierRecord.typeNameFormat
             )
-        )
-        RowInCardView(
-            firstItem = alternativeCarrierRecord.payloadFieldName,
-            secondItem = alternativeCarrierRecord.payload
-        )
+            RowInCardView(
+                firstItem = stringResource(id = R.string.record_type),
+                secondItem = alternativeCarrierRecord.payloadType
+            )
+            RowInCardView(
+                firstItem = stringResource(id = R.string.record_payload_len),
+                stringResource(
+                    id = R.string.bytes,
+                    alternativeCarrierRecord.payloadLength.toString()
+                )
+            )
+            RowInCardView(
+                firstItem = alternativeCarrierRecord.payloadFieldName,
+                secondItem = alternativeCarrierRecord.payload
+            )
+        }
     }
 }
 

@@ -14,11 +14,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import no.nordicsemi.android.common.core.AppLauncher
 import no.nordicsemi.android.common.theme.NordicTheme
 import no.nordicsemi.domain.nfcTag.ndef.record.AndroidPackage
 import no.nordicsemi.profile_nfc.R
 import no.nordicsemi.profile_nfc.component.RowInCardView
-import no.nordicsemi.android.common.core.AppLauncher
 
 @Composable
 fun DisplayAndroidPackageRecord(
@@ -27,48 +27,51 @@ fun DisplayAndroidPackageRecord(
 ) {
     val context: Context = LocalContext.current
     val packageManager: PackageManager = context.packageManager
-    Text(
-        text = stringResource(
-            id = R.string.record_name,
-            index + 1,
-            androidPackageRecord.recordName
-        ),
-        modifier = Modifier.padding(8.dp)
-    )
+
     Column(modifier = Modifier.padding(8.dp)) {
-        RowInCardView(
-            firstItem = stringResource(id = R.string.record_type_name_format),
-            secondItem = androidPackageRecord.typeNameFormat
+        Text(
+            text = stringResource(
+                id = R.string.record_name,
+                index + 1,
+                androidPackageRecord.recordName
+            ),
+            modifier = Modifier.padding(8.dp)
         )
-        RowInCardView(
-            firstItem = stringResource(id = R.string.record_type),
-            secondItem = androidPackageRecord.payloadType
-        )
-        RowInCardView(
-            firstItem = stringResource(id = R.string.record_payload_len),
-            stringResource(
-                id = R.string.bytes,
-                androidPackageRecord.payloadLength.toString()
+        Column(modifier = Modifier.padding(8.dp)) {
+            RowInCardView(
+                firstItem = stringResource(id = R.string.record_type_name_format),
+                secondItem = androidPackageRecord.typeNameFormat
             )
-        )
-        Row {
-            Text(
-                text = androidPackageRecord.payloadFieldName,
-                modifier = Modifier.padding(end = 16.dp),
-                style = MaterialTheme.typography.titleMedium
+            RowInCardView(
+                firstItem = stringResource(id = R.string.record_type),
+                secondItem = androidPackageRecord.payloadType
             )
-            Text(
-                text = androidPackageRecord.payload,
-                modifier = Modifier.clickable {
-                    AppLauncher.lunch(
-                        packageManager = packageManager,
-                        packageName = androidPackageRecord.payload,
-                        context = context
-                    )
-                },
-                color = MaterialTheme.colorScheme.secondaryContainer,
-                style = MaterialTheme.typography.bodyLarge
+            RowInCardView(
+                firstItem = stringResource(id = R.string.record_payload_len),
+                stringResource(
+                    id = R.string.bytes,
+                    androidPackageRecord.payloadLength.toString()
+                )
             )
+            Row {
+                Text(
+                    text = androidPackageRecord.payloadFieldName,
+                    modifier = Modifier.padding(end = 16.dp),
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Text(
+                    text = androidPackageRecord.payload,
+                    modifier = Modifier.clickable {
+                        AppLauncher.lunch(
+                            packageManager = packageManager,
+                            packageName = androidPackageRecord.payload,
+                            context = context
+                        )
+                    },
+                    color = MaterialTheme.colorScheme.secondaryContainer,
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            }
         }
     }
 }
@@ -80,7 +83,7 @@ fun DisplayAndroidPackageRecordPreview() {
         DisplayAndroidPackageRecord(
             androidPackageRecord = AndroidPackage(
                 payloadLength = 22,
-                payload = "NordicSemiconductor ASA"
+                payload = "no.nordicsemi.android.nrfthingy"
             ),
             index = 2
         )

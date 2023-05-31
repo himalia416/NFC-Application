@@ -18,34 +18,36 @@ fun DisplaySmartPosterRecord(
     smartPosterRecord: SmartPoster,
     index: Int
 ) {
-    Text(
-        text = stringResource(
-            id = R.string.record_name,
-            index + 1,
-            smartPosterRecord.recordName
-        ),
-        modifier = Modifier.padding(8.dp)
-    )
     Column(modifier = Modifier.padding(8.dp)) {
-        RowInCardView(
-            firstItem = stringResource(id = R.string.record_type_name_format),
-            secondItem = smartPosterRecord.typeNameFormat
+        Text(
+            text = stringResource(
+                id = R.string.record_name,
+                index + 1,
+                smartPosterRecord.recordName
+            ),
+            modifier = Modifier.padding(8.dp)
         )
-        RowInCardView(
-            firstItem = stringResource(id = R.string.record_type),
-            secondItem = smartPosterRecord.payloadType
-        )
-        RowInCardView(
-            firstItem = stringResource(id = R.string.record_payload_len),
-            stringResource(
-                id = R.string.bytes,
-                smartPosterRecord.payloadLength.toString()
+        Column(modifier = Modifier.padding(8.dp)) {
+            RowInCardView(
+                firstItem = stringResource(id = R.string.record_type_name_format),
+                secondItem = smartPosterRecord.typeNameFormat
             )
-        )
-        RowInCardView(
-            firstItem = smartPosterRecord.payloadFieldName,
-            secondItem = smartPosterRecord.payload
-        )
+            RowInCardView(
+                firstItem = stringResource(id = R.string.record_type),
+                secondItem = smartPosterRecord.payloadType
+            )
+            RowInCardView(
+                firstItem = stringResource(id = R.string.record_payload_len),
+                stringResource(
+                    id = R.string.bytes,
+                    smartPosterRecord.payloadLength.toString()
+                )
+            )
+            RowInCardView(
+                firstItem = smartPosterRecord.payloadFieldName,
+                secondItem = smartPosterRecord.payload
+            )
+        }
     }
 }
 

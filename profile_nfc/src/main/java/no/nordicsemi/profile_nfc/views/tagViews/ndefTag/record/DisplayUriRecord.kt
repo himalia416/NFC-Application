@@ -22,51 +22,53 @@ fun DisplayUriRecord(
     uriRecord: URIRecord,
     index: Int
 ) {
-    Text(
-        text = stringResource(
-            id = R.string.record_name,
-            index + 1,
-            uriRecord.recordName
-        ),
-        modifier = Modifier.padding(8.dp)
-    )
     Column(modifier = Modifier.padding(8.dp)) {
-        RowInCardView(
-            firstItem = stringResource(id = R.string.record_type_name_format),
-            secondItem = uriRecord.typeNameFormat
+        Text(
+            text = stringResource(
+                id = R.string.record_name,
+                index + 1,
+                uriRecord.recordName
+            ),
+            modifier = Modifier.padding(8.dp)
         )
-        uriRecord.payloadType?.let {
+        Column(modifier = Modifier.padding(8.dp)) {
             RowInCardView(
-                firstItem = stringResource(id = R.string.record_type),
-                secondItem = it
+                firstItem = stringResource(id = R.string.record_type_name_format),
+                secondItem = uriRecord.typeNameFormat
             )
-        }
-        RowInCardView(
-            firstItem = stringResource(id = R.string.record_payload_len),
-            stringResource(
-                id = R.string.bytes,
-                uriRecord.payloadLength.toString()
-            )
-        )
-        uriRecord.protocol?.let {
+            uriRecord.payloadType?.let {
+                RowInCardView(
+                    firstItem = stringResource(id = R.string.record_type),
+                    secondItem = it
+                )
+            }
             RowInCardView(
-                firstItem = stringResource(id = R.string.protocol_field),
-                secondItem = it
+                firstItem = stringResource(id = R.string.record_payload_len),
+                stringResource(
+                    id = R.string.bytes,
+                    uriRecord.payloadLength.toString()
+                )
             )
-        }
-        uriRecord.uri?.let {
-            RowInCardView(
-                firstItem = stringResource(id = R.string.uri_field),
-                secondItem = it
-            )
-        }
-        Row {
-            Text(
-                text = uriRecord.payloadFieldName,
-                modifier = Modifier.padding(end = 16.dp),
-                style = MaterialTheme.typography.titleMedium
-            )
-            ClickableTextView(stringResource(id = R.string.url_tag), uriRecord.actualUri)
+            uriRecord.protocol?.let {
+                RowInCardView(
+                    firstItem = stringResource(id = R.string.protocol_field),
+                    secondItem = it
+                )
+            }
+            uriRecord.uri?.let {
+                RowInCardView(
+                    firstItem = stringResource(id = R.string.uri_field),
+                    secondItem = it
+                )
+            }
+            Row {
+                Text(
+                    text = uriRecord.payloadFieldName,
+                    modifier = Modifier.padding(end = 16.dp),
+                    style = MaterialTheme.typography.titleMedium
+                )
+                ClickableTextView(stringResource(id = R.string.url_tag), uriRecord.actualUri)
+            }
         }
     }
 }

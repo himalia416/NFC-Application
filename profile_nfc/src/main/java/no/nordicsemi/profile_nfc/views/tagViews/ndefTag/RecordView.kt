@@ -1,6 +1,5 @@
 package no.nordicsemi.profile_nfc.views.tagViews.ndefTag
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
@@ -49,20 +48,18 @@ fun RecordView(ndefRecords: List<NdefRecord>) {
                 .padding(16.dp)
                 .fillMaxWidth()
         ) {
-            Column(modifier = Modifier.padding(8.dp)) {
-                when (val recordType = ndefRecord.record) {
-                    is TextRecord -> DisplayTextRecord(recordType, index)
-                    is URIRecord -> DisplayUriRecord(recordType, index)
-                    is AndroidPackage -> DisplayAndroidPackageRecord(recordType, index)
-                    is SmartPoster -> DisplaySmartPosterRecord(recordType, index)
-                    is AlternativeCarrier -> DisplayAlternativeCarrierRecord(recordType, index)
-                    is HandoverCarrier -> DisplayHandoverCarrierRecord(recordType, index)
-                    is HandoverReceive -> DisplayHandoverReceiveRecord(recordType, index)
-                    is HandoverSelect -> DisplayHandoverSelectRecord(recordType, index)
-                    is OtherExternalType -> TODO()
-                    is Unknown -> TODO()
-                    else -> TODO()
-                }
+            when (val recordType = ndefRecord.record) {
+                is TextRecord -> DisplayTextRecord(recordType, index)
+                is URIRecord -> DisplayUriRecord(recordType, index)
+                is AndroidPackage -> DisplayAndroidPackageRecord(recordType, index)
+                is SmartPoster -> DisplaySmartPosterRecord(recordType, index)
+                is AlternativeCarrier -> DisplayAlternativeCarrierRecord(recordType, index)
+                is HandoverCarrier -> DisplayHandoverCarrierRecord(recordType, index)
+                is HandoverReceive -> DisplayHandoverReceiveRecord(recordType, index)
+                is HandoverSelect -> DisplayHandoverSelectRecord(recordType, index)
+                is OtherExternalType -> TODO()
+                is Unknown -> TODO()
+                else -> TODO()
             }
         }
     }

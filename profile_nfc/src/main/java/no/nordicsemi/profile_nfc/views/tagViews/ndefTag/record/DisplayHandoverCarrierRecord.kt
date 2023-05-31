@@ -18,34 +18,36 @@ fun DisplayHandoverCarrierRecord(
     handoverCarrierRecord: HandoverCarrier,
     index: Int
 ) {
-    Text(
-        text = stringResource(
-            id = R.string.record_name,
-            index + 1,
-            handoverCarrierRecord.recordName
-        ),
-        modifier = Modifier.padding(8.dp)
-    )
     Column(modifier = Modifier.padding(8.dp)) {
-        RowInCardView(
-            firstItem = stringResource(id = R.string.record_type_name_format),
-            secondItem = handoverCarrierRecord.typeNameFormat
+        Text(
+            text = stringResource(
+                id = R.string.record_name,
+                index + 1,
+                handoverCarrierRecord.recordName
+            ),
+            modifier = Modifier.padding(8.dp)
         )
-        RowInCardView(
-            firstItem = stringResource(id = R.string.record_type),
-            secondItem = handoverCarrierRecord.payloadType
-        )
-        RowInCardView(
-            firstItem = stringResource(id = R.string.record_payload_len),
-            stringResource(
-                id = R.string.bytes,
-                handoverCarrierRecord.payloadLength.toString()
+        Column(modifier = Modifier.padding(8.dp)) {
+            RowInCardView(
+                firstItem = stringResource(id = R.string.record_type_name_format),
+                secondItem = handoverCarrierRecord.typeNameFormat
             )
-        )
-        RowInCardView(
-            firstItem = handoverCarrierRecord.payloadFieldName,
-            secondItem = handoverCarrierRecord.payload
-        )
+            RowInCardView(
+                firstItem = stringResource(id = R.string.record_type),
+                secondItem = handoverCarrierRecord.payloadType
+            )
+            RowInCardView(
+                firstItem = stringResource(id = R.string.record_payload_len),
+                stringResource(
+                    id = R.string.bytes,
+                    handoverCarrierRecord.payloadLength.toString()
+                )
+            )
+            RowInCardView(
+                firstItem = handoverCarrierRecord.payloadFieldName,
+                secondItem = handoverCarrierRecord.payload
+            )
+        }
     }
 }
 

@@ -60,7 +60,6 @@ fun DisplayUriRecord(
                 secondItem = it
             )
         }
-
         Row {
             Text(
                 text = uriRecord.payloadFieldName,
@@ -69,7 +68,6 @@ fun DisplayUriRecord(
             )
             ClickableTextView(stringResource(id = R.string.url_tag), uriRecord.actualUri)
         }
-
     }
 }
 

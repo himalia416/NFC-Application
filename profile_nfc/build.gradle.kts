@@ -17,6 +17,7 @@ dependencies {
     implementation(libs.androidx.compose.material.iconsExtended)
     implementation(libs.androidx.compose.bom)
     implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.nordic.core)
 
     implementation(project(":settings"))
     implementation(project(":domain"))

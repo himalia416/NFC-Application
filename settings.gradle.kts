@@ -33,3 +33,7 @@ include(":serialization")
 include(":domain")
 include(":remoteDatabase")
 include(":settingsStorage")
+
+if (file("../Android-Common-Libraries").exists()) {
+    includeBuild("../Android-Common-Libraries")
+}

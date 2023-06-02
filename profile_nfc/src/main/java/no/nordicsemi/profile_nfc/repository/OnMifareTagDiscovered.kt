@@ -9,6 +9,9 @@ import no.nordicsemi.domain.nfcTag.miFareClassic.MifareClassicTagType
 
 object OnMifareTagDiscovered {
 
+    /**
+     * Parses MifareClassic tag.
+     */
     fun parse(tag: Tag, generalTagInformation: GeneralTagInformation): MifareClassicTag? {
         val mifareClassic = MifareClassic.get(tag) ?: return null
 

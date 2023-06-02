@@ -11,6 +11,9 @@ import no.nordicsemi.domain.nfcTag.ndef.record.mapper.NdefRecordTypeMapper
 
 object OnNdefTagDiscovered {
 
+    /**
+     * Parses NdefMessage tag.
+     */
     fun parse(tag: Tag, generalTagInformation: GeneralTagInformation): NdefTag? {
         val ndef = Ndef.get(tag) ?: return null
         ndef.connect()

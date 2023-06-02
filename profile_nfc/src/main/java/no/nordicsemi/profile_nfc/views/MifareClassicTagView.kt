@@ -7,9 +7,15 @@ import no.nordicsemi.profile_nfc.views.tagViews.ndefTag.TagInfoView
 
 @Composable
 fun MifareClassicTagView(
-    generalTagInfo: GeneralTagInformation
+    generalTagInfo: GeneralTagInformation,
+    manufacturerName: String
 ) {
     LazyColumn {
-        item { TagInfoView(generalTagInfo) }
+        item {
+            TagInfoView(
+                generalTagInfo = generalTagInfo,
+                manufacturerName = manufacturerName
+            )
+        }
     }
 }

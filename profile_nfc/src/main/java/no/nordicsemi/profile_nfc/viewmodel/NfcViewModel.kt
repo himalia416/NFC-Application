@@ -19,6 +19,7 @@ internal data class NfcViewState(
     val setting: NFCSettings? = null,
     val state: NfcState = NfcState.ScanNfcTag,
     val nfcScanningState: NfcScanningState = NfcScanningState(),
+    val manufacturerName: String = ""
 )
 
 @HiltViewModel
@@ -43,15 +44,28 @@ internal class NfcViewModel @Inject constructor(
     }
 
     private fun startNfcScanning() {
-        nfcManager.nfcScanningState.onEach {
-            when {
-                !it.isNfcSupported -> showNfcNotSupported()
-                !it.isNfcEnabled -> showNfcNotEnabledPage()
-                it.tag != null -> tagDiscovered()
-                else -> showScanTag()
+        nfcManager
+            .apply {
+                nfcScanningState.onEach {
+                    when {
+                        !it.isNfcSupported -> showNfcNotSupported()
+                        !it.isNfcEnabled -> showNfcNotEnabledPage()
+                        it.tag != null -> tagDiscovered()
+                        else -> showScanTag()
+                    }
+                }.launchIn(viewModelScope)
             }
-        }.launchIn(viewModelScope)
+            .apply {
+                icManufacturerName.onEach {
+                    manufacturerName(it)
+                }
+                    .launchIn(viewModelScope)
+            }
 
+    }
+
+    private fun manufacturerName(name: String) {
+        _state.value = _state.value.copy(manufacturerName = name)
     }
 
     private fun showNfcNotEnabledPage() {

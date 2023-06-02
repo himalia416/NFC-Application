@@ -16,11 +16,15 @@ import no.nordicsemi.profile_nfc.views.tagViews.ndefTag.TagInfoView
 fun NdefTagView(
     generalTagInfo: GeneralTagInformation,
     nfcNdefMessage: NfcNdefMessage,
+    manufacturerName: String,
 ) {
     var isExpanded by rememberSaveable { mutableStateOf(false) }
     LazyColumn {
         item {
-            TagInfoView(generalTagInfo = generalTagInfo)
+            TagInfoView(
+                generalTagInfo = generalTagInfo,
+                manufacturerName = manufacturerName
+            )
             DataInfoView(
                 nfcNdefMessage = nfcNdefMessage,
                 isShowRecordsExpanded = isExpanded,

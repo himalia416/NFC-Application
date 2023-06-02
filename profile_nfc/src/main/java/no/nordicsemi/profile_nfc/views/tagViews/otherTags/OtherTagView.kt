@@ -9,10 +9,16 @@ import no.nordicsemi.android.common.theme.NordicTheme
 
 @Composable
 fun OtherTagView(
-    generalTagInfo: GeneralTagInformation
+    generalTagInfo: GeneralTagInformation,
+    manufacturerName: String
 ) {
     LazyColumn {
-        item { TagInfoView(generalTagInfo) }
+        item {
+            TagInfoView(
+                generalTagInfo = generalTagInfo,
+                manufacturerName = manufacturerName
+            )
+        }
     }
 }
 
@@ -23,9 +29,9 @@ fun OtherTagViewPreview() {
         OtherTagView(
             generalTagInfo = GeneralTagInformation(
                 serialNumber = "2345ca8709",
-                tagTechnology = listOf("NFCA", "NFCF"),
-                tagType = "Type2",
-            )
+                availableTagTechnologies = listOf("NFCA", "NFCF"),
+            ),
+            manufacturerName = "Nordic Semiconductor ASA"
         )
     }
 }

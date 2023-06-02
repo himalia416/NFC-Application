@@ -20,7 +20,10 @@ import no.nordicsemi.profile_nfc.utility.toSerialNumber
 import no.nordicsemi.android.common.theme.NordicTheme
 
 @Composable
-fun TagInfoView(generalTagInfo: GeneralTagInformation) {
+fun TagInfoView(
+    generalTagInfo: GeneralTagInformation,
+    manufacturerName: String
+) {
     Column {
         TitleWithIcon(
             icon = painterResource(id = R.drawable.information),
@@ -36,7 +39,7 @@ fun TagInfoView(generalTagInfo: GeneralTagInformation) {
             Column(modifier = Modifier.padding(16.dp)) {
                 RowInCardView(
                     firstItem = stringResource(id = R.string.ic_manufacturer),
-                    secondItem = generalTagInfo.icManufacturerName
+                    secondItem = manufacturerName
                 )
                 RowInCardView(
                     firstItem = stringResource(id = R.string.serial_number),

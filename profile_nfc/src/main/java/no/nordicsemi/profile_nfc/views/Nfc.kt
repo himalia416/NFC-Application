@@ -66,15 +66,22 @@ fun Nfc(onSettingScreenNavigation: (NfcTag) -> Unit) {
                             }
                         )
                         when (val tag = nfcState.nfcScanningState.tag) {
-                            is MifareClassicTag -> MifareClassicTagView(generalTagInfo = tag.general)
+                            is MifareClassicTag -> MifareClassicTagView(
+                                generalTagInfo = tag.general,
+                                manufacturerName = nfcState.manufacturerName
+                            )
 
                             is NdefTag -> NdefTagView(
                                 generalTagInfo = tag.general,
-                                nfcNdefMessage = tag.nfcNdefMessage
+                                nfcNdefMessage = tag.nfcNdefMessage,
+                                manufacturerName = nfcState.manufacturerName
                             )
 
                             null -> LoadingView()
-                            else -> OtherTagView(generalTagInfo = tag.general)
+                            else -> OtherTagView(
+                                generalTagInfo = tag.general,
+                                manufacturerName = nfcState.manufacturerName
+                            )
                         }
                     }
             }

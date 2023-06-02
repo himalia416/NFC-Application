@@ -48,6 +48,8 @@ class NfcScanningManager @Inject constructor(
     private val _nfcScanningState: MutableStateFlow<NfcScanningState> =
         MutableStateFlow(NfcScanningState())
     val nfcScanningState = _nfcScanningState.asStateFlow()
+    private val _icManufacturerName: MutableStateFlow<String> = MutableStateFlow("")
+    val icManufacturerName = _icManufacturerName.asStateFlow()
 
     override fun onResume(owner: LifecycleOwner) {
         nfcAdapter?.let {
@@ -62,36 +64,16 @@ class NfcScanningManager @Inject constructor(
         }
     }
 
+    var job: Job? = null
+
     private fun onTagDiscovered(tag: Tag?) {
+        job?.cancel()
+        _icManufacturerName.value = "Loading..."
         try {
             tag?.let {
-                val allTags = getAllTagList(it)
-                val maxTransceiveLength = getMaxTransceiveLength(it)
-                val transceiveTimeOut = getTransceiveTimeOut(it)
-
-                scope.launch {
-                    val generalTagInformation = GeneralTagInformation(
-                        serialNumber = it.id.toHex(),
-                        tagTechnology = allTags,
-                        icManufacturerName = getIcManufacturerName(getIdentifier(tag)),
-                        maxTransceiveLength = maxTransceiveLength,
-                        transceiveTimeout = transceiveTimeOut.toString()
-                    )
-                    when {
-                        NDEF in it.techList -> {
-                            val ndef = OnNdefTagDiscovered.parse(it, generalTagInformation)
-                            _nfcScanningState.value = _nfcScanningState.value.copy(tag = ndef)
-                        }
-
-                        MIFARE_CLASSIC in it.techList -> {
-                            val mifare = OnMifareTagDiscovered.parse(it, generalTagInformation)
-                            _nfcScanningState.value = _nfcScanningState.value.copy(tag = mifare)
-                        }
-//                        it.techList.contains(IsoDep::class.java.name) -> {onIsoDepTagDiscovered(it, generalTagInformation)}
-                        else -> {
-                            onOtherTagDiscovered(generalTagInformation)
-                        }
-                    }
+                getTagInfo(it)
+                job = scope.launch {
+                    _icManufacturerName.emit(getIcManufacturerName(getIdentifier(it)))
                 }
             }
         } catch (e: IOException) {

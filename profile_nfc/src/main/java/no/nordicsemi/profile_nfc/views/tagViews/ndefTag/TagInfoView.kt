@@ -45,21 +45,85 @@ fun TagInfoView(
                     firstItem = stringResource(id = R.string.serial_number),
                     secondItem = generalTagInfo.serialNumber.toSerialNumber()
                 )
-                generalTagInfo.maxTransceiveLength?.let {
+                generalTagInfo.nfcAInfo?.let {
+                    RowInCardView(
+                        firstItem = stringResource(id = R.string.atqa),
+                        secondItem = stringResource(id = R.string.hex_format, it.atqa )
+                    )
+                    RowInCardView(
+                        firstItem = stringResource(id = R.string.sak),
+                    secondItem = stringResource(id = R.string.sak_format).format(it.sak)
+                    )
                     RowInCardView(
                         firstItem = stringResource(id = R.string.maximum_transceive_len),
                         secondItem = stringResource(
                             id = R.string.bytes,
-                            it.toString()
+                            it.maxTransceiveLength.toString()
                         )
                     )
-                }
-                generalTagInfo.transceiveTimeout?.let {
                     RowInCardView(
                         firstItem = stringResource(id = R.string.transceive_time_out),
                         secondItem = stringResource(
                             id = R.string.millisecond,
-                            it
+                            it.transceiveTimeout.toString()
+                        )
+                    )
+                }
+                generalTagInfo.nfcBInfo?.let {
+                    RowInCardView(
+                        firstItem = stringResource(id = R.string.application_data),
+                        secondItem = it.applicationData
+                    )
+                    RowInCardView(
+                        firstItem = stringResource(id = R.string.nfcB_protocol_information),
+                        secondItem = it.protocolInfo
+                    )
+                    RowInCardView(
+                        firstItem = stringResource(id = R.string.maximum_transceive_len),
+                        secondItem = stringResource(
+                            id = R.string.bytes,
+                            it.maxTransceiveLength.toString()
+                        )
+                    )
+                }
+                generalTagInfo.nfcFInfo?.let {
+                    RowInCardView(
+                        firstItem = stringResource(id = R.string.nfcF_manufacturer_byte),
+                        secondItem = it.manufacturerByte
+                    )
+                    RowInCardView(
+                        firstItem = stringResource(id = R.string.nfcF_system_code),
+                        secondItem = it.systemCode
+                    )
+                    RowInCardView(
+                        firstItem = stringResource(id = R.string.maximum_transceive_len),
+                        secondItem = stringResource(
+                            id = R.string.bytes,
+                            it.maxTransceiveLength.toString()
+                        )
+                    )
+                    RowInCardView(
+                        firstItem = stringResource(id = R.string.transceive_time_out),
+                        secondItem = stringResource(
+                            id = R.string.millisecond,
+                            it.transceiveTimeout.toString()
+                        )
+                    )
+                }
+                generalTagInfo.nfcVInfo?.let {
+                    RowInCardView(
+                        firstItem = stringResource(id = R.string.nfcV_dsf_id),
+                        secondItem = it.dsfId
+                    )
+                    RowInCardView(
+                        firstItem = stringResource(id = R.string.nfcV_response_flags),
+                        secondItem = it.responseFlags
+                    )
+                    RowInCardView(
+                        firstItem = stringResource(id = R.string.maximum_transceive_len),
+                        secondItem = stringResource(
+                            id = R.string.bytes,
+                            it.maxTransceiveLength.toString()
                         )
                     )
                 }
@@ -67,7 +131,7 @@ fun TagInfoView(
                     text = stringResource(id = R.string.available_tag_technologies),
                     style = MaterialTheme.typography.titleMedium
                 )
-                generalTagInfo.tagTechnology.onEach {
+                generalTagInfo.availableTagTechnologies.onEach {
                     Text(text = it)
                 }
             }
@@ -82,9 +146,9 @@ fun TagInfoViewPreview() {
         TagInfoView(
             generalTagInfo = GeneralTagInformation(
                 serialNumber = "2345ca8709",
-                tagTechnology = listOf("NFCA", "NFCF"),
-                tagType = "Type2",
-            )
+                availableTagTechnologies = listOf("NFCA", "NFCF"),
+            ),
+            manufacturerName = "Nordic Semiconductor ASA"
         )
     }
 }

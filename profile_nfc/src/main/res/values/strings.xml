@@ -20,6 +20,16 @@
     <string name="maximum_transceive_len">Maximum Transceive Length</string>
     <string name="available_tag_technologies">Available Tag Technologies</string>
     <string name="transceive_time_out">Default Transceive Timeout</string>
+    <string name="atqa"> ATQA</string>
+    <string name="sak">SAK</string>
+    <string name="hex_format">0x%s</string>
+    <string name="sak_format">0x%02X</string>
+    <string name="application_data">NfcB Application Data</string>
+    <string name="nfcB_protocol_information">NfcB Protocol Information </string>
+    <string name="nfcF_manufacturer_byte">NfcF Manufacturer Byte</string>
+    <string name="nfcF_system_code">NfcF System Code</string>
+    <string name="nfcV_dsf_id">NfcV DsfId</string>
+    <string name="nfcV_response_flags">NfcV Response Flags</string>
 
     <string name="ndef_info">Ndef Data Info</string>
     <string name="record_count">Number of Records</string>

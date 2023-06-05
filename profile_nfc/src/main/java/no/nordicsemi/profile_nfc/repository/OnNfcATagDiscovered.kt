@@ -3,7 +3,7 @@ package no.nordicsemi.profile_nfc.repository
 import android.nfc.Tag
 import android.nfc.tech.NfcA
 import no.nordicsemi.domain.nfcTag.NfcAInfo
-import no.nordicsemi.profile_nfc.utility.toHex
+import no.nordicsemi.profile_nfc.utility.toHexString
 
 object OnNfcATagDiscovered {
 
@@ -14,8 +14,8 @@ object OnNfcATagDiscovered {
         val nfcA = NfcA.get(tag) ?: return null
         nfcA.connect()
         val nfcAInfo = NfcAInfo(
-            atqa = nfcA.atqa.toHex(),
-            sak = nfcA.sak,
+            atqa = nfcA.atqa.toHexString(),
+            sak = nfcA.sak.toHexString(),
             maxTransceiveLength = nfcA.maxTransceiveLength,
             transceiveTimeout = nfcA.timeout
         )

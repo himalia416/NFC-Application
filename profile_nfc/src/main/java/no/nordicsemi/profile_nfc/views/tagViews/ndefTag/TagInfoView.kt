@@ -12,12 +12,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import no.nordicsemi.android.common.theme.NordicTheme
 import no.nordicsemi.domain.nfcTag.GeneralTagInformation
 import no.nordicsemi.profile_nfc.R
 import no.nordicsemi.profile_nfc.component.RowInCardView
 import no.nordicsemi.profile_nfc.component.TitleWithIcon
 import no.nordicsemi.profile_nfc.utility.toSerialNumber
-import no.nordicsemi.android.common.theme.NordicTheme
 
 @Composable
 fun TagInfoView(
@@ -48,11 +48,11 @@ fun TagInfoView(
                 generalTagInfo.nfcAInfo?.let {
                     RowInCardView(
                         firstItem = stringResource(id = R.string.atqa),
-                        secondItem = stringResource(id = R.string.hex_format, it.atqa )
+                        secondItem = it.atqa
                     )
                     RowInCardView(
                         firstItem = stringResource(id = R.string.sak),
-                    secondItem = stringResource(id = R.string.sak_format).format(it.sak)
+                        secondItem = it.sak
                     )
                     RowInCardView(
                         firstItem = stringResource(id = R.string.maximum_transceive_len),

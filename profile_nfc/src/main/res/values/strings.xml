@@ -22,8 +22,6 @@
     <string name="transceive_time_out">Default Transceive Timeout</string>
     <string name="atqa"> ATQA</string>
     <string name="sak">SAK</string>
-    <string name="hex_format">0x%s</string>
-    <string name="sak_format">0x%02X</string>
     <string name="application_data">NfcB Application Data</string>
     <string name="nfcB_protocol_information">NfcB Protocol Information </string>
     <string name="nfcF_manufacturer_byte">NfcF Manufacturer Byte</string>

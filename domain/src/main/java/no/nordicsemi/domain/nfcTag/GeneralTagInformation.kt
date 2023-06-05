@@ -16,7 +16,7 @@ data class GeneralTagInformation(
 @Parcelize
 data class NfcAInfo(
     val atqa: String,
-    val sak: Short,
+    val sak: String,
     val maxTransceiveLength: Int,
     val transceiveTimeout: Int,
 ) : Parcelable

@@ -31,16 +31,6 @@ data class URIRecord(
 ) : NdefRecordType
 
 @Parcelize
-data class SmartPoster(
-    val recordName: String = "Smart Poster Record",
-    val typeNameFormat: String = "",
-    val payloadType: String = "",
-    val payloadLength: Int,
-    val payloadFieldName: String = "Payload",
-    val payload: String = "",
-) : NdefRecordType
-
-@Parcelize
 data class AlternativeCarrier(
     val recordName: String = "Smart Poster Record",
     val typeNameFormat: String = "",
@@ -104,3 +94,17 @@ data class OtherExternalType(
     val payloadFieldName: String = "Package",
     val payload: String = "",
 ) : NdefRecordType
+
+@Parcelize
+data class SmartPoster(
+    val recordName: String = "Smart Poster Record",
+    val textRecord: TextRecord?,
+    val uriRecord: URIRecord,
+    val actionRecord: ActionRecord? = null,
+) : NdefRecordType
+
+@Parcelize
+data class ActionRecord(
+    val actionData: String,
+    val actionType: String,
+) : Parcelable

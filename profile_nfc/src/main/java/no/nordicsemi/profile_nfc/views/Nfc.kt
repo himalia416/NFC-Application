@@ -25,6 +25,13 @@ import no.nordicsemi.domain.nfcTag.NfcTag
 import no.nordicsemi.profile_nfc.R
 import no.nordicsemi.profile_nfc.viewmodel.NfcState
 import no.nordicsemi.profile_nfc.viewmodel.NfcViewModel
+import no.nordicsemi.profile_nfc.views.nfcStateViews.EnableNfcView
+import no.nordicsemi.profile_nfc.views.nfcStateViews.LoadingView
+import no.nordicsemi.profile_nfc.views.nfcStateViews.NfcNotEnabledView
+import no.nordicsemi.profile_nfc.views.nfcStateViews.NfcNotSupportedView
+import no.nordicsemi.profile_nfc.views.nfcStateViews.ScanNfcTagView
+import no.nordicsemi.profile_nfc.views.tagViews.miFareClassicTag.MifareClassicTagView
+import no.nordicsemi.profile_nfc.views.tagViews.ndefTag.NdefTagView
 import no.nordicsemi.profile_nfc.views.tagViews.otherTags.OtherTagView
 
 @OptIn(ExperimentalMaterial3Api::class)

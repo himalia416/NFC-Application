@@ -1,4 +1,4 @@
-package no.nordicsemi.profile_nfc.views
+package no.nordicsemi.profile_nfc.views.nfcStateViews
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.*

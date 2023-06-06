@@ -1,4 +1,4 @@
-package no.nordicsemi.profile_nfc.views
+package no.nordicsemi.profile_nfc.views.tagViews.ndefTag
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
@@ -8,9 +8,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import no.nordicsemi.domain.nfcTag.GeneralTagInformation
 import no.nordicsemi.domain.nfcTag.ndef.NfcNdefMessage
-import no.nordicsemi.profile_nfc.views.tagViews.ndefTag.DataInfoView
-import no.nordicsemi.profile_nfc.views.tagViews.ndefTag.RecordView
-import no.nordicsemi.profile_nfc.views.tagViews.ndefTag.TagInfoView
+import no.nordicsemi.profile_nfc.views.tagViews.TagInfoView
 
 @Composable
 fun NdefTagView(

@@ -1,4 +1,4 @@
-package no.nordicsemi.profile_nfc.views.tagViews.ndefTag
+package no.nordicsemi.profile_nfc.views.tagViews
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth

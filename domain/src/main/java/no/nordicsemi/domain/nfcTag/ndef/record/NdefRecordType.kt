@@ -108,3 +108,13 @@ data class ActionRecord(
     val actionData: String,
     val actionType: String,
 ) : Parcelable
+
+@Parcelize
+data class MimeRecord(
+    val recordName: String = "Mime Type Record",
+    val typeNameFormat: String ="",
+    val payloadType: String = "",
+    val payloadLength: Int,
+    val payloadFieldName: String = "Payload",
+    val payload: String =""
+) : NdefRecordType

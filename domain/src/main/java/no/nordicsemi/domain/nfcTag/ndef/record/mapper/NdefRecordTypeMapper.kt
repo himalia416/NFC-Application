@@ -7,6 +7,7 @@ import no.nordicsemi.domain.nfcTag.ndef.record.OtherExternalType
 import no.nordicsemi.domain.nfcTag.ndef.record.type.absoluteuri.AbsoluteUriParser
 import no.nordicsemi.domain.nfcTag.ndef.record.type.externaltype.AndroidPackageRecordParser
 import no.nordicsemi.domain.nfcTag.ndef.record.type.externaltype.TnfExternalType
+import no.nordicsemi.domain.nfcTag.ndef.record.type.mimetype.MimeTypeParser
 import no.nordicsemi.domain.nfcTag.ndef.record.type.wellknowntype.SmartPosterRecordParser
 import no.nordicsemi.domain.nfcTag.ndef.record.type.wellknowntype.TextRecordParser
 import no.nordicsemi.domain.nfcTag.ndef.record.type.wellknowntype.TnfWellKnown
@@ -40,6 +41,8 @@ object NdefRecordTypeMapper {
             }
 
             TnfNameFormatter.TNF_ABSOLUTE_URI.tnf -> AbsoluteUriParser.parse(record)
+
+            TnfNameFormatter.TNF_MIME_MEDIA.tnf -> MimeTypeParser.parse(record)
 
             else -> throw IllegalArgumentException("Unknown Record Type")
         }

@@ -17,6 +17,7 @@ import no.nordicsemi.domain.nfcTag.ndef.record.AndroidPackage
 import no.nordicsemi.domain.nfcTag.ndef.record.HandoverCarrier
 import no.nordicsemi.domain.nfcTag.ndef.record.HandoverReceive
 import no.nordicsemi.domain.nfcTag.ndef.record.HandoverSelect
+import no.nordicsemi.domain.nfcTag.ndef.record.MimeRecord
 import no.nordicsemi.domain.nfcTag.ndef.record.OtherExternalType
 import no.nordicsemi.domain.nfcTag.ndef.record.SmartPoster
 import no.nordicsemi.domain.nfcTag.ndef.record.TextRecord
@@ -29,6 +30,7 @@ import no.nordicsemi.profile_nfc.views.tagViews.ndefTag.record.DisplayAndroidPac
 import no.nordicsemi.profile_nfc.views.tagViews.ndefTag.record.DisplayHandoverCarrierRecord
 import no.nordicsemi.profile_nfc.views.tagViews.ndefTag.record.DisplayHandoverReceiveRecord
 import no.nordicsemi.profile_nfc.views.tagViews.ndefTag.record.DisplayHandoverSelectRecord
+import no.nordicsemi.profile_nfc.views.tagViews.ndefTag.record.DisplayMimeTypeRecord
 import no.nordicsemi.profile_nfc.views.tagViews.ndefTag.record.DisplaySmartPosterRecord
 import no.nordicsemi.profile_nfc.views.tagViews.ndefTag.record.DisplayTextRecord
 import no.nordicsemi.profile_nfc.views.tagViews.ndefTag.record.DisplayUriRecord
@@ -57,6 +59,7 @@ fun RecordView(ndefRecords: List<NdefRecord>) {
                 is HandoverCarrier -> DisplayHandoverCarrierRecord(recordType, index)
                 is HandoverReceive -> DisplayHandoverReceiveRecord(recordType, index)
                 is HandoverSelect -> DisplayHandoverSelectRecord(recordType, index)
+                is MimeRecord -> DisplayMimeTypeRecord(recordType, index)
                 is OtherExternalType -> TODO()
                 is Unknown -> TODO()
                 else -> TODO()

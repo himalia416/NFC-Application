@@ -3,9 +3,9 @@ package no.nordicsemi.domain.nfcTag.ndef.record.mapper
 import android.nfc.NdefRecord
 import no.nordicsemi.domain.nfcTag.ndef.TnfNameFormatter
 import no.nordicsemi.domain.nfcTag.ndef.record.NdefRecordType
-import no.nordicsemi.domain.nfcTag.ndef.record.OtherExternalType
 import no.nordicsemi.domain.nfcTag.ndef.record.type.absoluteuri.AbsoluteUriParser
 import no.nordicsemi.domain.nfcTag.ndef.record.type.externaltype.AndroidPackageRecordParser
+import no.nordicsemi.domain.nfcTag.ndef.record.type.externaltype.ExternalTypeRecord
 import no.nordicsemi.domain.nfcTag.ndef.record.type.externaltype.TnfExternalType
 import no.nordicsemi.domain.nfcTag.ndef.record.type.mimetype.MimeTypeParser
 import no.nordicsemi.domain.nfcTag.ndef.record.type.wellknowntype.SmartPosterRecordParser
@@ -37,7 +37,7 @@ object NdefRecordTypeMapper {
 
             TnfNameFormatter.TNF_EXTERNAL_TYPE.tnf -> when {
                 type.contentEquals(TnfExternalType.RTD_ANDROID_APP.type) -> AndroidPackageRecordParser.parse(record)
-                else -> OtherExternalType(payloadLength = record.payload.size)
+                else -> ExternalTypeRecord.parse(record)
             }
 
             TnfNameFormatter.TNF_ABSOLUTE_URI.tnf -> AbsoluteUriParser.parse(record)

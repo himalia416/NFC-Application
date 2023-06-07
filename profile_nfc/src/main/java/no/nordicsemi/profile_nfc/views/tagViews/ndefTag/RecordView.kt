@@ -13,12 +13,12 @@ import androidx.compose.ui.unit.dp
 import no.nordicsemi.android.common.theme.NordicTheme
 import no.nordicsemi.domain.nfcTag.ndef.NdefRecord
 import no.nordicsemi.domain.nfcTag.ndef.record.AlternativeCarrier
-import no.nordicsemi.domain.nfcTag.ndef.record.AndroidPackage
+import no.nordicsemi.domain.nfcTag.ndef.record.AndroidApplicationRecord
+import no.nordicsemi.domain.nfcTag.ndef.record.GenericExternalType
 import no.nordicsemi.domain.nfcTag.ndef.record.HandoverCarrier
 import no.nordicsemi.domain.nfcTag.ndef.record.HandoverReceive
 import no.nordicsemi.domain.nfcTag.ndef.record.HandoverSelect
 import no.nordicsemi.domain.nfcTag.ndef.record.MimeRecord
-import no.nordicsemi.domain.nfcTag.ndef.record.OtherExternalType
 import no.nordicsemi.domain.nfcTag.ndef.record.SmartPoster
 import no.nordicsemi.domain.nfcTag.ndef.record.TextRecord
 import no.nordicsemi.domain.nfcTag.ndef.record.URIRecord
@@ -27,6 +27,7 @@ import no.nordicsemi.profile_nfc.R
 import no.nordicsemi.profile_nfc.component.TitleWithIcon
 import no.nordicsemi.profile_nfc.views.tagViews.ndefTag.record.DisplayAlternativeCarrierRecord
 import no.nordicsemi.profile_nfc.views.tagViews.ndefTag.record.DisplayAndroidPackageRecord
+import no.nordicsemi.profile_nfc.views.tagViews.ndefTag.record.DisplayGenericExternalTypeRecord
 import no.nordicsemi.profile_nfc.views.tagViews.ndefTag.record.DisplayHandoverCarrierRecord
 import no.nordicsemi.profile_nfc.views.tagViews.ndefTag.record.DisplayHandoverReceiveRecord
 import no.nordicsemi.profile_nfc.views.tagViews.ndefTag.record.DisplayHandoverSelectRecord
@@ -53,14 +54,14 @@ fun RecordView(ndefRecords: List<NdefRecord>) {
             when (val recordType = ndefRecord.record) {
                 is TextRecord -> DisplayTextRecord(recordType, index)
                 is URIRecord -> DisplayUriRecord(recordType, index)
-                is AndroidPackage -> DisplayAndroidPackageRecord(recordType, index)
+                is AndroidApplicationRecord -> DisplayAndroidPackageRecord(recordType, index)
                 is SmartPoster -> DisplaySmartPosterRecord(recordType, index)
                 is AlternativeCarrier -> DisplayAlternativeCarrierRecord(recordType, index)
                 is HandoverCarrier -> DisplayHandoverCarrierRecord(recordType, index)
                 is HandoverReceive -> DisplayHandoverReceiveRecord(recordType, index)
                 is HandoverSelect -> DisplayHandoverSelectRecord(recordType, index)
                 is MimeRecord -> DisplayMimeTypeRecord(recordType, index)
-                is OtherExternalType -> TODO()
+                is GenericExternalType -> DisplayGenericExternalTypeRecord(recordType, index)
                 is Unknown -> TODO()
                 else -> TODO()
             }

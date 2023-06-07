@@ -13,12 +13,12 @@ import no.nordicsemi.domain.nfcTag.NdefTag
 import no.nordicsemi.domain.nfcTag.NfcTag
 import no.nordicsemi.domain.nfcTag.OtherTag
 import no.nordicsemi.domain.nfcTag.ndef.record.AlternativeCarrier
-import no.nordicsemi.domain.nfcTag.ndef.record.AndroidPackage
+import no.nordicsemi.domain.nfcTag.ndef.record.AndroidApplicationRecord
 import no.nordicsemi.domain.nfcTag.ndef.record.HandoverCarrier
 import no.nordicsemi.domain.nfcTag.ndef.record.HandoverReceive
 import no.nordicsemi.domain.nfcTag.ndef.record.HandoverSelect
 import no.nordicsemi.domain.nfcTag.ndef.record.NdefRecordType
-import no.nordicsemi.domain.nfcTag.ndef.record.OtherExternalType
+import no.nordicsemi.domain.nfcTag.ndef.record.GenericExternalType
 import no.nordicsemi.domain.nfcTag.ndef.record.SmartPoster
 import no.nordicsemi.domain.nfcTag.ndef.record.TextRecord
 import no.nordicsemi.domain.nfcTag.ndef.record.URIRecord
@@ -51,8 +51,8 @@ object JsonAdapterModule {
                     .withSubtype(HandoverSelect::class.java, "HandoverSelect")
                     .withSubtype(HandoverReceive::class.java, "HandoverReceive")
                     .withSubtype(Unknown::class.java, "Unknown")
-                    .withSubtype(AndroidPackage::class.java, "AndroidPackage")
-                    .withSubtype(OtherExternalType::class.java, "OtherExternalType")
+                    .withSubtype(AndroidApplicationRecord::class.java, "AndroidPackage")
+                    .withSubtype(GenericExternalType::class.java, "GenericExternalType")
             )
             .add(KotlinJsonAdapterFactory())
             .build()

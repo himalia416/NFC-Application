@@ -51,4 +51,5 @@
     <string name="protocol_field">Protocol Field</string>
     <string name="uri_field">URI</string>
     <string name="url_tag"> URL </string>
+    <string name="data">Data</string>
 </resources>

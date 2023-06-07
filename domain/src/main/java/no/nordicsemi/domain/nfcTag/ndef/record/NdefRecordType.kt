@@ -7,6 +7,9 @@ import kotlinx.parcelize.Parcelize
 sealed interface NdefRecordType : Parcelable
 
 @Parcelize
+sealed interface ExternalType : NdefRecordType
+
+@Parcelize
 data class TextRecord(
     val recordName: String = "Text Field Record",
     val typeNameFormat: String = "",
@@ -76,24 +79,25 @@ data class Unknown(
 ) : NdefRecordType
 
 @Parcelize
-data class AndroidPackage(
+data class AndroidApplicationRecord(
     val recordName: String = "Android Application Record",
     val typeNameFormat: String = "",
     val payloadType: String = "",
     val payloadLength: Int,
-    val payloadFieldName: String = "Package",
+    val packageType: String = "Package",
     val payload: String = "",
-) : NdefRecordType
+) : ExternalType
 
 @Parcelize
-data class OtherExternalType(
+data class GenericExternalType(
     val recordName: String = "Externally Added Record",
-    val typeNameFormat: String = "",
-    val payloadType: String = "",
+    val typeNameFormat: String,
+    val payloadType: String,
     val payloadLength: Int,
-    val payloadFieldName: String = "Package",
-    val payload: String = "",
-) : NdefRecordType
+    val domain: String,
+    val domainType: String?,
+    val payload: String,
+) : ExternalType
 
 @Parcelize
 data class SmartPoster(

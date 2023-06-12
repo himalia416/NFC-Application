@@ -24,4 +24,7 @@ dependencies {
     implementation(project(":remoteDatabase"))
     implementation(project(":settingsStorage"))
     implementation(project(":welcome"))
+
+    // Balloon for tooltip popup.
+    implementation ("com.github.skydoves:balloon-compose:1.5.2")
 }

@@ -1,12 +1,17 @@
 package no.nordicsemi.profile_nfc.views.tagViews
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -24,115 +29,121 @@ fun TagInfoView(
     generalTagInfo: GeneralTagInformation,
     manufacturerName: String
 ) {
-    Column {
-        TitleWithIcon(
-            icon = painterResource(id = R.drawable.information),
-            title = stringResource(id = R.string.tag_info),
-            modifier = Modifier.padding(8.dp),
-            textStyle = MaterialTheme.typography.headlineSmall
-        )
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
-        ) {
-            Column(modifier = Modifier.padding(16.dp)) {
-                RowInCardView(
-                    firstItem = stringResource(id = R.string.ic_manufacturer),
-                    secondItem = manufacturerName
-                )
-                RowInCardView(
-                    firstItem = stringResource(id = R.string.serial_number),
-                    secondItem = generalTagInfo.serialNumber.toSerialNumber()
-                )
-                generalTagInfo.nfcAInfo?.let {
+    var expanded by rememberSaveable { mutableStateOf(true) }
+
+    OutlinedCard(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+    ) {
+        Column {
+            TitleWithIcon(
+                icon = painterResource(id = R.drawable.information),
+                title = stringResource(id = R.string.tag_info),
+                modifier = Modifier.padding(8.dp),
+                textStyle = MaterialTheme.typography.headlineSmall,
+                isExpanded = expanded,
+                onExpandClicked = { expanded = !expanded }
+            )
+
+            if (expanded) {
+                Column(
+                    modifier = Modifier.padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
                     RowInCardView(
-                        firstItem = stringResource(id = R.string.atqa),
-                        secondItem = it.atqa
+                        title = stringResource(id = R.string.ic_manufacturer),
+                        description = manufacturerName,
                     )
                     RowInCardView(
-                        firstItem = stringResource(id = R.string.sak),
-                        secondItem = it.sak
+                        title = stringResource(id = R.string.serial_number),
+                        description = generalTagInfo.serialNumber.toSerialNumber()
                     )
-                    RowInCardView(
-                        firstItem = stringResource(id = R.string.maximum_transceive_len),
-                        secondItem = stringResource(
-                            id = R.string.bytes,
-                            it.maxTransceiveLength.toString()
+                    generalTagInfo.nfcAInfo?.let {
+                        RowInCardView(
+                            title = stringResource(id = R.string.atqa),
+                            description = it.atqa,
+                            tooltipText = stringResource(id = R.string.atqa_des)
                         )
-                    )
-                    RowInCardView(
-                        firstItem = stringResource(id = R.string.transceive_time_out),
-                        secondItem = stringResource(
-                            id = R.string.millisecond,
-                            it.transceiveTimeout.toString()
+                        RowInCardView(
+                            title = stringResource(id = R.string.sak),
+                            description = it.sak,
+                            tooltipText = stringResource(id = R.string.sak_des)
                         )
-                    )
-                }
-                generalTagInfo.nfcBInfo?.let {
-                    RowInCardView(
-                        firstItem = stringResource(id = R.string.application_data),
-                        secondItem = it.applicationData
-                    )
-                    RowInCardView(
-                        firstItem = stringResource(id = R.string.nfcB_protocol_information),
-                        secondItem = it.protocolInfo
-                    )
-                    RowInCardView(
-                        firstItem = stringResource(id = R.string.maximum_transceive_len),
-                        secondItem = stringResource(
-                            id = R.string.bytes,
-                            it.maxTransceiveLength.toString()
+                        RowInCardView(
+                            title = stringResource(id = R.string.maximum_transceive_len),
+                            description = stringResource(
+                                id = R.string.bytes,
+                                it.maxTransceiveLength.toString()
+                            )
                         )
-                    )
-                }
-                generalTagInfo.nfcFInfo?.let {
-                    RowInCardView(
-                        firstItem = stringResource(id = R.string.nfcF_manufacturer_byte),
-                        secondItem = it.manufacturerByte
-                    )
-                    RowInCardView(
-                        firstItem = stringResource(id = R.string.nfcF_system_code),
-                        secondItem = it.systemCode
-                    )
-                    RowInCardView(
-                        firstItem = stringResource(id = R.string.maximum_transceive_len),
-                        secondItem = stringResource(
-                            id = R.string.bytes,
-                            it.maxTransceiveLength.toString()
+                        RowInCardView(
+                            title = stringResource(id = R.string.transceive_time_out),
+                            description = stringResource(
+                                id = R.string.millisecond,
+                                it.transceiveTimeout.toString()
+                            )
                         )
-                    )
-                    RowInCardView(
-                        firstItem = stringResource(id = R.string.transceive_time_out),
-                        secondItem = stringResource(
-                            id = R.string.millisecond,
-                            it.transceiveTimeout.toString()
+                    }
+                    generalTagInfo.nfcBInfo?.let {
+                        RowInCardView(
+                            title = stringResource(id = R.string.application_data),
+                            description = it.applicationData
                         )
-                    )
-                }
-                generalTagInfo.nfcVInfo?.let {
-                    RowInCardView(
-                        firstItem = stringResource(id = R.string.nfcV_dsf_id),
-                        secondItem = it.dsfId
-                    )
-                    RowInCardView(
-                        firstItem = stringResource(id = R.string.nfcV_response_flags),
-                        secondItem = it.responseFlags
-                    )
-                    RowInCardView(
-                        firstItem = stringResource(id = R.string.maximum_transceive_len),
-                        secondItem = stringResource(
-                            id = R.string.bytes,
-                            it.maxTransceiveLength.toString()
+                        RowInCardView(
+                            title = stringResource(id = R.string.nfcB_protocol_information),
+                            description = it.protocolInfo
                         )
-                    )
-                }
-                Text(
-                    text = stringResource(id = R.string.available_tag_technologies),
-                    style = MaterialTheme.typography.titleMedium
-                )
-                generalTagInfo.availableTagTechnologies.onEach {
-                    Text(text = it)
+                        RowInCardView(
+                            title = stringResource(id = R.string.maximum_transceive_len),
+                            description = stringResource(
+                                id = R.string.bytes,
+                                it.maxTransceiveLength.toString()
+                            )
+                        )
+                    }
+                    generalTagInfo.nfcFInfo?.let {
+                        RowInCardView(
+                            title = stringResource(id = R.string.nfcF_manufacturer_byte),
+                            description = it.manufacturerByte
+                        )
+                        RowInCardView(
+                            title = stringResource(id = R.string.nfcF_system_code),
+                            description = it.systemCode
+                        )
+                        RowInCardView(
+                            title = stringResource(id = R.string.maximum_transceive_len),
+                            description = stringResource(
+                                id = R.string.bytes,
+                                it.maxTransceiveLength.toString()
+                            )
+                        )
+                        RowInCardView(
+                            title = stringResource(id = R.string.transceive_time_out),
+                            description = stringResource(
+                                id = R.string.millisecond,
+                                it.transceiveTimeout.toString()
+                            )
+                        )
+                    }
+                    generalTagInfo.nfcVInfo?.let {
+                        RowInCardView(
+                            title = stringResource(id = R.string.nfcV_dsf_id),
+                            description = it.dsfId
+                        )
+                        RowInCardView(
+                            title = stringResource(id = R.string.nfcV_response_flags),
+                            description = it.responseFlags
+                        )
+                        RowInCardView(
+                            title = stringResource(id = R.string.maximum_transceive_len),
+                            description = stringResource(
+                                id = R.string.bytes,
+                                it.maxTransceiveLength.toString()
+                            )
+                        )
+                    }
+                    ShowAvailableTechnologies(list = generalTagInfo.availableTagTechnologies)
                 }
             }
         }
@@ -150,5 +161,28 @@ fun TagInfoViewPreview() {
             ),
             manufacturerName = "Nordic Semiconductor ASA"
         )
+    }
+}
+
+@Composable
+fun ShowAvailableTechnologies(list: List<String>){
+    Column {
+        Text(
+            text = stringResource(id = R.string.available_tag_technologies),
+            style = MaterialTheme.typography.titleMedium
+        )
+        list.onEach {
+            Text(text = it,
+                style = MaterialTheme.typography.bodySmall)
+        }
+        
+    }
+}
+
+@Preview
+@Composable
+fun Preview(){
+    NordicTheme {
+        ShowAvailableTechnologies(list = listOf("NfcA, Ndef,"))
     }
 }

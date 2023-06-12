@@ -1,30 +1,42 @@
 package no.nordicsemi.profile_nfc.component
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import no.nordicsemi.android.common.theme.NordicTheme
-import androidx.compose.ui.text.TextStyle
 
 @Composable
 fun RowInCardView(
-    firstItem: String,
-    secondItem: String,
+    title: String,
+    description: String,
     modifier: Modifier = Modifier,
-    textStyle: TextStyle = MaterialTheme.typography.titleMedium
+    tooltipText: String? = null,
 ) {
-    Row {
+    Column {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = modifier.fillMaxWidth()
+        ) {
+            Text(
+                text = title,
+                modifier = Modifier.weight(1f),
+                style = MaterialTheme.typography.titleMedium
+            )
+            tooltipText?.let {
+                TooltipPopUp(tooltipText)
+            }
+
+        }
         Text(
-            text = firstItem,
-            modifier = modifier.padding(end = 16.dp),
-            style = textStyle
+            text = description,
+            style = MaterialTheme.typography.bodySmall,
         )
-        Text(text = secondItem)
     }
 }
 
@@ -33,9 +45,8 @@ fun RowInCardView(
 fun RowInCardViewPreview() {
     NordicTheme {
         RowInCardView(
-            firstItem = "Maximum message size",
-            secondItem = "53 Bytes",
-        modifier = Modifier.padding(end = 16.dp),
+            title = "Maximum message size",
+            description = "53 Bytes",
         )
     }
 }

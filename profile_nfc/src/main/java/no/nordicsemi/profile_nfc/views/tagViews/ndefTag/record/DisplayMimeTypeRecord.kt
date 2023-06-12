@@ -29,23 +29,23 @@ fun DisplayMimeTypeRecord(
         )
         Column(modifier = Modifier.padding(8.dp)) {
             RowInCardView(
-                firstItem = stringResource(id = R.string.record_type_name_format),
-                secondItem = mimeRecord.typeNameFormat
+                title = stringResource(id = R.string.record_type_name_format),
+                description = mimeRecord.typeNameFormat
             )
             RowInCardView(
-                firstItem = stringResource(id = R.string.record_type),
-                secondItem = mimeRecord.payloadType
+                title = stringResource(id = R.string.record_type),
+                description = mimeRecord.payloadType
             )
             RowInCardView(
-                firstItem = stringResource(id = R.string.record_payload_len),
+                title = stringResource(id = R.string.record_payload_len),
                 stringResource(
                     id = R.string.bytes,
                     mimeRecord.payloadLength.toString()
                 )
             )
             RowInCardView(
-                firstItem = mimeRecord.payloadFieldName,
-                secondItem = mimeRecord.payload
+                title = mimeRecord.payloadFieldName,
+                description = mimeRecord.payload
             )
         }
     }

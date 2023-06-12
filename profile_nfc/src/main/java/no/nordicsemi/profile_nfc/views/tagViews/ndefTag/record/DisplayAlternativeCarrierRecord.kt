@@ -29,23 +29,23 @@ fun DisplayAlternativeCarrierRecord(
         )
         Column(modifier = Modifier.padding(8.dp)) {
             RowInCardView(
-                firstItem = stringResource(id = R.string.record_type_name_format),
-                secondItem = alternativeCarrierRecord.typeNameFormat
+                title = stringResource(id = R.string.record_type_name_format),
+                description = alternativeCarrierRecord.typeNameFormat
             )
             RowInCardView(
-                firstItem = stringResource(id = R.string.record_type),
-                secondItem = alternativeCarrierRecord.payloadType
+                title = stringResource(id = R.string.record_type),
+                description = alternativeCarrierRecord.payloadType
             )
             RowInCardView(
-                firstItem = stringResource(id = R.string.record_payload_len),
+                title = stringResource(id = R.string.record_payload_len),
                 stringResource(
                     id = R.string.bytes,
                     alternativeCarrierRecord.payloadLength.toString()
                 )
             )
             RowInCardView(
-                firstItem = alternativeCarrierRecord.payloadFieldName,
-                secondItem = alternativeCarrierRecord.payload
+                title = alternativeCarrierRecord.payloadFieldName,
+                description = alternativeCarrierRecord.payload
             )
         }
     }

@@ -29,23 +29,23 @@ fun DisplayHandoverReceiveRecord(
         )
         Column(modifier = Modifier.padding(8.dp)) {
             RowInCardView(
-                firstItem = stringResource(id = R.string.record_type_name_format),
-                secondItem = handoverReceiveRecord.typeNameFormat
+                title = stringResource(id = R.string.record_type_name_format),
+                description = handoverReceiveRecord.typeNameFormat
             )
             RowInCardView(
-                firstItem = stringResource(id = R.string.record_type),
-                secondItem = handoverReceiveRecord.payloadType
+                title = stringResource(id = R.string.record_type),
+                description = handoverReceiveRecord.payloadType
             )
             RowInCardView(
-                firstItem = stringResource(id = R.string.record_payload_len),
+                title = stringResource(id = R.string.record_payload_len),
                 stringResource(
                     id = R.string.bytes,
                     handoverReceiveRecord.payloadLength.toString()
                 )
             )
             RowInCardView(
-                firstItem = handoverReceiveRecord.payloadFieldName,
-                secondItem = handoverReceiveRecord.payload
+                title = handoverReceiveRecord.payloadFieldName,
+                description = handoverReceiveRecord.payload
             )
         }
     }

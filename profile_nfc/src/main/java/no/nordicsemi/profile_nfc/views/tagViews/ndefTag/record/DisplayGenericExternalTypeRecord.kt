@@ -39,15 +39,15 @@ fun DisplayGenericExternalTypeRecord(
         )
         Column(modifier = Modifier.padding(8.dp)) {
             RowInCardView(
-                firstItem = stringResource(id = R.string.record_type_name_format),
-                secondItem = externalTypeRecord.typeNameFormat
+                title = stringResource(id = R.string.record_type_name_format),
+                description = externalTypeRecord.typeNameFormat
             )
             RowInCardView(
-                firstItem = stringResource(id = R.string.record_type),
-                secondItem = externalTypeRecord.payloadType
+                title = stringResource(id = R.string.record_type),
+                description = externalTypeRecord.payloadType
             )
             RowInCardView(
-                firstItem = stringResource(id = R.string.record_payload_len),
+                title = stringResource(id = R.string.record_payload_len),
                 stringResource(
                     id = R.string.bytes,
                     externalTypeRecord.payloadLength.toString()

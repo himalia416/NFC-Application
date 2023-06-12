@@ -29,31 +29,31 @@ fun DisplayTextRecord(
         )
         Column(modifier = Modifier.padding(8.dp)) {
             RowInCardView(
-                firstItem = stringResource(id = R.string.record_type_name_format),
-                secondItem = textRecord.typeNameFormat
+                title = stringResource(id = R.string.record_type_name_format),
+                description = textRecord.typeNameFormat
             )
             RowInCardView(
-                firstItem = stringResource(id = R.string.record_type),
-                secondItem = textRecord.payloadType
+                title = stringResource(id = R.string.record_type),
+                description = textRecord.payloadType
             )
             RowInCardView(
-                firstItem = stringResource(id = R.string.record_payload_len),
+                title = stringResource(id = R.string.record_payload_len),
                 stringResource(
                     id = R.string.bytes,
                     textRecord.payloadLength.toString()
                 )
             )
             RowInCardView(
-                firstItem = stringResource(id = R.string.language_code),
-                secondItem = textRecord.langCode
+                title = stringResource(id = R.string.language_code),
+                description = textRecord.langCode
             )
             RowInCardView(
-                firstItem = stringResource(id = R.string.encoding),
-                secondItem = textRecord.encoding
+                title = stringResource(id = R.string.encoding),
+                description = textRecord.encoding
             )
             RowInCardView(
-                firstItem = textRecord.payloadFieldName,
-                secondItem = textRecord.actualText
+                title = textRecord.payloadFieldName,
+                description = textRecord.actualText
             )
         }
     }

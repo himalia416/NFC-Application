@@ -39,15 +39,15 @@ fun DisplayAndroidPackageRecord(
         )
         Column(modifier = Modifier.padding(8.dp)) {
             RowInCardView(
-                firstItem = stringResource(id = R.string.record_type_name_format),
-                secondItem = androidPackageRecord.typeNameFormat
+                title = stringResource(id = R.string.record_type_name_format),
+                description = androidPackageRecord.typeNameFormat
             )
             RowInCardView(
-                firstItem = stringResource(id = R.string.record_type),
-                secondItem = androidPackageRecord.payloadType
+                title = stringResource(id = R.string.record_type),
+                description = androidPackageRecord.payloadType
             )
             RowInCardView(
-                firstItem = stringResource(id = R.string.record_payload_len),
+                title = stringResource(id = R.string.record_payload_len),
                 stringResource(
                     id = R.string.bytes,
                     androidPackageRecord.payloadLength.toString()

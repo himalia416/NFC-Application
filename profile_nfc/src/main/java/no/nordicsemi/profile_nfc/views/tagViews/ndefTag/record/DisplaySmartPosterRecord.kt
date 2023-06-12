@@ -36,12 +36,12 @@ fun DisplaySmartPosterRecord(
             DisplayUriRecord(uriRecord = smartPosterRecord.uriRecord, index = index)
             smartPosterRecord.actionRecord?.let {
                 RowInCardView(
-                    firstItem = "Action type",
-                    secondItem = it.actionType
+                    title = "Action type",
+                    description = it.actionType
                 )
                 RowInCardView(
-                    firstItem = "Action Data",
-                    secondItem = it.actionData
+                    title = "Action Data",
+                    description = it.actionData
                 )
             }
         }

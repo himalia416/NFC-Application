@@ -33,17 +33,17 @@ fun DisplayUriRecord(
         )
         Column(modifier = Modifier.padding(8.dp)) {
             RowInCardView(
-                firstItem = stringResource(id = R.string.record_type_name_format),
-                secondItem = uriRecord.typeNameFormat
+                title = stringResource(id = R.string.record_type_name_format),
+                description = uriRecord.typeNameFormat
             )
             uriRecord.payloadType?.let {
                 RowInCardView(
-                    firstItem = stringResource(id = R.string.record_type),
-                    secondItem = it
+                    title = stringResource(id = R.string.record_type),
+                    description = it
                 )
             }
             RowInCardView(
-                firstItem = stringResource(id = R.string.record_payload_len),
+                title = stringResource(id = R.string.record_payload_len),
                 stringResource(
                     id = R.string.bytes,
                     uriRecord.payloadLength.toString()
@@ -51,14 +51,14 @@ fun DisplayUriRecord(
             )
             uriRecord.protocol?.let {
                 RowInCardView(
-                    firstItem = stringResource(id = R.string.protocol_field),
-                    secondItem = it
+                    title = stringResource(id = R.string.protocol_field),
+                    description = it
                 )
             }
             uriRecord.uri?.let {
                 RowInCardView(
-                    firstItem = stringResource(id = R.string.uri_field),
-                    secondItem = it
+                    title = stringResource(id = R.string.uri_field),
+                    description = it
                 )
             }
             Row {

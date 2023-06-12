@@ -21,12 +21,11 @@
     <string name="available_tag_technologies">Available Tag Technologies</string>
     <string name="transceive_time_out">Default Transceive Timeout</string>
     <string name="atqa"> ATQA</string>
-    <string name="atqa_des">The tag responds to the Request Command of an NFC reader with a two-byte ATQA value.
-        The first byte indicates anti-collision information, while the second byte represents platform information.
-        This information can be useful for various purposes, such as identifying the tag type.
-    For more information follow NFC Digital Protocol Technical Specification 2.3 section 6.6.3</string>
+    <string name="atqa_des">Tag responds to the Request Command of an NFC reader with a two-byte ATQA value.
+        The first byte indicates anti-collision, while the second represents the platform information.
+    For more information follow \'NFC Digital Protocol Technical Specification 2.3 Section 6.6.3\'</string>
     <string name="sak">SAK</string>
-    <string name="sak_des">Select Acknowledge. For more information follow NFC Digital Protocol Technical Specification 2.3 Section 6.8.2</string>
+    <string name="sak_des">Select Acknowledge. For more information follow \'NFC Digital Protocol Technical Specification 2.3 Section 6.8.2\'</string>
     <string name="application_data">NfcB Application Data</string>
     <string name="nfcB_protocol_information">NfcB Protocol Information </string>
     <string name="nfcF_manufacturer_byte">NfcF Manufacturer Byte</string>

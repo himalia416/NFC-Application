@@ -65,10 +65,10 @@ fun TitleWithIcon(
             Icon(
                 imageVector = expandIcon,
                 contentDescription = null,
-                modifier = modifier.clickable(onClick = onExpandClicked)
+                modifier = modifier.clickable { onExpandClicked() }
             )
         }
-        if (isExpanded){
+        if (isExpanded) {
             Divider(thickness = 1.dp)
         }
     }

@@ -59,20 +59,22 @@ fun RecordView(ndefRecords: List<NdefRecord>) {
                 onExpandClicked = { expanded = !expanded }
             )
 
-            ndefRecords.forEachIndexed { index, ndefRecord ->
-                when (val recordType = ndefRecord.record) {
-                    is TextRecord -> DisplayTextRecord(recordType, index)
-                    is URIRecord -> DisplayUriRecord(recordType, index)
-                    is AndroidApplicationRecord -> DisplayAndroidPackageRecord(recordType, index)
-                    is SmartPoster -> DisplaySmartPosterRecord(recordType, index)
-                    is AlternativeCarrier -> DisplayAlternativeCarrierRecord(recordType, index)
-                    is HandoverCarrier -> DisplayHandoverCarrierRecord(recordType, index)
-                    is HandoverReceive -> DisplayHandoverReceiveRecord(recordType, index)
-                    is HandoverSelect -> DisplayHandoverSelectRecord(recordType, index)
-                    is MimeRecord -> DisplayMimeTypeRecord(recordType, index)
-                    is GenericExternalType -> DisplayGenericExternalTypeRecord(recordType, index)
-                    is Unknown -> TODO()
-                    else -> TODO()
+            if (expanded){
+                ndefRecords.forEachIndexed { index, ndefRecord ->
+                    when (val recordType = ndefRecord.record) {
+                        is TextRecord -> DisplayTextRecord(recordType, index)
+                        is URIRecord -> DisplayUriRecord(recordType, index)
+                        is AndroidApplicationRecord -> DisplayAndroidPackageRecord(recordType, index)
+                        is SmartPoster -> DisplaySmartPosterRecord(recordType, index)
+                        is AlternativeCarrier -> DisplayAlternativeCarrierRecord(recordType, index)
+                        is HandoverCarrier -> DisplayHandoverCarrierRecord(recordType, index)
+                        is HandoverReceive -> DisplayHandoverReceiveRecord(recordType, index)
+                        is HandoverSelect -> DisplayHandoverSelectRecord(recordType, index)
+                        is MimeRecord -> DisplayMimeTypeRecord(recordType, index)
+                        is GenericExternalType -> DisplayGenericExternalTypeRecord(recordType, index)
+                        is Unknown -> TODO()
+                        else -> TODO()
+                    }
                 }
             }
         }

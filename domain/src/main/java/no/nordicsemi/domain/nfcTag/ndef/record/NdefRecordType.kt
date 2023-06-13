@@ -5,10 +5,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AudioFile
 import androidx.compose.material.icons.filled.Javascript
 import androidx.compose.material.icons.filled.MediaBluetoothOn
-import androidx.compose.material.icons.filled.Movie
+import androidx.compose.material.icons.filled.Message
 import androidx.compose.material.icons.filled.PermMedia
 import androidx.compose.material.icons.filled.PictureAsPdf
 import androidx.compose.material.icons.filled.TextFormat
+import androidx.compose.material.icons.filled.VideoFile
 import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.parcelize.Parcelize
 
@@ -44,7 +45,7 @@ data class URIRecord(
 
 @Parcelize
 data class AlternativeCarrier(
-    val recordName: String = "Smart Poster Record",
+    val recordName: String = "Alternative Carrier Record",
     val typeNameFormat: String = "",
     val payloadType: String = "",
     val payloadLength: Int,

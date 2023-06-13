@@ -75,7 +75,7 @@ data class HandoverSelect(
 
 @Parcelize
 data class HandoverReceive(
-    val recordName: String = "Smart Poster Record",
+    val recordName: String = "Handover Receive Record",
     val typeNameFormat: String = "",
     val payloadType: String = "",
     val payloadLength: Int,

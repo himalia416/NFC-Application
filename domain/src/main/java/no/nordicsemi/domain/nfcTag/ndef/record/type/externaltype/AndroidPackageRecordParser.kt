@@ -17,7 +17,7 @@ object AndroidPackageRecordParser {
 
         return AndroidApplicationRecord(
             typeNameFormat = typeNameFormat,
-            payloadType = String(record.type),
+            payloadType = "Android package",
             payloadLength = record.payload.size,
             payload = String(record.payload)
         )

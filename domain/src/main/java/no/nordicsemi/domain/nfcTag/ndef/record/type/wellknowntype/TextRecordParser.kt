@@ -38,7 +38,7 @@ internal object TextRecordParser {
 
         return TextRecord(
             typeNameFormat = typeNameFormat,
-            payloadType = String(record.type),
+            payloadType = "Text",
             payloadLength = record.payload.size,
             langCode = languageCode,
             encoding = textEncoding.toString(),

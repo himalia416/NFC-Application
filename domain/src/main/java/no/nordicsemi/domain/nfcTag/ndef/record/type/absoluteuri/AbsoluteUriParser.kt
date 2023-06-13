@@ -14,6 +14,7 @@ internal object AbsoluteUriParser {
             typeNameFormat = typeNameFormat,
             payloadLength = record.payload.size,
             actualUri = actualUri,
+            payloadType = "Absolute Uri"
         )
     }
 }

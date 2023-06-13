@@ -22,7 +22,7 @@ internal object UriRecordParser {
         val actualUri = String(record.payload, 1, record.payload.size - 1)
         return URIRecord(
             typeNameFormat = typeNameFormat,
-            payloadType = String(record.type),
+            payloadType = "URI",
             payloadLength = record.payload.size,
             protocol = protocolField,
             uri = actualUri,

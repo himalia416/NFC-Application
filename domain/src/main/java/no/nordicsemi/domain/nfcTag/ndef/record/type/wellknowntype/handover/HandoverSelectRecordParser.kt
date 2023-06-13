@@ -11,7 +11,7 @@ internal object HandoverSelectRecordParser {
 
         return HandoverSelect(
             typeNameFormat = typeNameFormat,
-            payloadType = String(record.type),
+            payloadType = "Handover Select",
             payloadLength = record.payload.size,
             payload = String(record.payload)
         )

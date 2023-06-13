@@ -24,7 +24,7 @@ import no.nordicsemi.profile_nfc.component.RowInCardView
 import no.nordicsemi.profile_nfc.component.TitleWithIcon
 
 @Composable
-fun DataInfoView(
+fun NdefMessageView(
     nfcNdefMessage: NfcNdefMessage,
 ) {
     var expanded by rememberSaveable { mutableStateOf(true) }
@@ -85,9 +85,9 @@ fun DataInfoView(
 
 @Preview
 @Composable
-fun DataInfoViewPreview() {
+fun NdefMessageViewPreview() {
     NordicTheme {
-        DataInfoView(
+        NdefMessageView(
             nfcNdefMessage = NfcNdefMessage(
                 recordCount = 2,
                 currentMessageSize = 108,

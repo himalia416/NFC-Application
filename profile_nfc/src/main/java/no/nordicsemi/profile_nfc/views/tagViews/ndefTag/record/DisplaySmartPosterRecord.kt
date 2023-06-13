@@ -18,8 +18,8 @@ import no.nordicsemi.android.common.theme.NordicTheme
 import no.nordicsemi.domain.nfcTag.ndef.record.SmartPoster
 import no.nordicsemi.domain.nfcTag.ndef.record.TextRecord
 import no.nordicsemi.domain.nfcTag.ndef.record.URIRecord
-import no.nordicsemi.profile_nfc.component.RecordTitle
-import no.nordicsemi.profile_nfc.component.RowInCardView
+import no.nordicsemi.profile_nfc.component.RecordTitleView
+import no.nordicsemi.profile_nfc.component.NfcRowView
 
 @Composable
 fun DisplaySmartPosterRecord(
@@ -28,20 +28,20 @@ fun DisplaySmartPosterRecord(
 ) {
     var isExpanded by rememberSaveable { mutableStateOf(true) }
 
-    Column(modifier = Modifier.padding(8.dp)) {
-        RecordTitle(
+    Column {
+        RecordTitleView(
             recordTitle = smartPosterRecord.recordName,
             index = index,
+            modifier = Modifier.padding(8.dp),
             recordIcon = Icons.Default.PictureInPicture,
             isExpanded = isExpanded,
             onExpandClicked = { isExpanded = !isExpanded }
         )
-
         AnimatedVisibility(
             visible = isExpanded,
         ) {
             Column(
-                modifier = Modifier.padding(8.dp),
+                modifier = Modifier.padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 smartPosterRecord.textRecord?.let {
@@ -49,11 +49,11 @@ fun DisplaySmartPosterRecord(
                 }
                 DisplayUriRecord(uriRecord = smartPosterRecord.uriRecord, index = index)
                 smartPosterRecord.actionRecord?.let {
-                    RowInCardView(
+                    NfcRowView(
                         title = "Action type",
                         description = it.actionType
                     )
-                    RowInCardView(
+                    NfcRowView(
                         title = "Action Data",
                         description = it.actionData
                     )

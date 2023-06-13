@@ -21,8 +21,8 @@ import no.nordicsemi.android.common.theme.NordicTheme
 import no.nordicsemi.domain.nfcTag.ndef.NdefRecord
 import no.nordicsemi.domain.nfcTag.ndef.NfcNdefMessage
 import no.nordicsemi.profile_nfc.R
-import no.nordicsemi.profile_nfc.component.RowInCardView
-import no.nordicsemi.profile_nfc.component.TitleWithIcon
+import no.nordicsemi.profile_nfc.component.NfcRowView
+import no.nordicsemi.profile_nfc.component.TitleView
 
 @Composable
 fun NdefMessageView(
@@ -36,7 +36,7 @@ fun NdefMessageView(
             .padding(8.dp)
     ) {
         Column {
-            TitleWithIcon(
+            TitleView(
                 icon = painterResource(id = R.drawable.alpha_n_box),
                 title = stringResource(id = R.string.ndef_info),
                 modifier = Modifier.padding(8.dp),
@@ -44,7 +44,6 @@ fun NdefMessageView(
                 isExpanded = expanded,
                 onExpandClicked = { expanded = !expanded }
             )
-
             AnimatedVisibility(
                 visible = expanded,
             ) {
@@ -52,31 +51,31 @@ fun NdefMessageView(
                     modifier = Modifier.padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    RowInCardView(
+                    NfcRowView(
                         title = stringResource(id = R.string.max_message_size),
                         description = stringResource(
                             id = R.string.bytes,
                             nfcNdefMessage.maximumMessageSize.toString()
                         )
                     )
-                    RowInCardView(
+                    NfcRowView(
                         title = stringResource(id = R.string.current_message_size),
                         description = stringResource(
                             id = R.string.bytes,
                             nfcNdefMessage.currentMessageSize.toString()
                         )
                     )
-                    RowInCardView(
+                    NfcRowView(
                         title = stringResource(id = R.string.ndef_type),
                         description = nfcNdefMessage.ndefType
                     )
-                    RowInCardView(
+                    NfcRowView(
                         title = stringResource(id = R.string.nfc_data_access_type),
                         description = nfcNdefMessage.getAccessDataType(
                             isNdefWritable = nfcNdefMessage.isNdefWritable
                         )
                     )
-                    RowInCardView(
+                    NfcRowView(
                         title = stringResource(id = R.string.record_count),
                         description = nfcNdefMessage.recordCount.toString()
                     )

@@ -36,19 +36,23 @@ fun RecordTitle(
         }
         Row(
             horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = modifier.clickable { onExpandClicked() }
         ) {
-            recordIcon?.let { Icon(imageVector = it, contentDescription = null) }
-
+            recordIcon?.let {
+                Icon(
+                    imageVector = it,
+                    contentDescription = null,
+                    modifier = modifier
+                )
+            }
             Text(
                 text = stringResource(
                     id = R.string.record_name,
                     index + 1,
                     recordTitle
                 ),
-                modifier = modifier
-                    .padding(8.dp)
-                    .weight(1f)
+                modifier = Modifier.weight(1f)
             )
             Icon(imageVector = expandIcon,
                 contentDescription = null,
@@ -58,5 +62,20 @@ fun RecordTitle(
         if (isExpanded) {
             Divider(thickness = 1.dp)
         }
+    }
+}
+
+@Preview
+@Composable
+fun RecordTitleViewPreview(){
+    NordicTheme {
+        RecordTitleView(
+            recordTitle = "Text Record",
+            index = 0,
+            modifier = Modifier.padding(8.dp),
+            recordIcon = Icons.Default.TextFormat,
+            isExpanded = true,
+            onExpandClicked = {}
+        )
     }
 }

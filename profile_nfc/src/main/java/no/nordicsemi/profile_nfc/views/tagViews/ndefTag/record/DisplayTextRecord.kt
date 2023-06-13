@@ -18,8 +18,8 @@ import androidx.compose.ui.unit.dp
 import no.nordicsemi.android.common.theme.NordicTheme
 import no.nordicsemi.domain.nfcTag.ndef.record.TextRecord
 import no.nordicsemi.profile_nfc.R
-import no.nordicsemi.profile_nfc.component.RecordTitle
-import no.nordicsemi.profile_nfc.component.RowInCardView
+import no.nordicsemi.profile_nfc.component.RecordTitleView
+import no.nordicsemi.profile_nfc.component.NfcRowView
 
 @Composable
 fun DisplayTextRecord(
@@ -28,46 +28,46 @@ fun DisplayTextRecord(
 ) {
     var isExpanded by rememberSaveable { mutableStateOf(true) }
 
-    Column(modifier = Modifier.padding(8.dp)) {
-        RecordTitle(
+    Column {
+        RecordTitleView(
             recordTitle = textRecord.recordName,
             index = index,
+            modifier = Modifier.padding(8.dp),
             recordIcon = Icons.Default.TextFormat,
             isExpanded = isExpanded,
             onExpandClicked = { isExpanded = !isExpanded }
         )
-
         AnimatedVisibility(
             visible = isExpanded,
         ) {
             Column(
-                modifier = Modifier.padding(8.dp),
+                modifier = Modifier.padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                RowInCardView(
+                NfcRowView(
                     title = stringResource(id = R.string.record_type_name_format),
                     description = textRecord.typeNameFormat
                 )
-                RowInCardView(
+                NfcRowView(
                     title = stringResource(id = R.string.record_type),
                     description = textRecord.payloadType
                 )
-                RowInCardView(
+                NfcRowView(
                     title = stringResource(id = R.string.record_payload_len),
                     stringResource(
                         id = R.string.bytes,
                         textRecord.payloadLength.toString()
                     )
                 )
-                RowInCardView(
+                NfcRowView(
                     title = stringResource(id = R.string.language_code),
                     description = textRecord.langCode
                 )
-                RowInCardView(
+                NfcRowView(
                     title = stringResource(id = R.string.encoding),
                     description = textRecord.encoding
                 )
-                RowInCardView(
+                NfcRowView(
                     title = textRecord.payloadFieldName,
                     description = textRecord.actualText
                 )

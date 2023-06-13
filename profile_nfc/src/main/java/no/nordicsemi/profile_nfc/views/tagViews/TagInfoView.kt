@@ -21,8 +21,8 @@ import androidx.compose.ui.unit.dp
 import no.nordicsemi.android.common.theme.NordicTheme
 import no.nordicsemi.domain.nfcTag.GeneralTagInformation
 import no.nordicsemi.profile_nfc.R
-import no.nordicsemi.profile_nfc.component.RowInCardView
-import no.nordicsemi.profile_nfc.component.TitleWithIcon
+import no.nordicsemi.profile_nfc.component.NfcRowView
+import no.nordicsemi.profile_nfc.component.TitleView
 import no.nordicsemi.profile_nfc.utility.toSerialNumber
 
 @Composable
@@ -38,7 +38,7 @@ fun TagInfoView(
             .padding(8.dp)
     ) {
         Column {
-            TitleWithIcon(
+            TitleView(
                 icon = painterResource(id = R.drawable.information),
                 title = stringResource(id = R.string.tag_info),
                 modifier = Modifier.padding(8.dp),
@@ -46,7 +46,6 @@ fun TagInfoView(
                 isExpanded = expanded,
                 onExpandClicked = { expanded = !expanded }
             )
-
             AnimatedVisibility(
                 visible = expanded,
             ) {
@@ -54,33 +53,33 @@ fun TagInfoView(
                     modifier = Modifier.padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    RowInCardView(
+                    NfcRowView(
                         title = stringResource(id = R.string.ic_manufacturer),
                         description = manufacturerName,
                     )
-                    RowInCardView(
+                    NfcRowView(
                         title = stringResource(id = R.string.serial_number),
                         description = generalTagInfo.serialNumber.toSerialNumber()
                     )
                     generalTagInfo.nfcAInfo?.let {
-                        RowInCardView(
+                        NfcRowView(
                             title = stringResource(id = R.string.atqa),
                             description = it.atqa,
                             tooltipText = stringResource(id = R.string.atqa_des)
                         )
-                        RowInCardView(
+                        NfcRowView(
                             title = stringResource(id = R.string.sak),
                             description = it.sak,
                             tooltipText = stringResource(id = R.string.sak_des)
                         )
-                        RowInCardView(
+                        NfcRowView(
                             title = stringResource(id = R.string.maximum_transceive_len),
                             description = stringResource(
                                 id = R.string.bytes,
                                 it.maxTransceiveLength.toString()
                             )
                         )
-                        RowInCardView(
+                        NfcRowView(
                             title = stringResource(id = R.string.transceive_time_out),
                             description = stringResource(
                                 id = R.string.millisecond,
@@ -89,15 +88,15 @@ fun TagInfoView(
                         )
                     }
                     generalTagInfo.nfcBInfo?.let {
-                        RowInCardView(
+                        NfcRowView(
                             title = stringResource(id = R.string.application_data),
                             description = it.applicationData
                         )
-                        RowInCardView(
+                        NfcRowView(
                             title = stringResource(id = R.string.nfcB_protocol_information),
                             description = it.protocolInfo
                         )
-                        RowInCardView(
+                        NfcRowView(
                             title = stringResource(id = R.string.maximum_transceive_len),
                             description = stringResource(
                                 id = R.string.bytes,
@@ -106,22 +105,22 @@ fun TagInfoView(
                         )
                     }
                     generalTagInfo.nfcFInfo?.let {
-                        RowInCardView(
+                        NfcRowView(
                             title = stringResource(id = R.string.nfcF_manufacturer_byte),
                             description = it.manufacturerByte
                         )
-                        RowInCardView(
+                        NfcRowView(
                             title = stringResource(id = R.string.nfcF_system_code),
                             description = it.systemCode
                         )
-                        RowInCardView(
+                        NfcRowView(
                             title = stringResource(id = R.string.maximum_transceive_len),
                             description = stringResource(
                                 id = R.string.bytes,
                                 it.maxTransceiveLength.toString()
                             )
                         )
-                        RowInCardView(
+                        NfcRowView(
                             title = stringResource(id = R.string.transceive_time_out),
                             description = stringResource(
                                 id = R.string.millisecond,
@@ -130,15 +129,15 @@ fun TagInfoView(
                         )
                     }
                     generalTagInfo.nfcVInfo?.let {
-                        RowInCardView(
+                        NfcRowView(
                             title = stringResource(id = R.string.nfcV_dsf_id),
                             description = it.dsfId
                         )
-                        RowInCardView(
+                        NfcRowView(
                             title = stringResource(id = R.string.nfcV_response_flags),
                             description = it.responseFlags
                         )
-                        RowInCardView(
+                        NfcRowView(
                             title = stringResource(id = R.string.maximum_transceive_len),
                             description = stringResource(
                                 id = R.string.bytes,

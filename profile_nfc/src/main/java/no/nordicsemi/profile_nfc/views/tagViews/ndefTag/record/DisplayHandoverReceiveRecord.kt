@@ -18,8 +18,8 @@ import androidx.compose.ui.unit.dp
 import no.nordicsemi.android.common.theme.NordicTheme
 import no.nordicsemi.domain.nfcTag.ndef.record.HandoverReceive
 import no.nordicsemi.profile_nfc.R
-import no.nordicsemi.profile_nfc.component.RecordTitle
-import no.nordicsemi.profile_nfc.component.RowInCardView
+import no.nordicsemi.profile_nfc.component.RecordTitleView
+import no.nordicsemi.profile_nfc.component.NfcRowView
 
 @Composable
 fun DisplayHandoverReceiveRecord(
@@ -28,38 +28,38 @@ fun DisplayHandoverReceiveRecord(
 ) {
     var isExpanded by rememberSaveable { mutableStateOf(true) }
 
-    Column(modifier = Modifier.padding(8.dp)) {
-        RecordTitle(
+    Column {
+        RecordTitleView(
             recordTitle = handoverReceiveRecord.recordName,
             index = index,
+            modifier = Modifier.padding(8.dp),
             recordIcon = Icons.Default.Handshake,
             isExpanded = isExpanded,
             onExpandClicked = { isExpanded = !isExpanded }
         )
-
         AnimatedVisibility(
             visible = isExpanded,
         ) {
             Column(
-                modifier = Modifier.padding(8.dp),
+                modifier = Modifier.padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                RowInCardView(
+                NfcRowView(
                     title = stringResource(id = R.string.record_type_name_format),
                     description = handoverReceiveRecord.typeNameFormat
                 )
-                RowInCardView(
+                NfcRowView(
                     title = stringResource(id = R.string.record_type),
                     description = handoverReceiveRecord.payloadType
                 )
-                RowInCardView(
+                NfcRowView(
                     title = stringResource(id = R.string.record_payload_len),
                     stringResource(
                         id = R.string.bytes,
                         handoverReceiveRecord.payloadLength.toString()
                     )
                 )
-                RowInCardView(
+                NfcRowView(
                     title = handoverReceiveRecord.payloadFieldName,
                     description = handoverReceiveRecord.payload
                 )

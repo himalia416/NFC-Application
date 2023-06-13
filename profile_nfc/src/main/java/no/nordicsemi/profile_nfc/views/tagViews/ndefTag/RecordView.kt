@@ -26,7 +26,7 @@ import no.nordicsemi.domain.nfcTag.ndef.record.TextRecord
 import no.nordicsemi.domain.nfcTag.ndef.record.URIRecord
 import no.nordicsemi.domain.nfcTag.ndef.record.Unknown
 import no.nordicsemi.profile_nfc.R
-import no.nordicsemi.profile_nfc.component.TitleWithIcon
+import no.nordicsemi.profile_nfc.component.TitleView
 import no.nordicsemi.profile_nfc.views.tagViews.ndefTag.record.DisplayAlternativeCarrierRecord
 import no.nordicsemi.profile_nfc.views.tagViews.ndefTag.record.DisplayAndroidPackageRecord
 import no.nordicsemi.profile_nfc.views.tagViews.ndefTag.record.DisplayGenericExternalTypeRecord
@@ -46,11 +46,12 @@ fun RecordView(ndefRecords: List<NdefRecord>) {
             .padding(8.dp)
     ) {
         Column {
-            TitleWithIcon(
+            TitleView(
                 icon = painterResource(id = R.drawable.storage_icon),
                 title = stringResource(id = R.string.record_info),
                 modifier = Modifier.padding(8.dp),
                 textStyle = MaterialTheme.typography.headlineSmall,
+                isExpanded = null,
             )
 
             Divider(thickness = 1.dp)

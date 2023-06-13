@@ -26,8 +26,8 @@ import no.nordicsemi.android.common.core.AppLauncher
 import no.nordicsemi.android.common.theme.NordicTheme
 import no.nordicsemi.domain.nfcTag.ndef.record.GenericExternalType
 import no.nordicsemi.profile_nfc.R
-import no.nordicsemi.profile_nfc.component.RecordTitle
-import no.nordicsemi.profile_nfc.component.RowInCardView
+import no.nordicsemi.profile_nfc.component.RecordTitleView
+import no.nordicsemi.profile_nfc.component.NfcRowView
 
 @Composable
 fun DisplayGenericExternalTypeRecord(
@@ -38,31 +38,31 @@ fun DisplayGenericExternalTypeRecord(
     val packageManager: PackageManager = context.packageManager
     var isExpanded by rememberSaveable { mutableStateOf(true) }
 
-    Column(modifier = Modifier.padding(8.dp)) {
-        RecordTitle(
+    Column {
+        RecordTitleView(
             recordTitle = externalTypeRecord.recordName,
             index = index,
+            modifier = Modifier.padding(8.dp),
             recordIcon = Icons.Default.Explicit,
             isExpanded = isExpanded,
             onExpandClicked = { isExpanded = !isExpanded }
         )
-
         AnimatedVisibility(
             visible = isExpanded,
         ) {
             Column(
-                modifier = Modifier.padding(8.dp),
+                modifier = Modifier.padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                RowInCardView(
+                NfcRowView(
                     title = stringResource(id = R.string.record_type_name_format),
                     description = externalTypeRecord.typeNameFormat
                 )
-                RowInCardView(
+                NfcRowView(
                     title = stringResource(id = R.string.record_type),
                     description = externalTypeRecord.payloadType
                 )
-                RowInCardView(
+                NfcRowView(
                     title = stringResource(id = R.string.record_payload_len),
                     stringResource(
                         id = R.string.bytes,

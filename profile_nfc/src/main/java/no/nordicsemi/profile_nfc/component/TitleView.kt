@@ -45,21 +45,22 @@ fun TitleWithIcon(
     Column {
         Row(
             horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = modifier.clickable { onExpandClicked() }
         ) {
             Image(
                 painter = icon,
                 contentDescription = null,
                 contentScale = ContentScale.Fit,
                 modifier = modifier
-                    .size(40.dp)
+                    .size(24.dp)
                     .clip(RoundedCornerShape(4.dp)),
                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
             )
             Text(
                 text = title,
                 style = textStyle,
-                modifier = modifier
+                modifier = Modifier
                     .weight(1f)
             )
             isExpanded?.let {

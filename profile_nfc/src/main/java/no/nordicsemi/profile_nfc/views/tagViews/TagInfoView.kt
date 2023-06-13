@@ -185,7 +185,7 @@ fun ShowAvailableTechnologies(list: List<String>) {
 
 @Preview
 @Composable
-fun Preview() {
+fun ShowAvailableTechnologiesPreview() {
     NordicTheme {
         ShowAvailableTechnologies(list = listOf("NfcA, Ndef,"))
     }

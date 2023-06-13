@@ -12,7 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import no.nordicsemi.android.common.theme.NordicTheme
 
 @Composable
-fun RowInCardView(
+fun NfcRowView(
     title: String,
     description: String,
     modifier: Modifier = Modifier,
@@ -42,9 +42,9 @@ fun RowInCardView(
 
 @Preview
 @Composable
-fun RowInCardViewPreview() {
+fun NfcRowViewPreview() {
     NordicTheme {
-        RowInCardView(
+        NfcRowView(
             title = "Maximum message size",
             description = "53 Bytes",
         )

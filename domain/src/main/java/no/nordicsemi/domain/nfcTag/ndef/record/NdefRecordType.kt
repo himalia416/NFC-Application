@@ -40,7 +40,7 @@ data class URIRecord(
     val protocol: String? = null,
     val uri: String? = null,
     val actualUri: String = "",
-    val payloadFieldName: String = "URL"
+    val payloadFieldName: String = "Actual URL"
 ) : NdefRecordType
 
 @Parcelize
@@ -94,7 +94,7 @@ data class AndroidApplicationRecord(
     val typeNameFormat: String = "",
     val payloadType: String = "",
     val payloadLength: Int,
-    val packageType: String = "Package",
+    val packageType: String = "Package Name",
     val payload: String = "",
 ) : ExternalType
 

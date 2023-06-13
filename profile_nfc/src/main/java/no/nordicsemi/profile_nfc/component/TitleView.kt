@@ -31,7 +31,7 @@ import no.nordicsemi.android.common.theme.NordicTheme
 import no.nordicsemi.profile_nfc.R
 
 @Composable
-fun TitleWithIcon(
+fun TitleView(
     icon: Painter,
     title: String,
     modifier: Modifier = Modifier,
@@ -79,9 +79,9 @@ fun TitleWithIcon(
 
 @Preview
 @Composable
-fun LabelWithIconPreview() {
+fun TitleViewPreview() {
     NordicTheme {
-        TitleWithIcon(
+        TitleView(
             icon = painterResource(id = R.drawable.alpha_n_box),
             title = stringResource(id = R.string.ndef_info),
             modifier = Modifier.padding(8.dp),

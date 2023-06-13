@@ -55,7 +55,7 @@ data class AlternativeCarrier(
 
 @Parcelize
 data class HandoverCarrier(
-    val recordName: String = "Smart Poster Record",
+    val recordName: String = "Handover Carrier Record",
     val typeNameFormat: String = "",
     val payloadType: String = "",
     val payloadLength: Int,
@@ -141,7 +141,8 @@ data class MimeRecord(
             payloadType == "application/pdf" -> Icons.Default.PictureAsPdf
             slicedPayloadType == "audio" -> Icons.Default.AudioFile
             slicedPayloadType == "text" -> Icons.Default.TextFormat
-            slicedPayloadType == "video" -> Icons.Default.Movie
+            slicedPayloadType == "video" -> Icons.Default.VideoFile
+            slicedPayloadType == "message" -> Icons.Default.Message
             else -> Icons.Default.PermMedia
         }
     }

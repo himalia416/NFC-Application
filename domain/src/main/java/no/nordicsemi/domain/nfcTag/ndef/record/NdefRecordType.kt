@@ -1,6 +1,15 @@
 package no.nordicsemi.domain.nfcTag.ndef.record
 
 import android.os.Parcelable
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AudioFile
+import androidx.compose.material.icons.filled.Javascript
+import androidx.compose.material.icons.filled.MediaBluetoothOn
+import androidx.compose.material.icons.filled.Movie
+import androidx.compose.material.icons.filled.PermMedia
+import androidx.compose.material.icons.filled.PictureAsPdf
+import androidx.compose.material.icons.filled.TextFormat
+import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -30,7 +39,7 @@ data class URIRecord(
     val protocol: String? = null,
     val uri: String? = null,
     val actualUri: String = "",
-    val payloadFieldName: String = "Actual URL"
+    val payloadFieldName: String = "URL"
 ) : NdefRecordType
 
 @Parcelize
@@ -116,9 +125,23 @@ data class ActionRecord(
 @Parcelize
 data class MimeRecord(
     val recordName: String = "Mime Type Record",
-    val typeNameFormat: String ="",
+    val typeNameFormat: String = "",
     val payloadType: String = "",
     val payloadLength: Int,
     val payloadFieldName: String = "Payload",
-    val payload: String =""
-) : NdefRecordType
+    val payload: String = ""
+) : NdefRecordType {
+
+    fun getRecordIcon(): ImageVector {
+        val slicedPayloadType = payloadType.split('/')[0]
+        return when {
+            payloadType == "application/vnd.bluetooth.le.oob" -> Icons.Default.MediaBluetoothOn
+            payloadType == "application/json" -> Icons.Default.Javascript
+            payloadType == "application/pdf" -> Icons.Default.PictureAsPdf
+            slicedPayloadType == "audio" -> Icons.Default.AudioFile
+            slicedPayloadType == "text" -> Icons.Default.TextFormat
+            slicedPayloadType == "video" -> Icons.Default.Movie
+            else -> Icons.Default.PermMedia
+        }
+    }
+}

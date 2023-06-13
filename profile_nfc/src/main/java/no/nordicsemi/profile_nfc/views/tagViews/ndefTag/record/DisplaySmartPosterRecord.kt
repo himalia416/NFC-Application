@@ -1,5 +1,6 @@
 package no.nordicsemi.profile_nfc.views.tagViews.ndefTag.record
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -25,7 +26,7 @@ fun DisplaySmartPosterRecord(
     smartPosterRecord: SmartPoster,
     index: Int
 ) {
-    var isExpanded by rememberSaveable { mutableStateOf(false) }
+    var isExpanded by rememberSaveable { mutableStateOf(true) }
 
     Column(modifier = Modifier.padding(8.dp)) {
         RecordTitle(
@@ -36,7 +37,9 @@ fun DisplaySmartPosterRecord(
             onExpandClicked = { isExpanded = !isExpanded }
         )
 
-        if (isExpanded) {
+        AnimatedVisibility(
+            visible = isExpanded,
+        ) {
             Column(
                 modifier = Modifier.padding(8.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)

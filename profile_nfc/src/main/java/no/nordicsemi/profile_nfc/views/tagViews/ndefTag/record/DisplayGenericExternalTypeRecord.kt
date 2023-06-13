@@ -2,6 +2,7 @@ package no.nordicsemi.profile_nfc.views.tagViews.ndefTag.record
 
 import android.content.Context
 import android.content.pm.PackageManager
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -35,7 +36,7 @@ fun DisplayGenericExternalTypeRecord(
 ) {
     val context: Context = LocalContext.current
     val packageManager: PackageManager = context.packageManager
-    var isExpanded by rememberSaveable { mutableStateOf(false) }
+    var isExpanded by rememberSaveable { mutableStateOf(true) }
 
     Column(modifier = Modifier.padding(8.dp)) {
         RecordTitle(
@@ -45,7 +46,10 @@ fun DisplayGenericExternalTypeRecord(
             isExpanded = isExpanded,
             onExpandClicked = { isExpanded = !isExpanded }
         )
-        if (isExpanded) {
+
+        AnimatedVisibility(
+            visible = isExpanded,
+        ) {
             Column(
                 modifier = Modifier.padding(8.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)

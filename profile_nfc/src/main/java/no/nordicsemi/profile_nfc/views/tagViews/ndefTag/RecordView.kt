@@ -3,13 +3,10 @@ package no.nordicsemi.profile_nfc.views.tagViews.ndefTag
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -43,7 +40,6 @@ import no.nordicsemi.profile_nfc.views.tagViews.ndefTag.record.DisplayUriRecord
 
 @Composable
 fun RecordView(ndefRecords: List<NdefRecord>) {
-    var expanded by rememberSaveable { mutableStateOf(true) }
     OutlinedCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -55,26 +51,24 @@ fun RecordView(ndefRecords: List<NdefRecord>) {
                 title = stringResource(id = R.string.record_info),
                 modifier = Modifier.padding(8.dp),
                 textStyle = MaterialTheme.typography.headlineSmall,
-                isExpanded = expanded,
-                onExpandClicked = { expanded = !expanded }
             )
 
-            if (expanded){
-                ndefRecords.forEachIndexed { index, ndefRecord ->
-                    when (val recordType = ndefRecord.record) {
-                        is TextRecord -> DisplayTextRecord(recordType, index)
-                        is URIRecord -> DisplayUriRecord(recordType, index)
-                        is AndroidApplicationRecord -> DisplayAndroidPackageRecord(recordType, index)
-                        is SmartPoster -> DisplaySmartPosterRecord(recordType, index)
-                        is AlternativeCarrier -> DisplayAlternativeCarrierRecord(recordType, index)
-                        is HandoverCarrier -> DisplayHandoverCarrierRecord(recordType, index)
-                        is HandoverReceive -> DisplayHandoverReceiveRecord(recordType, index)
-                        is HandoverSelect -> DisplayHandoverSelectRecord(recordType, index)
-                        is MimeRecord -> DisplayMimeTypeRecord(recordType, index)
-                        is GenericExternalType -> DisplayGenericExternalTypeRecord(recordType, index)
-                        is Unknown -> TODO()
-                        else -> TODO()
-                    }
+            Divider(thickness = 1.dp)
+
+            ndefRecords.forEachIndexed { index, ndefRecord ->
+                when (val recordType = ndefRecord.record) {
+                    is TextRecord -> DisplayTextRecord(recordType, index)
+                    is URIRecord -> DisplayUriRecord(recordType, index)
+                    is AndroidApplicationRecord -> DisplayAndroidPackageRecord(recordType, index)
+                    is SmartPoster -> DisplaySmartPosterRecord(recordType, index)
+                    is AlternativeCarrier -> DisplayAlternativeCarrierRecord(recordType, index)
+                    is HandoverCarrier -> DisplayHandoverCarrierRecord(recordType, index)
+                    is HandoverReceive -> DisplayHandoverReceiveRecord(recordType, index)
+                    is HandoverSelect -> DisplayHandoverSelectRecord(recordType, index)
+                    is MimeRecord -> DisplayMimeTypeRecord(recordType, index)
+                    is GenericExternalType -> DisplayGenericExternalTypeRecord(recordType, index)
+                    is Unknown -> TODO()
+                    else -> TODO()
                 }
             }
         }

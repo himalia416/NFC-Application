@@ -1,5 +1,6 @@
 package no.nordicsemi.profile_nfc.views.tagViews.ndefTag.record
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,7 +31,7 @@ fun DisplayUriRecord(
     uriRecord: URIRecord,
     index: Int
 ) {
-    var isExpanded by rememberSaveable { mutableStateOf(false) }
+    var isExpanded by rememberSaveable { mutableStateOf(true) }
 
     Column(modifier = Modifier.padding(8.dp)) {
         RecordTitle(
@@ -40,7 +41,9 @@ fun DisplayUriRecord(
             isExpanded = isExpanded,
             onExpandClicked = { isExpanded = !isExpanded }
         )
-        if (isExpanded) {
+        AnimatedVisibility(
+            visible = isExpanded,
+        ) {
             Column(
                 modifier = Modifier.padding(8.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)

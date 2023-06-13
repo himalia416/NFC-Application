@@ -1,5 +1,6 @@
 package no.nordicsemi.profile_nfc.views.tagViews.ndefTag
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -44,7 +45,9 @@ fun NdefMessageView(
                 onExpandClicked = { expanded = !expanded }
             )
 
-            if (expanded) {
+            AnimatedVisibility(
+                visible = expanded,
+            ) {
                 Column(
                     modifier = Modifier.padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(16.dp)

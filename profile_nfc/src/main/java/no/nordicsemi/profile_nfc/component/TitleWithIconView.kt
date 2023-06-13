@@ -27,8 +27,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import no.nordicsemi.profile_nfc.R
 import no.nordicsemi.android.common.theme.NordicTheme
+import no.nordicsemi.profile_nfc.R
 
 @Composable
 fun TitleWithIcon(
@@ -36,10 +36,10 @@ fun TitleWithIcon(
     title: String,
     modifier: Modifier = Modifier,
     textStyle: TextStyle,
-    isExpanded: Boolean = false,
-    onExpandClicked: () -> Unit
+    isExpanded: Boolean? = false,
+    onExpandClicked: () -> Unit = {}
 ) {
-    val expandIcon = if (isExpanded) Icons.Default.ExpandMore
+    val expandIcon = if (isExpanded == true) Icons.Default.ExpandMore
     else Icons.Default.ExpandLess
 
     Column {
@@ -62,13 +62,15 @@ fun TitleWithIcon(
                 modifier = modifier
                     .weight(1f)
             )
-            Icon(
-                imageVector = expandIcon,
-                contentDescription = null,
-                modifier = modifier.clickable { onExpandClicked() }
-            )
+            isExpanded?.let {
+                Icon(
+                    imageVector = expandIcon,
+                    contentDescription = null,
+                    modifier = modifier.clickable { onExpandClicked() }
+                )
+            }
         }
-        if (isExpanded) {
+        if (isExpanded == true) {
             Divider(thickness = 1.dp)
         }
     }

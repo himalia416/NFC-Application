@@ -1,5 +1,6 @@
 package no.nordicsemi.profile_nfc.views.tagViews
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -46,7 +47,9 @@ fun TagInfoView(
                 onExpandClicked = { expanded = !expanded }
             )
 
-            if (expanded) {
+            AnimatedVisibility(
+                visible = expanded,
+            ) {
                 Column(
                     modifier = Modifier.padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -165,23 +168,25 @@ fun TagInfoViewPreview() {
 }
 
 @Composable
-fun ShowAvailableTechnologies(list: List<String>){
+fun ShowAvailableTechnologies(list: List<String>) {
     Column {
         Text(
             text = stringResource(id = R.string.available_tag_technologies),
             style = MaterialTheme.typography.titleMedium
         )
         list.onEach {
-            Text(text = it,
-                style = MaterialTheme.typography.bodySmall)
+            Text(
+                text = it,
+                style = MaterialTheme.typography.bodySmall
+            )
         }
-        
+
     }
 }
 
 @Preview
 @Composable
-fun Preview(){
+fun Preview() {
     NordicTheme {
         ShowAvailableTechnologies(list = listOf("NfcA, Ndef,"))
     }

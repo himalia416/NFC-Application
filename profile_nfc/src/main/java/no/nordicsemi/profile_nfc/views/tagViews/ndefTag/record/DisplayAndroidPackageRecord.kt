@@ -25,8 +25,9 @@ import no.nordicsemi.android.common.core.AppLauncher
 import no.nordicsemi.android.common.theme.NordicTheme
 import no.nordicsemi.domain.nfcTag.ndef.record.AndroidApplicationRecord
 import no.nordicsemi.profile_nfc.R
-import no.nordicsemi.profile_nfc.component.RecordTitleView
 import no.nordicsemi.profile_nfc.component.NfcRowView
+import no.nordicsemi.profile_nfc.component.RecordTitleView
+import no.nordicsemi.profile_nfc.utility.toPayloadData
 
 @Composable
 fun DisplayAndroidPackageRecord(
@@ -85,6 +86,12 @@ fun DisplayAndroidPackageRecord(
                         },
                         color = MaterialTheme.colorScheme.secondaryContainer,
                         style = MaterialTheme.typography.bodySmall
+                    )
+                }
+                androidPackageRecord.payloadData?.let {
+                    NfcRowView(
+                        title = stringResource(id = R.string.payload_data),
+                        description = it.toPayloadData()
                     )
                 }
             }

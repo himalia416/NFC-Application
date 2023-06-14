@@ -19,6 +19,7 @@ import no.nordicsemi.domain.nfcTag.ndef.record.HandoverReceive
 import no.nordicsemi.domain.nfcTag.ndef.record.HandoverSelect
 import no.nordicsemi.domain.nfcTag.ndef.record.NdefRecordType
 import no.nordicsemi.domain.nfcTag.ndef.record.GenericExternalType
+import no.nordicsemi.domain.nfcTag.ndef.record.MimeRecord
 import no.nordicsemi.domain.nfcTag.ndef.record.SmartPoster
 import no.nordicsemi.domain.nfcTag.ndef.record.TextRecord
 import no.nordicsemi.domain.nfcTag.ndef.record.URIRecord
@@ -53,6 +54,7 @@ object JsonAdapterModule {
                     .withSubtype(Unknown::class.java, "Unknown")
                     .withSubtype(AndroidApplicationRecord::class.java, "AndroidPackage")
                     .withSubtype(GenericExternalType::class.java, "GenericExternalType")
+                    .withSubtype(MimeRecord::class.java, "MimeType")
             )
             .add(KotlinJsonAdapterFactory())
             .build()

@@ -1,9 +1,11 @@
 package no.nordicsemi.profile_nfc.utility
 
-fun ByteArray.toHex(): String = joinToString(separator = "") { eachByte -> "%02x".format(eachByte) }
+internal fun ByteArray.toHex(): String = joinToString(separator = "") { eachByte -> "%02x".format(eachByte) }
 
-fun String.toSerialNumber(): String = this.chunked(2).joinToString(":").uppercase()
+internal fun String.toSerialNumber(): String = this.chunked(2).joinToString(":").uppercase()
 
-fun ByteArray.toHexString(): String = "0x${this.joinToString("") { "%02X".format(it) }}"
+internal fun ByteArray.toAtqaFormat(): String = "0x${this.toHex() }"
 
-fun Short.toHexString() : String = "0x%02X".format(this)
+internal fun Short.toSakFormat() : String = "0x%02X".format(this)
+
+internal fun ByteArray.toPayloadData() : String = this.toHex().chunked(2).joinToString(" ").uppercase()

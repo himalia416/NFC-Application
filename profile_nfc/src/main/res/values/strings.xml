@@ -56,4 +56,5 @@
     <string name="uri_field">URI</string>
     <string name="url_tag"> URL </string>
     <string name="data">Data</string>
+    <string name="payload_data">Payload Data</string>
 </resources>

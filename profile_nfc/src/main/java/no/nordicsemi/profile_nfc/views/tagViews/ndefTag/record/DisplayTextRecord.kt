@@ -18,8 +18,9 @@ import androidx.compose.ui.unit.dp
 import no.nordicsemi.android.common.theme.NordicTheme
 import no.nordicsemi.domain.nfcTag.ndef.record.TextRecord
 import no.nordicsemi.profile_nfc.R
-import no.nordicsemi.profile_nfc.component.RecordTitleView
 import no.nordicsemi.profile_nfc.component.NfcRowView
+import no.nordicsemi.profile_nfc.component.RecordTitleView
+import no.nordicsemi.profile_nfc.utility.toPayloadData
 
 @Composable
 fun DisplayTextRecord(
@@ -71,6 +72,12 @@ fun DisplayTextRecord(
                     title = textRecord.payloadFieldName,
                     description = textRecord.actualText
                 )
+                textRecord.payloadData?.let {
+                    NfcRowView(
+                        title = stringResource(id = R.string.payload_data),
+                        description = it.toPayloadData()
+                    )
+                }
             }
         }
     }
@@ -85,7 +92,8 @@ fun DisplayTextRecordPreview() {
                 payloadLength = 22,
                 langCode = "en",
                 encoding = "UTF-8",
-                actualText = "NordicSemiconductor ASA"
+                actualText = "NordicSemiconductor ASA",
+                payloadData = "NordicSemiconductor ASA".toByteArray()
             ),
             index = 2
         )

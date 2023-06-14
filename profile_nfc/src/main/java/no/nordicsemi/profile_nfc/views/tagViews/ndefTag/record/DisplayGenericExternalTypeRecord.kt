@@ -6,7 +6,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Explicit
@@ -26,8 +25,9 @@ import no.nordicsemi.android.common.core.AppLauncher
 import no.nordicsemi.android.common.theme.NordicTheme
 import no.nordicsemi.domain.nfcTag.ndef.record.GenericExternalType
 import no.nordicsemi.profile_nfc.R
-import no.nordicsemi.profile_nfc.component.RecordTitleView
 import no.nordicsemi.profile_nfc.component.NfcRowView
+import no.nordicsemi.profile_nfc.component.RecordTitleView
+import no.nordicsemi.profile_nfc.utility.toPayloadData
 
 @Composable
 fun DisplayGenericExternalTypeRecord(
@@ -69,7 +69,7 @@ fun DisplayGenericExternalTypeRecord(
                         externalTypeRecord.payloadLength.toString()
                     )
                 )
-                Row {
+                Column {
                     Text(
                         text = externalTypeRecord.domainType ?: stringResource(id = R.string.data),
                         modifier = Modifier.padding(end = 16.dp),
@@ -86,6 +86,12 @@ fun DisplayGenericExternalTypeRecord(
                         },
                         color = MaterialTheme.colorScheme.secondaryContainer,
                         style = MaterialTheme.typography.bodyLarge
+                    )
+                }
+                externalTypeRecord.payloadData?.let {
+                    NfcRowView(
+                        title = stringResource(id = R.string.payload_data),
+                        description = it.toPayloadData()
                     )
                 }
             }

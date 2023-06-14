@@ -22,7 +22,8 @@ internal object MimeTypeParser {
             typeNameFormat = typeNameFormat,
             payloadType = String(record.type),
             payloadLength = record.payload.size,
-            payload = String(record.payload, Charsets.US_ASCII)
+            payload = String(record.payload),
+            payloadData = record.payload
         )
     }
 }

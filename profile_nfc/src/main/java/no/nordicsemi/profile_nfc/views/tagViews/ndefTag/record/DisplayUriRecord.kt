@@ -21,8 +21,9 @@ import androidx.compose.ui.unit.dp
 import no.nordicsemi.android.common.theme.NordicTheme
 import no.nordicsemi.domain.nfcTag.ndef.record.URIRecord
 import no.nordicsemi.profile_nfc.R
-import no.nordicsemi.profile_nfc.component.RecordTitleView
 import no.nordicsemi.profile_nfc.component.NfcRowView
+import no.nordicsemi.profile_nfc.component.RecordTitleView
+import no.nordicsemi.profile_nfc.utility.toPayloadData
 
 @Composable
 fun DisplayUriRecord(
@@ -74,6 +75,12 @@ fun DisplayUriRecord(
                     NfcRowView(
                         title = stringResource(id = R.string.uri_field),
                         description = it
+                    )
+                }
+                uriRecord.payloadData?.let {
+                    NfcRowView(
+                        title = stringResource(id = R.string.payload_data),
+                        description = it.toPayloadData()
                     )
                 }
                 ClickableTextView(stringResource(id = R.string.url_tag), uriRecord.actualUri)

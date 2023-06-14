@@ -16,8 +16,9 @@ import androidx.compose.ui.unit.dp
 import no.nordicsemi.android.common.theme.NordicTheme
 import no.nordicsemi.domain.nfcTag.ndef.record.MimeRecord
 import no.nordicsemi.profile_nfc.R
-import no.nordicsemi.profile_nfc.component.RecordTitleView
 import no.nordicsemi.profile_nfc.component.NfcRowView
+import no.nordicsemi.profile_nfc.component.RecordTitleView
+import no.nordicsemi.profile_nfc.utility.toPayloadData
 
 @Composable
 fun DisplayMimeTypeRecord(
@@ -61,6 +62,12 @@ fun DisplayMimeTypeRecord(
                     title = mimeRecord.payloadFieldName,
                     description = mimeRecord.payload
                 )
+                mimeRecord.payloadData?.let {
+                    NfcRowView(
+                        title = stringResource(id = R.string.payload_data),
+                        description = it.toPayloadData()
+                    )
+                }
             }
         }
     }

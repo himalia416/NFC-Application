@@ -42,7 +42,8 @@ internal object TextRecordParser {
             payloadLength = record.payload.size,
             langCode = languageCode,
             encoding = textEncoding.toString(),
-            actualText = actualText
+            actualText = actualText,
+            payloadData = record.payload
         )
     }
 }

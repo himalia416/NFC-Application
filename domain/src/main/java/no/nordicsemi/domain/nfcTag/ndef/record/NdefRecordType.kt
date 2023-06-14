@@ -21,27 +21,96 @@ sealed interface ExternalType : NdefRecordType
 
 @Parcelize
 data class TextRecord(
-    val recordName: String = "Text Field Record",
+    val recordName: String = "Text Record",
     val typeNameFormat: String = "",
     val payloadType: String = "",
     val payloadLength: Int,
     val langCode: String = "",
     val encoding: String = "",
     val actualText: String = "",
-    val payloadFieldName: String = "Text"
-) : NdefRecordType
+    val payloadFieldName: String = "Text",
+    val payloadData: ByteArray? = null
+) : NdefRecordType {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as TextRecord
+
+        if (recordName != other.recordName) return false
+        if (typeNameFormat != other.typeNameFormat) return false
+        if (payloadType != other.payloadType) return false
+        if (payloadLength != other.payloadLength) return false
+        if (langCode != other.langCode) return false
+        if (encoding != other.encoding) return false
+        if (actualText != other.actualText) return false
+        if (payloadFieldName != other.payloadFieldName) return false
+        if (!payloadData.contentEquals(other.payloadData)) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = recordName.hashCode()
+        result = 31 * result + typeNameFormat.hashCode()
+        result = 31 * result + payloadType.hashCode()
+        result = 31 * result + payloadLength
+        result = 31 * result + langCode.hashCode()
+        result = 31 * result + encoding.hashCode()
+        result = 31 * result + actualText.hashCode()
+        result = 31 * result + payloadFieldName.hashCode()
+        result = 31 * result + payloadData.contentHashCode()
+        return result
+    }
+}
 
 @Parcelize
 data class URIRecord(
-    val recordName: String = "URI Field Record",
+    val recordName: String = "URI Record",
     val typeNameFormat: String = "",
     val payloadType: String? = null,
     val payloadLength: Int,
     val protocol: String? = null,
     val uri: String? = null,
     val actualUri: String = "",
-    val payloadFieldName: String = "Actual URL"
-) : NdefRecordType
+    val payloadFieldName: String = "Actual URL",
+    val payloadData: ByteArray? = null
+) : NdefRecordType {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as URIRecord
+
+        if (recordName != other.recordName) return false
+        if (typeNameFormat != other.typeNameFormat) return false
+        if (payloadType != other.payloadType) return false
+        if (payloadLength != other.payloadLength) return false
+        if (protocol != other.protocol) return false
+        if (uri != other.uri) return false
+        if (actualUri != other.actualUri) return false
+        if (payloadFieldName != other.payloadFieldName) return false
+        if (payloadData != null) {
+            if (other.payloadData == null) return false
+            if (!payloadData.contentEquals(other.payloadData)) return false
+        } else if (other.payloadData != null) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = recordName.hashCode()
+        result = 31 * result + typeNameFormat.hashCode()
+        result = 31 * result + (payloadType?.hashCode() ?: 0)
+        result = 31 * result + payloadLength
+        result = 31 * result + (protocol?.hashCode() ?: 0)
+        result = 31 * result + (uri?.hashCode() ?: 0)
+        result = 31 * result + actualUri.hashCode()
+        result = 31 * result + payloadFieldName.hashCode()
+        result = 31 * result + (payloadData?.contentHashCode() ?: 0)
+        return result
+    }
+}
 
 @Parcelize
 data class AlternativeCarrier(
@@ -96,7 +165,39 @@ data class AndroidApplicationRecord(
     val payloadLength: Int,
     val packageType: String = "Package Name",
     val payload: String = "",
-) : ExternalType
+    val payloadData: ByteArray? = null
+) : ExternalType {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as AndroidApplicationRecord
+
+        if (recordName != other.recordName) return false
+        if (typeNameFormat != other.typeNameFormat) return false
+        if (payloadType != other.payloadType) return false
+        if (payloadLength != other.payloadLength) return false
+        if (packageType != other.packageType) return false
+        if (payload != other.payload) return false
+        if (payloadData != null) {
+            if (other.payloadData == null) return false
+            if (!payloadData.contentEquals(other.payloadData)) return false
+        } else if (other.payloadData != null) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = recordName.hashCode()
+        result = 31 * result + typeNameFormat.hashCode()
+        result = 31 * result + payloadType.hashCode()
+        result = 31 * result + payloadLength
+        result = 31 * result + packageType.hashCode()
+        result = 31 * result + payload.hashCode()
+        result = 31 * result + (payloadData?.contentHashCode() ?: 0)
+        return result
+    }
+}
 
 @Parcelize
 data class GenericExternalType(
@@ -107,7 +208,41 @@ data class GenericExternalType(
     val domain: String,
     val domainType: String?,
     val payload: String,
-) : ExternalType
+    val payloadData: ByteArray? = null
+) : ExternalType {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as GenericExternalType
+
+        if (recordName != other.recordName) return false
+        if (typeNameFormat != other.typeNameFormat) return false
+        if (payloadType != other.payloadType) return false
+        if (payloadLength != other.payloadLength) return false
+        if (domain != other.domain) return false
+        if (domainType != other.domainType) return false
+        if (payload != other.payload) return false
+        if (payloadData != null) {
+            if (other.payloadData == null) return false
+            if (!payloadData.contentEquals(other.payloadData)) return false
+        } else if (other.payloadData != null) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = recordName.hashCode()
+        result = 31 * result + typeNameFormat.hashCode()
+        result = 31 * result + payloadType.hashCode()
+        result = 31 * result + payloadLength
+        result = 31 * result + domain.hashCode()
+        result = 31 * result + (domainType?.hashCode() ?: 0)
+        result = 31 * result + payload.hashCode()
+        result = 31 * result + (payloadData?.contentHashCode() ?: 0)
+        return result
+    }
+}
 
 @Parcelize
 data class SmartPoster(
@@ -130,7 +265,8 @@ data class MimeRecord(
     val payloadType: String = "",
     val payloadLength: Int,
     val payloadFieldName: String = "Payload",
-    val payload: String = ""
+    val payload: String = "",
+    val payloadData: ByteArray? = null
 ) : NdefRecordType {
 
     fun getRecordIcon(): ImageVector {
@@ -145,5 +281,36 @@ data class MimeRecord(
             slicedPayloadType == "message" -> Icons.Default.Message
             else -> Icons.Default.PermMedia
         }
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as MimeRecord
+
+        if (recordName != other.recordName) return false
+        if (typeNameFormat != other.typeNameFormat) return false
+        if (payloadType != other.payloadType) return false
+        if (payloadLength != other.payloadLength) return false
+        if (payloadFieldName != other.payloadFieldName) return false
+        if (payload != other.payload) return false
+        if (payloadData != null) {
+            if (other.payloadData == null) return false
+            if (!payloadData.contentEquals(other.payloadData)) return false
+        } else if (other.payloadData != null) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = recordName.hashCode()
+        result = 31 * result + typeNameFormat.hashCode()
+        result = 31 * result + payloadType.hashCode()
+        result = 31 * result + payloadLength
+        result = 31 * result + payloadFieldName.hashCode()
+        result = 31 * result + payload.hashCode()
+        result = 31 * result + (payloadData?.contentHashCode() ?: 0)
+        return result
     }
 }

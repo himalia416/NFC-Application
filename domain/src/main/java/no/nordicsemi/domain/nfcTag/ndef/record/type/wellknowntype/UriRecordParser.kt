@@ -27,6 +27,7 @@ internal object UriRecordParser {
             protocol = protocolField,
             uri = actualUri,
             actualUri = protocolField + actualUri,
+            payloadData = record.payload
         )
     }
 }

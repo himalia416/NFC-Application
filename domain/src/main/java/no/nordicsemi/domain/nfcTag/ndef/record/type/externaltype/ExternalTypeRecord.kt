@@ -35,7 +35,8 @@ internal object ExternalTypeRecord {
             payloadLength = record.payload.size,
             domain = domain,
             domainType = type,
-            payload = String(record.payload)
+            payload = String(record.payload),
+            payloadData = record.payload
         )
     }
 }

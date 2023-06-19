@@ -1,4 +1,4 @@
-package no.nordicsemi.setting.viewmodel
+package no.nordicsemi.settings.viewmodel
 
 sealed interface ExportState
 

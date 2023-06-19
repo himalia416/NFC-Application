@@ -1,4 +1,4 @@
-package no.nordicsemi.setting.views
+package no.nordicsemi.settings.views
 
 import android.net.Uri
 import android.os.Build
@@ -8,7 +8,7 @@ import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.res.stringResource
-import no.nordicsemi.setting.R
+import no.nordicsemi.settings.R
 
 @RequiresApi(Build.VERSION_CODES.N)
 @Composable

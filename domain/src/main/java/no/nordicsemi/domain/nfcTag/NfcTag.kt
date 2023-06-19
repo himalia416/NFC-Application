@@ -1,29 +1,28 @@
 package no.nordicsemi.domain.nfcTag
 
 import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import no.nordicsemi.domain.nfcTag.miFareClassic.MifareClassicMessage
 import no.nordicsemi.domain.nfcTag.ndef.NfcNdefMessage
-import kotlinx.parcelize.Parcelize
+import no.nordicsemi.domain.nfcTag.nfcA.NfcAInfo
+import no.nordicsemi.domain.nfcTag.nfcB.NfcBInfo
+import no.nordicsemi.domain.nfcTag.nfcF.NfcFInfo
+import no.nordicsemi.domain.nfcTag.nfcV.NfcVInfo
 
 @Parcelize
-sealed interface NfcTag : Parcelable {
-    val general: GeneralTagInformation
-}
+data class DiscoveredTag(
+    val serialNumber: String = "",
+    val manufacturerName: String = "",
+    val techList: List<String> = emptyList(),
+    val availableTagTechnology: NfcTag
+) : Parcelable
 
 @Parcelize
-data class NdefTag(
-    override val general: GeneralTagInformation,
-    val nfcNdefMessage: NfcNdefMessage
-) : NfcTag
-
-@Parcelize
-data class MifareClassicTag(
-    override val general: GeneralTagInformation,
-    val mifareClassicField1: MifareClassicMessage
-) : NfcTag
-
-@Parcelize
-data class OtherTag(
-    override val general: GeneralTagInformation,
-//    val otherTag: OtherTagMessage,
-) : NfcTag
+data class NfcTag(
+    val nfcNdefMessage: NfcNdefMessage? = null,
+    val mifareClassicField: MifareClassicMessage? = null,
+    val nfcAInfo: NfcAInfo? = null,
+    val nfcBInfo: NfcBInfo? = null,
+    val nfcFInfo: NfcFInfo? = null,
+    val nfcVInfo: NfcVInfo? = null,
+) : Parcelable

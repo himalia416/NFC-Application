@@ -10,7 +10,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import no.nordic.ui.NfcUiDestinationId
 import no.nordicsemi.android.common.navigation.Navigator
+import no.nordicsemi.domain.nfcTag.DiscoveredTag
 import no.nordicsemi.settingsstorage.domain.NFCSettings
 import no.nordicsemi.settingsstorage.repository.SettingsRepository
 import javax.inject.Inject
@@ -30,6 +32,8 @@ internal class NfcViewModel @Inject constructor(
 ) : ViewModel() {
     private val _state: MutableStateFlow<NfcViewState> = MutableStateFlow(NfcViewState())
     val state = _state.asStateFlow()
+    val serialNumber = nfcManager.serialNumber
+    val techList = nfcManager.techList
 
     init {
         settingsRepository.settings

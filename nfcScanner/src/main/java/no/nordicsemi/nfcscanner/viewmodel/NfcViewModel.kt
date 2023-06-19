@@ -83,7 +83,11 @@ internal class NfcViewModel @Inject constructor(
         )
     }
 
-    fun showScanTag() {
+    fun showTag(discoveredTag: DiscoveredTag) {
+        navigator.navigateTo(NfcUiDestinationId, discoveredTag)
+    }
+
+    private fun showScanTag() {
         _state.value = _state.value.copy(state = NfcState.ScanNfcTag)
     }
 

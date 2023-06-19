@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NFC Application</string>
+
+    <string name="scan_nfc_tag">Scan an NFC tag…</string>
+    <string name="nfc_not_enabled_appbar">NFC not Enabled</string>
+    <string name="nfc_not_enabled">NFC not Enabled</string>
+    <string name="enable_nfc">Please enable NFC from the device setting.</string>
+    <string name="setting">Setting</string>
+    <string name="cancel">Cancel</string>
+    <string name="instruction_to_enable_nfc">NFC is not Enabled in this device.\nGo to the Settings > Connected Devices to turn NFC on. </string>
+    <string name="nfc_not_supported_appbar">NFC not Supported</string>
+    <string name="nfc_not_supported">NFC is not supported in this device</string>
+</resources>

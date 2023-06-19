@@ -33,6 +33,7 @@ include(":serialization")
 include(":domain")
 include(":remoteDatabase")
 include(":settingsStorage")
+include(":nfcUi")
 
 if (file("../Android-Common-Libraries").exists()) {
     includeBuild("../Android-Common-Libraries")

@@ -1,10 +1,10 @@
 plugins {
     alias(libs.plugins.nordic.library.compose)
+    alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.nordic.hilt)
 }
-
 android {
-    namespace = "no.nordicsemi.nfcscanner"
+    namespace = "no.nordicsemi.nfcui"
 }
 
 dependencies {
@@ -19,12 +19,8 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.nordic.core)
 
-    implementation(project(":domain"))
-    implementation(project(":remoteDatabase"))
-    implementation(project(":settingsStorage"))
-    implementation(project(":welcome"))
-    implementation(project(":nfcUi"))
-
     // Balloon for tooltip popup.
     implementation ("com.github.skydoves:balloon-compose:1.5.2")
+    implementation(project(":domain"))
+    implementation(project(":settings"))
 }

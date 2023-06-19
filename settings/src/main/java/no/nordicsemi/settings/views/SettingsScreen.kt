@@ -1,4 +1,4 @@
-package no.nordicsemi.setting.views
+package no.nordicsemi.settings.views
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -40,13 +40,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import no.nordicsemi.setting.BuildConfig
-import no.nordicsemi.setting.R
-import no.nordicsemi.setting.viewmodel.ErrorInExport
-import no.nordicsemi.setting.viewmodel.ExportStarted
-import no.nordicsemi.setting.viewmodel.ExportStateUnknown
-import no.nordicsemi.setting.viewmodel.ExportSuccess
-import no.nordicsemi.setting.viewmodel.SettingsViewModel
+import no.nordicsemi.settings.BuildConfig
+import no.nordicsemi.settings.R
+import no.nordicsemi.settings.viewmodel.ErrorInExport
+import no.nordicsemi.settings.viewmodel.ExportStarted
+import no.nordicsemi.settings.viewmodel.ExportStateUnknown
+import no.nordicsemi.settings.viewmodel.ExportSuccess
+import no.nordicsemi.settings.viewmodel.SettingsViewModel
 import no.nordicsemi.android.common.theme.NordicTheme
 import no.nordicsemi.android.common.theme.view.NordicAppBar
 

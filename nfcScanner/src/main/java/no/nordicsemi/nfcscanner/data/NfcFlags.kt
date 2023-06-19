@@ -1,4 +1,4 @@
-package no.nordicsemi.profile_nfc.data
+package no.nordicsemi.nfcscanner.data
 
 import android.nfc.NfcAdapter
 

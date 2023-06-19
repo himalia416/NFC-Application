@@ -15,5 +15,5 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
 
     implementation(project(":navigation"))
-    implementation(project(":profile_nfc"))
+    implementation(project(":nfcScanner"))
 }

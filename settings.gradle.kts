@@ -25,7 +25,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "NFCApplication"
 include(":app")
-include(":profile_nfc")
+include(":nfcScanner")
 include(":settings")
 include(":welcome")
 include(":navigation")

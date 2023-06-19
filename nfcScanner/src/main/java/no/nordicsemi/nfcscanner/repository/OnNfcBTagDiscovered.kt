@@ -1,8 +1,8 @@
-package no.nordicsemi.profile_nfc.repository
+package no.nordicsemi.nfcscanner.repository
 
 import android.nfc.Tag
 import android.nfc.tech.NfcB
-import no.nordicsemi.domain.nfcTag.NfcBInfo
+import no.nordicsemi.domain.nfcTag.nfcB.NfcBInfo
 
 object OnNfcBTagDiscovered {
 

@@ -1,4 +1,4 @@
-package no.nordicsemi.setting.views
+package no.nordicsemi.settings.views
 
 sealed interface SettingsScreenViewEvent
 

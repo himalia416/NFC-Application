@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "no.nordicsemi.profile_nfc"
+    namespace = "no.nordicsemi.nfcscanner"
 }
 
 dependencies {

@@ -1,12 +1,10 @@
-package no.nordicsemi.profile_nfc.repository
+package no.nordicsemi.nfcscanner.repository
 
 import android.nfc.Tag
 import android.nfc.tech.Ndef
-import no.nordicsemi.domain.nfcTag.GeneralTagInformation
-import no.nordicsemi.domain.nfcTag.NdefTag
-import no.nordicsemi.domain.nfcTag.ndef.NdefRecord
 import no.nordicsemi.domain.nfcTag.ndef.NdefTagType.Companion.getTagType
 import no.nordicsemi.domain.nfcTag.ndef.NfcNdefMessage
+import no.nordicsemi.domain.nfcTag.ndef.NfcNdefRecord
 import no.nordicsemi.domain.nfcTag.ndef.record.mapper.NdefRecordTypeMapper
 
 object OnNdefTagDiscovered {
@@ -14,12 +12,12 @@ object OnNdefTagDiscovered {
     /**
      * Parses NdefMessage tag.
      */
-    fun parse(tag: Tag, generalTagInformation: GeneralTagInformation): NdefTag? {
+    fun parse(tag: Tag): NfcNdefMessage? {
         val ndef = Ndef.get(tag) ?: return null
         ndef.connect()
         val ndefMessage = ndef.ndefMessage ?: return null
         val ndefRecords = ndefMessage.records.map { record ->
-            NdefRecord(record = NdefRecordTypeMapper.getNdefRecordType(record))
+            NfcNdefRecord(record = NdefRecordTypeMapper.getNdefRecordType(record))
         }
 
         val nfcNdefMessage = NfcNdefMessage(
@@ -32,6 +30,6 @@ object OnNdefTagDiscovered {
         )
         ndef.close()
 
-        return NdefTag(general = generalTagInformation, nfcNdefMessage = nfcNdefMessage)
+        return nfcNdefMessage
     }
 }

@@ -1,4 +1,4 @@
-package no.nordicsemi.profile_nfc.views.nfcStateViews
+package no.nordicsemi.nfcscanner.views.nfcStateViews
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,7 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import no.nordicsemi.profile_nfc.R
+import no.nordicsemi.nfcscanner.R
 import no.nordicsemi.android.common.theme.view.NordicAppBar
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -14,7 +14,7 @@ import no.nordicsemi.android.common.navigation.NavigationView
 import no.nordicsemi.android.common.theme.NordicActivity
 import no.nordicsemi.android.common.theme.NordicTheme
 import no.nordicsemi.navigation.NfcDestinations
-import no.nordicsemi.profile_nfc.repository.NfcScanningManager
+import no.nordicsemi.nfcscanner.repository.NfcScanningManager
 import java.util.*
 import javax.inject.Inject
 

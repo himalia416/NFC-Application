@@ -1,4 +1,4 @@
-package no.nordicsemi.setting.viewmodel
+package no.nordicsemi.settings.viewmodel
 
 import android.content.ActivityNotFoundException
 import android.content.ContentResolver
@@ -10,17 +10,17 @@ import androidx.core.content.FileProvider
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import no.nordicsemi.serialization.domain.NfcJsonAdapter
-import no.nordicsemi.setting.NfcSettingScreenId
-import no.nordicsemi.setting.views.NavigateUp
-import no.nordicsemi.setting.views.OnAboutNfcClick
-import no.nordicsemi.setting.views.OnEmailClick
-import no.nordicsemi.setting.views.OnExportScanResultClick
-import no.nordicsemi.setting.views.OnAboutAppClick
-import no.nordicsemi.setting.views.OnImportScanClick
-import no.nordicsemi.setting.views.OnPlaySoundClick
-import no.nordicsemi.setting.views.OnScanHistoryClick
-import no.nordicsemi.setting.views.OnVibrateClick
-import no.nordicsemi.setting.views.SettingsScreenViewEvent
+import no.nordicsemi.settings.NfcSettingScreenId
+import no.nordicsemi.settings.views.NavigateUp
+import no.nordicsemi.settings.views.OnAboutNfcClick
+import no.nordicsemi.settings.views.OnEmailClick
+import no.nordicsemi.settings.views.OnExportScanResultClick
+import no.nordicsemi.settings.views.OnAboutAppClick
+import no.nordicsemi.settings.views.OnImportScanClick
+import no.nordicsemi.settings.views.OnPlaySoundClick
+import no.nordicsemi.settings.views.OnScanHistoryClick
+import no.nordicsemi.settings.views.OnVibrateClick
+import no.nordicsemi.settings.views.SettingsScreenViewEvent
 import no.nordicsemi.welcome.NfcWelcomeDestinationId
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext

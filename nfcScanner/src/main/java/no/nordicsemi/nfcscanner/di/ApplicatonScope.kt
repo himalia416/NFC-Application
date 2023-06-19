@@ -1,4 +1,4 @@
-package no.nordicsemi.profile_nfc.di
+package no.nordicsemi.nfcscanner.di
 
 import dagger.Module
 import dagger.Provides

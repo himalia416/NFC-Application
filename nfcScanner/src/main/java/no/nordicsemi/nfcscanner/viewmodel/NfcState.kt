@@ -1,4 +1,4 @@
-package no.nordicsemi.profile_nfc.viewmodel
+package no.nordicsemi.nfcscanner.viewmodel
 
 internal enum class NfcState {
     ScanNfcTag,

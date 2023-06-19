@@ -1,9 +1,9 @@
-package no.nordicsemi.profile_nfc.viewmodel
+package no.nordicsemi.nfcscanner.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import no.nordicsemi.profile_nfc.repository.NfcScanningManager
-import no.nordicsemi.profile_nfc.repository.NfcScanningState
+import no.nordicsemi.nfcscanner.repository.NfcScanningManager
+import no.nordicsemi.nfcscanner.repository.NfcScanningState
 import no.nordicsemi.welcome.NfcWelcomeDestinationId
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

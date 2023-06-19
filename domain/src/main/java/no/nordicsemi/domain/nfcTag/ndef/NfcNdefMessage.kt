@@ -10,7 +10,7 @@ data class NfcNdefMessage(
     val currentMessageSize: Int,
     val maximumMessageSize: Int,
     val isNdefWritable: Boolean,
-    val ndefRecord: List<NdefRecord>,
+    val ndefRecord: List<NfcNdefRecord>,
     val ndefType: String
 ) : Parcelable {
     fun getAccessDataType(isNdefWritable: Boolean) =
@@ -18,7 +18,7 @@ data class NfcNdefMessage(
 }
 
 @Parcelize
-data class NdefRecord(
+data class NfcNdefRecord(
     val record: NdefRecordType? = null,
 ) : Parcelable
 

@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import no.nordicsemi.domain.nfcTag.NfcTag
 import no.nordicsemi.nfcscanner.data.NfcFlags
+import no.nordicsemi.nfcscanner.data.NfcTech.MIFARE_CLASSIC
 import no.nordicsemi.nfcscanner.data.NfcTech.NDEF
 import no.nordicsemi.nfcscanner.data.NfcTech.NFCA
 import no.nordicsemi.nfcscanner.data.NfcTech.NFCB
@@ -82,22 +83,13 @@ class NfcScanningManager @Inject constructor(
         _serialNumber.value = tag.id.toHex()
         _techList.value = getAllTagList(tag)
 
-        val nfcAInfo = tag.techList.find { it == NFCA }?.let { OnNfcATagDiscovered.parse(tag) }
-        val nfcBInfo = tag.techList.find { it == NFCB }?.let { OnNfcBTagDiscovered.parse(tag) }
-        val nfcFInfo = tag.techList.find { it == NFCF }?.let { OnNfcFTagDiscovered.parse(tag) }
-        val nfcVInfo = tag.techList.find { it == NFCV }?.let { OnNfcVTagDiscovered.parse(tag) }
-        val ndef = tag.techList.find { it == NDEF }?.let { OnNdefTagDiscovered.parse(tag) }
-        // For the NXP card, will use Taplinx api
-        // The use of this api, follow here:
-        // https://github.com/dfpalomar/TapLinxSample/blob/master/src/main/java/com/nxp/sampletaplinx/MainActivity.java
-        val mifare = tag.techList.find { it == NDEF }?.let { OnMifareTagDiscovered.parse(tag) }
         val nfcTag = NfcTag(
-            nfcAInfo = nfcAInfo,
-            nfcBInfo = nfcBInfo,
-            nfcFInfo = nfcFInfo,
-            nfcVInfo = nfcVInfo,
-            nfcNdefMessage = ndef,
-            mifareClassicField = mifare
+            nfcAInfo = tag.techList.find { it == NFCA }?.let { OnNfcATagDiscovered.parse(tag) },
+            nfcBInfo = tag.techList.find { it == NFCB }?.let { OnNfcBTagDiscovered.parse(tag) },
+            nfcFInfo = tag.techList.find { it == NFCF }?.let { OnNfcFTagDiscovered.parse(tag) },
+            nfcVInfo = tag.techList.find { it == NFCV }?.let { OnNfcVTagDiscovered.parse(tag) },
+            nfcNdefMessage = tag.techList.find { it == NDEF }?.let { OnNdefTagDiscovered.parse(tag) },
+            mifareClassicField = tag.techList.find { it == MIFARE_CLASSIC }?.let { OnMifareTagDiscovered.parse(tag) }
         )
         _nfcScanningState.value = _nfcScanningState.value.copy(tag = nfcTag)
     }

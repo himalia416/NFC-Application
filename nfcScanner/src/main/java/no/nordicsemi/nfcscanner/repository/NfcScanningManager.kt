@@ -3,8 +3,8 @@ package no.nordicsemi.nfcscanner.repository
 import android.app.Activity
 import android.nfc.NfcAdapter
 import android.nfc.Tag
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,17 +25,30 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 data class NfcScanningState(
-    val isNfcSupported: Boolean = false,
-    val isNfcEnabled: Boolean = false,
+    val isScanning: Boolean = false,
     val tag: NfcTag? = null,
 )
+
+@HiltViewModel
+class NfcScanningManagerVM @Inject constructor(
+    private val nfcScanningManager: NfcScanningManager
+) : ViewModel() {
+
+    fun onResume(activity: Activity) {
+        nfcScanningManager.onResume(activity)
+    }
+
+    fun onPause(activity: Activity) {
+        nfcScanningManager.onPause(activity)
+    }
+}
 
 @Singleton
 class NfcScanningManager @Inject constructor(
     private val manufacturerNameRepository: ManufacturerNameRepository,
     private val nfcAdapter: NfcAdapter?,
     private val scope: CoroutineScope,
-) : DefaultLifecycleObserver {
+) {
     private val _nfcScanningState: MutableStateFlow<NfcScanningState> =
         MutableStateFlow(NfcScanningState())
     val nfcScanningState = _nfcScanningState.asStateFlow()
@@ -46,15 +59,13 @@ class NfcScanningManager @Inject constructor(
     private val _techList: MutableStateFlow<List<String>> = MutableStateFlow(emptyList())
     val techList = _techList.asStateFlow()
 
-    override fun onResume(owner: LifecycleOwner) {
+    fun onResume(activity: Activity) {
         nfcAdapter?.let {
-            _nfcScanningState.value = _nfcScanningState.value.copy(isNfcSupported = true)
             if (it.isEnabled) {
-                _nfcScanningState.value = _nfcScanningState.value.copy(isNfcEnabled = true)
                 val readerFlags =
                     enumValues<NfcFlags>().fold(0) { acc, flag -> acc or flag.value }
                 // Enable ReaderMode for all types of card and disable platform sounds
-                it.enableReaderMode(owner as Activity, ::onTagDiscovered, readerFlags, null)
+                it.enableReaderMode(activity, ::onTagDiscovered, readerFlags, null)
             }
         }
     }
@@ -62,6 +73,11 @@ class NfcScanningManager @Inject constructor(
     var job: Job? = null
 
     private fun onTagDiscovered(tag: Tag?) {
+        // Are we already processing a Tag
+        if (_nfcScanningState.value.isScanning) {
+            // Ignore this Tag
+            return
+        }
         job?.cancel()
         _icManufacturerName.value = "Loading..."
         try {
@@ -80,6 +96,7 @@ class NfcScanningManager @Inject constructor(
      * Provides the discovered tag information.
      */
     private fun getTagInfo(tag: Tag) {
+        _nfcScanningState.value = _nfcScanningState.value.copy(isScanning = true)
         _serialNumber.value = tag.id.toHex()
         _techList.value = getAllTagList(tag)
 
@@ -88,10 +105,13 @@ class NfcScanningManager @Inject constructor(
             nfcBInfo = tag.techList.find { it == NFCB }?.let { OnNfcBTagDiscovered.parse(tag) },
             nfcFInfo = tag.techList.find { it == NFCF }?.let { OnNfcFTagDiscovered.parse(tag) },
             nfcVInfo = tag.techList.find { it == NFCV }?.let { OnNfcVTagDiscovered.parse(tag) },
-            nfcNdefMessage = tag.techList.find { it == NDEF }?.let { OnNdefTagDiscovered.parse(tag) },
-            mifareClassicField = tag.techList.find { it == MIFARE_CLASSIC }?.let { OnMifareTagDiscovered.parse(tag) }
+            nfcNdefMessage = tag.techList.find { it == NDEF }
+                ?.let { OnNdefTagDiscovered.parse(tag) },
+            mifareClassicField = tag.techList.find { it == MIFARE_CLASSIC }
+                ?.let { OnMifareTagDiscovered.parse(tag) }
         )
         _nfcScanningState.value = _nfcScanningState.value.copy(tag = nfcTag)
+        _nfcScanningState.value = _nfcScanningState.value.copy(isScanning = false)
     }
 
     private fun getIdentifier(tag: Tag) = tag.id.toHex().subSequence(0, 2).toString()
@@ -109,9 +129,8 @@ class NfcScanningManager @Inject constructor(
             ?: "Company not found"
     }
 
-    override fun onPause(owner: LifecycleOwner) {
-        super.onPause(owner)
+    fun onPause(activity: Activity) {
         // Disable ReaderMode
-        nfcAdapter?.disableReaderMode(owner as Activity)
+        nfcAdapter?.disableReaderMode(activity)
     }
 }

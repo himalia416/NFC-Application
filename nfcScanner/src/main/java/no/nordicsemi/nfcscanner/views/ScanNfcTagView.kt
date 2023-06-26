@@ -1,4 +1,4 @@
-package no.nordicsemi.nfcscanner.views.nfcStateViews
+package no.nordicsemi.nfcscanner.views
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box

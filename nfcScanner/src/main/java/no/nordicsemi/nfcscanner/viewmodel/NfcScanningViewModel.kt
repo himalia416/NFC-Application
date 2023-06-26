@@ -2,9 +2,6 @@ package no.nordicsemi.nfcscanner.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import no.nordicsemi.nfcscanner.repository.NfcScanningManager
-import no.nordicsemi.nfcscanner.repository.NfcScanningState
-import no.nordicsemi.welcome.NfcWelcomeDestinationId
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,27 +10,28 @@ import kotlinx.coroutines.flow.onEach
 import no.nordic.ui.NfcUiDestinationId
 import no.nordicsemi.android.common.navigation.Navigator
 import no.nordicsemi.domain.nfcTag.DiscoveredTag
+import no.nordicsemi.nfcscanner.repository.NfcScanningManager
+import no.nordicsemi.nfcscanner.repository.NfcScanningState
 import no.nordicsemi.settingsstorage.domain.NFCSettings
 import no.nordicsemi.settingsstorage.repository.SettingsRepository
+import no.nordicsemi.welcome.NfcWelcomeDestinationId
 import javax.inject.Inject
 
 internal data class NfcViewState(
     val setting: NFCSettings? = null,
     val state: NfcState = NfcState.ScanNfcTag,
     val nfcScanningState: NfcScanningState = NfcScanningState(),
-    val manufacturerName: String = ""
 )
 
 @HiltViewModel
-internal class NfcViewModel @Inject constructor(
+internal class NfcScanningViewModel @Inject constructor(
     private val navigator: Navigator,
     private val nfcManager: NfcScanningManager,
     settingsRepository: SettingsRepository,
 ) : ViewModel() {
     private val _state: MutableStateFlow<NfcViewState> = MutableStateFlow(NfcViewState())
     val state = _state.asStateFlow()
-    val serialNumber = nfcManager.serialNumber
-    val techList = nfcManager.techList
+    var manufacturerName = ""
 
     init {
         settingsRepository.settings
@@ -48,36 +46,16 @@ internal class NfcViewModel @Inject constructor(
     }
 
     private fun startNfcScanning() {
-        nfcManager
-            .apply {
-                nfcScanningState.onEach {
-                    when {
-                        !it.isNfcSupported -> showNfcNotSupported()
-                        !it.isNfcEnabled -> showNfcNotEnabledPage()
-                        it.tag != null -> tagDiscovered()
-                        else -> showScanTag()
-                    }
-                }.launchIn(viewModelScope)
+        nfcManager.nfcScanningState.onEach {
+            when {
+                !it.isScanning -> showScanTag()
+                it.tag != null -> tagDiscovered()
             }
-            .apply {
-                icManufacturerName.onEach {
-                    manufacturerName(it)
-                }
-                    .launchIn(viewModelScope)
-            }
+        }.launchIn(viewModelScope)
+        nfcManager.icManufacturerName.onEach {
+            manufacturerName = it
+        }.launchIn(viewModelScope)
 
-    }
-
-    private fun manufacturerName(name: String) {
-        _state.value = _state.value.copy(manufacturerName = name)
-    }
-
-    private fun showNfcNotEnabledPage() {
-        _state.value = _state.value.copy(state = NfcState.NfcNotEnabled)
-    }
-
-    private fun showNfcNotSupported() {
-        _state.value = _state.value.copy(state = NfcState.NfcNotSupported)
     }
 
     private fun tagDiscovered() {
@@ -85,17 +63,18 @@ internal class NfcViewModel @Inject constructor(
             state = NfcState.NfcTagDiscovered,
             nfcScanningState = nfcManager.nfcScanningState.value
         )
-    }
 
-    fun showTag(discoveredTag: DiscoveredTag) {
+        val discoveredTag = DiscoveredTag(
+            serialNumber = nfcManager.serialNumber.value,
+            manufacturerName = manufacturerName,
+            techList = nfcManager.techList.value,
+            availableTagTechnology = nfcManager.nfcScanningState.value.tag!!
+        )
         navigator.navigateTo(NfcUiDestinationId, discoveredTag)
+        _state.value = NfcViewState()
     }
 
     private fun showScanTag() {
         _state.value = _state.value.copy(state = NfcState.ScanNfcTag)
-    }
-
-    fun enableNfc() {
-        _state.value = _state.value.copy(state = NfcState.EnableNfc)
     }
 }

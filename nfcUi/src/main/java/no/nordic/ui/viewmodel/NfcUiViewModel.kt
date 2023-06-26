@@ -12,7 +12,7 @@ import no.nordicsemi.settings.NfcSettingScreenId
 import javax.inject.Inject
 
 @HiltViewModel
-internal class NfcScanningViewModel @Inject constructor(
+internal class NfcUiViewModel @Inject constructor(
     private val navigator: Navigator,
     savedStateHandle: SavedStateHandle,
 ) : SimpleNavigationViewModel(navigator, savedStateHandle) {

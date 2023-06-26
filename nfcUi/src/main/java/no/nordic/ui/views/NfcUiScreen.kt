@@ -12,7 +12,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
-import no.nordic.ui.viewmodel.NfcScanningViewModel
+import no.nordic.ui.viewmodel.NfcUiViewModel
 import no.nordic.ui.views.tagView.TagInfoView
 import no.nordic.ui.views.tagView.ndefmessage.NdefMessageView
 import no.nordic.ui.views.tagView.ndefmessage.ndefrecord.RecordView
@@ -22,7 +22,7 @@ import no.nordicsemi.nfcui.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun NfcUiScreen() {
-    val viewModel: NfcScanningViewModel = hiltViewModel()
+    val viewModel: NfcUiViewModel = hiltViewModel()
     val discoveredTag = viewModel.discoveredTag
     val state by viewModel.uiState.collectAsState()
 

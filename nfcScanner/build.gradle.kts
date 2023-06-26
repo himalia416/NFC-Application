@@ -13,6 +13,7 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.nordic.theme)
     implementation(libs.nordic.navigation)
+    implementation(libs.nordic.permissions.nfc)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.compose.material.iconsExtended)
     implementation(libs.androidx.compose.bom)

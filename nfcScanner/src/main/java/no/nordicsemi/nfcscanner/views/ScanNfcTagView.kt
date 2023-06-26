@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,15 +19,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import no.nordicsemi.nfcscanner.R
 import no.nordicsemi.android.common.theme.NordicTheme
-import no.nordicsemi.android.common.theme.view.NordicAppBar
+import no.nordicsemi.nfcscanner.R
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScanNfcTagView() {
     Column {
-        NordicAppBar(text = stringResource(id = R.string.app_name))
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center,

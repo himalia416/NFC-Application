@@ -9,19 +9,6 @@ import android.util.Log
 import androidx.core.content.FileProvider
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import no.nordicsemi.serialization.domain.NfcJsonAdapter
-import no.nordicsemi.settings.NfcSettingScreenId
-import no.nordicsemi.settings.views.NavigateUp
-import no.nordicsemi.settings.views.OnAboutNfcClick
-import no.nordicsemi.settings.views.OnEmailClick
-import no.nordicsemi.settings.views.OnExportScanResultClick
-import no.nordicsemi.settings.views.OnAboutAppClick
-import no.nordicsemi.settings.views.OnImportScanClick
-import no.nordicsemi.settings.views.OnPlaySoundClick
-import no.nordicsemi.settings.views.OnScanHistoryClick
-import no.nordicsemi.settings.views.OnVibrateClick
-import no.nordicsemi.settings.views.SettingsScreenViewEvent
-import no.nordicsemi.welcome.NfcWelcomeDestinationId
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,8 +18,24 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import no.nordicsemi.android.common.navigation.Navigator
 import no.nordicsemi.android.common.navigation.viewmodel.SimpleNavigationViewModel
+import no.nordicsemi.domain.NfcSettingNoTag
+import no.nordicsemi.domain.NfcSettingsWithTag
+import no.nordicsemi.domain.nfcTag.DiscoveredTag
+import no.nordicsemi.serialization.domain.NfcJsonAdapter
+import no.nordicsemi.settings.NfcSettingScreenId
+import no.nordicsemi.settings.views.NavigateUp
+import no.nordicsemi.settings.views.OnAboutAppClick
+import no.nordicsemi.settings.views.OnAboutNfcClick
+import no.nordicsemi.settings.views.OnEmailClick
+import no.nordicsemi.settings.views.OnExportScanResultClick
+import no.nordicsemi.settings.views.OnImportScanClick
+import no.nordicsemi.settings.views.OnPlaySoundClick
+import no.nordicsemi.settings.views.OnScanHistoryClick
+import no.nordicsemi.settings.views.OnVibrateClick
+import no.nordicsemi.settings.views.SettingsScreenViewEvent
 import no.nordicsemi.settingsstorage.domain.NFCSettings
 import no.nordicsemi.settingsstorage.repository.SettingsRepository
+import no.nordicsemi.welcome.NfcWelcomeDestinationId
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -53,8 +56,21 @@ internal class SettingsViewModel @Inject constructor(
     val state = repository.settings.stateIn(viewModelScope, SharingStarted.Eagerly, NFCSettings())
     private val _exportState = MutableStateFlow<ExportState>(ExportStateUnknown)
     val exportState = _exportState.asStateFlow()
+    var nfcTag: DiscoveredTag? = null
+    var isTagAvailable: Boolean = true // todo put it in the repository
 
-    private val nfcTag = parameterOf(NfcSettingScreenId)
+    private val tag = parameterOf(NfcSettingScreenId)
+    init {
+        when (val dTag = tag){
+            NfcSettingNoTag -> {
+                isTagAvailable = false
+            }
+            is NfcSettingsWithTag -> {
+                nfcTag = dTag.tag
+
+            }
+        }
+    }
 
     fun onEvent(event: SettingsScreenViewEvent) {
         when (event) {
@@ -84,7 +100,7 @@ internal class SettingsViewModel @Inject constructor(
     fun export(contentResolver: ContentResolver, uri: Uri) {
         try {
             viewModelScope.launch {
-                val data = jsonAdapter.toJson(nfcTag).toByteArray()
+                val data = nfcTag?.let { jsonAdapter.toJson(it).toByteArray() }
                 contentResolver.openOutputStream(uri)?.run {
                     write(data)
                     close()
@@ -98,7 +114,7 @@ internal class SettingsViewModel @Inject constructor(
 
     private fun shareScanResultInEmail() {
         try {
-            val jsonData = jsonAdapter.toJson(nfcTag)
+            val jsonData = nfcTag?.let { jsonAdapter.toJson(it) }!!
             val uri = createJsonFile(context, jsonData)
             val intent = Intent(Intent.ACTION_SEND).apply {
                 type = "application/json"
@@ -110,9 +126,9 @@ internal class SettingsViewModel @Inject constructor(
                 context.startActivities(arrayOf(intent))
             }
         } catch (e: ActivityNotFoundException) {
-            Log.d(TAG, "ActivityNotFoundException: $e")
+            Log.e(TAG, "ActivityNotFoundException: $e")
         } catch (t: Throwable) {
-            Log.d(TAG, "Throwable: $t")
+            Log.e(TAG, "Throwable: $t")
         }
     }
 

@@ -25,6 +25,7 @@ dependencies {
     implementation(project(":settingsStorage"))
     implementation(project(":welcome"))
     implementation(project(":nfcUi"))
+    implementation(project(":settings"))
 
     // Balloon for tooltip popup.
     implementation ("com.github.skydoves:balloon-compose:1.5.2")

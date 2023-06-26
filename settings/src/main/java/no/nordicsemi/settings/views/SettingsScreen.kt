@@ -40,6 +40,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import no.nordicsemi.android.common.theme.NordicTheme
+import no.nordicsemi.android.common.theme.view.NordicAppBar
 import no.nordicsemi.settings.BuildConfig
 import no.nordicsemi.settings.R
 import no.nordicsemi.settings.viewmodel.ErrorInExport
@@ -47,15 +49,14 @@ import no.nordicsemi.settings.viewmodel.ExportStarted
 import no.nordicsemi.settings.viewmodel.ExportStateUnknown
 import no.nordicsemi.settings.viewmodel.ExportSuccess
 import no.nordicsemi.settings.viewmodel.SettingsViewModel
-import no.nordicsemi.android.common.theme.NordicTheme
-import no.nordicsemi.android.common.theme.view.NordicAppBar
 
 @RequiresApi(Build.VERSION_CODES.N)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen() {
     val viewModel: SettingsViewModel = hiltViewModel()
-    val onEvent:(SettingsScreenViewEvent) -> Unit = {viewModel.onEvent(it)}
+    val onEvent: (SettingsScreenViewEvent) -> Unit = { viewModel.onEvent(it) }
+
     Column {
         NordicAppBar(
             text = stringResource(id = R.string.settings),
@@ -65,11 +66,11 @@ fun SettingsScreen() {
         val exportState by viewModel.exportState.collectAsState()
         val resolver = LocalContext.current.contentResolver
 
-        when(val es = exportState){
-            ExportStarted -> ExportScreen(onExportClicked = {viewModel.export(resolver, it)})
+        when (val es = exportState) {
+            ExportStarted -> ExportScreen(onExportClicked = { viewModel.export(resolver, it) })
             ExportSuccess -> {}
             is ErrorInExport -> {}
-            ExportStateUnknown -> { }
+            ExportStateUnknown -> {}
         }
 
         LazyColumn {
@@ -78,6 +79,7 @@ fun SettingsScreen() {
 
                 SettingsButtonWithIcon(
                     title = stringResource(id = R.string.export_scan),
+                    enabled = viewModel.isTagAvailable,
                     description = stringResource(id = R.string.export_scan_des),
                     icon = Icons.Filled.Download,
                     onClick = { onEvent(OnExportScanResultClick) }
@@ -101,7 +103,7 @@ fun SettingsScreen() {
                     title = stringResource(id = R.string.scan_history),
                     description = stringResource(id = R.string.scan_history_des),
                     icon = Icons.Filled.History,
-                    onClick = {/*TODO*/}
+                    onClick = {/*TODO*/ }
 //                    onClick = { onEvent(OnScanHistoryClick) }
                 )
 
@@ -121,7 +123,7 @@ fun SettingsScreen() {
                     description = stringResource(id = R.string.play_sound_des),
                     icon = Icons.Filled.VolumeOff,
                     onEnabledIcon = Icons.Filled.VolumeUp,
-                    onClick = {/*TODO*/}
+                    onClick = {/*TODO*/ }
 //                    onClick = { onEvent(OnPlaySoundClick) }
                 )
 
@@ -130,7 +132,7 @@ fun SettingsScreen() {
                     description = stringResource(id = R.string.vibrate_des),
                     icon = Icons.Filled.Vibration,
                     onEnabledIcon = Icons.Filled.HearingDisabled,
-                    onClick = {/*TODO*/}
+                    onClick = {/*TODO*/ }
 //                    onClick = { onEvent(OnVibrateClick) }
                 )
 
@@ -146,7 +148,7 @@ fun SettingsScreen() {
                     title = stringResource(id = R.string.about_nfc_app),
                     description = stringResource(id = R.string.help_des),
                     icon = Icons.Filled.Help,
-                    onClick = { onEvent(OnAboutAppClick)}
+                    onClick = { onEvent(OnAboutAppClick) }
                 )
 
                 SettingsButtonWithIcon(
@@ -167,7 +169,7 @@ fun SettingsScreen() {
 @Composable
 fun SettingsScreenPreview() {
     NordicTheme {
-        SettingsScreen ()
+        SettingsScreen()
     }
 }
 
@@ -192,16 +194,19 @@ private fun SettingsButtonWithIcon(
             .fillMaxWidth()
     ) {
         icon?.let {
-            if (enabled) {
+            onEnabledIcon?.let {
+                Icon(
+                    imageVector = it,
+                    contentDescription = null,
+                    modifier = Modifier.padding(16.dp),
+                    tint = color,
+                )
+            } ?: run {
                 Icon(
                     imageVector = icon,
                     contentDescription = null,
-                    modifier = Modifier.padding(16.dp)
-                )
-            } else onEnabledIcon?.let {
-                Icon(
-                    imageVector = it,
-                    contentDescription = null
+                    modifier = Modifier.padding(16.dp),
+                    tint = color,
                 )
             }
         }

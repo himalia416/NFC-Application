@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import no.nordic.ui.NfcUiDestinationId
 import no.nordicsemi.android.common.navigation.Navigator
 import no.nordicsemi.android.common.navigation.viewmodel.SimpleNavigationViewModel
+import no.nordicsemi.domain.NfcSettingsWithTag
 import no.nordicsemi.domain.nfcTag.DiscoveredTag
 import no.nordicsemi.settings.NfcSettingScreenId
 import javax.inject.Inject
@@ -33,11 +34,11 @@ internal class NfcUiViewModel @Inject constructor(
             )
     }
 
-    fun settingsScreenNavigation(discoveredTag: DiscoveredTag){
-        navigator.navigateTo(NfcSettingScreenId, discoveredTag)
+    fun settingsScreenNavigation(discoveredTag: DiscoveredTag) {
+        navigator.navigateTo(NfcSettingScreenId, NfcSettingsWithTag(discoveredTag))
     }
 
-    fun onBackNavigation(){
+    fun onBackNavigation() {
         navigator.navigateUp()
     }
 }

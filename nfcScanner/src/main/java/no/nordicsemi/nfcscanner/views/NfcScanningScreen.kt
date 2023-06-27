@@ -23,16 +23,14 @@ import no.nordicsemi.nfcscanner.viewmodel.NfcState
 @RequiresApi(Build.VERSION_CODES.S)
 @Composable
 fun NfcScanningScreen() {
-    RequireNfc {
-        val nfcViewModel: NfcScanningViewModel = hiltViewModel()
-        val nfcState by nfcViewModel.state.collectAsState()
+    val nfcViewModel: NfcScanningViewModel = hiltViewModel()
+    val nfcState by nfcViewModel.state.collectAsState()
 
-        when (nfcState.setting?.showWelcomeScreen) {
-            true -> {
-                nfcViewModel.showWelcomeScreen()
-            }
+    when (nfcState.setting?.showWelcomeScreen) {
+        true -> { nfcViewModel.showWelcomeScreen() }
 
-            else ->
+        else ->
+            RequireNfc {
                 Column {
                     NordicAppBar(
                         text = stringResource(id = R.string.app_name),
@@ -51,6 +49,6 @@ fun NfcScanningScreen() {
                         else -> LoadingView()
                     }
                 }
-        }
+            }
     }
 }

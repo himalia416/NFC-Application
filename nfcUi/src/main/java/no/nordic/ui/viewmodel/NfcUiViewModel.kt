@@ -7,9 +7,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import no.nordic.ui.NfcUiDestinationId
 import no.nordicsemi.android.common.navigation.Navigator
 import no.nordicsemi.android.common.navigation.viewmodel.SimpleNavigationViewModel
-import no.nordicsemi.domain.NfcSettingsWithTag
 import no.nordicsemi.domain.nfcTag.DiscoveredTag
-import no.nordicsemi.settings.NfcSettingScreenId
+import no.nordicsemi.settings.navigation.NfcSettingScreenId
+import no.nordicsemi.settings.navigation.NfcSettingsWithTag
 import javax.inject.Inject
 
 @HiltViewModel

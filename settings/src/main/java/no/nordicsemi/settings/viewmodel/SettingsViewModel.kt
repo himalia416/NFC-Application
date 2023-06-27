@@ -18,11 +18,11 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import no.nordicsemi.android.common.navigation.Navigator
 import no.nordicsemi.android.common.navigation.viewmodel.SimpleNavigationViewModel
-import no.nordicsemi.domain.NfcSettingNoTag
-import no.nordicsemi.domain.NfcSettingsWithTag
 import no.nordicsemi.domain.nfcTag.DiscoveredTag
 import no.nordicsemi.serialization.domain.NfcJsonAdapter
-import no.nordicsemi.settings.NfcSettingScreenId
+import no.nordicsemi.settings.navigation.NfcSettingNoTag
+import no.nordicsemi.settings.navigation.NfcSettingScreenId
+import no.nordicsemi.settings.navigation.NfcSettingsWithTag
 import no.nordicsemi.settings.views.NavigateUp
 import no.nordicsemi.settings.views.OnAboutAppClick
 import no.nordicsemi.settings.views.OnAboutNfcClick

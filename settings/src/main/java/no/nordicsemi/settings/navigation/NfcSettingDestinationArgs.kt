@@ -1,4 +1,4 @@
-package no.nordicsemi.domain
+package no.nordicsemi.settings.navigation
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

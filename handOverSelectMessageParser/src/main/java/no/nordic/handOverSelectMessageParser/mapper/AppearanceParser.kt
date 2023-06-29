@@ -4,9 +4,9 @@ object AppearanceParser {
 
     /**
      * Parses the appearance characteristics values.
-     * The following data type values are assigned in the Bluetooth Specifications [Assigned Number](https://www.bluetooth.com/specifications/assigned-numbers).
+     * The following data type values are assigned in the Bluetooth Specifications [Assigned Number](https://www.bluetooth.com/specifications/assigned-numbers) Bluetooth SIG, June 28, 2023.
      */
-    fun parser(appearanceCharacteristics: ByteArray): String {
+    fun parse(appearanceCharacteristics: ByteArray): String {
         return when (appearanceCharacteristics.toHex()) {
             "0000" -> "Generic Unknown"
             "0040" -> "Generic Phone"

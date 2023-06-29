@@ -2,38 +2,23 @@ package no.nordic.handOverSelectMessageParser
 
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
-import android.bluetooth.BluetoothManager
-import android.content.Context
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import no.nordic.handOverSelectMessageParser.mapper.AppearanceParser
+import no.nordic.handOverSelectMessageParser.parser.FlagByteParser
 import java.nio.BufferUnderflowException
 import java.nio.ByteBuffer
 import java.nio.charset.StandardCharsets
-
+import javax.inject.Inject
+import javax.inject.Singleton
 
 @RequiresApi(Build.VERSION_CODES.M)
 data class HandOverData(
     val transport: Int = BluetoothDevice.TRANSPORT_LE,
     val bleOobData: BluetoothLeOobData
-)
-
-
-data class BluetoothLeOobData(
-    // required fields
-    val bleDeviceAddress: BluetoothDevice? = null,
-    val bleAddressType: AddressType? = null,
-    val roleType: LeRoleType? = null,
-    // optional fields
-    val securityManagerTK: ByteArray? = null,
-    val leSecureConnectionConfirmation: ByteArray? = null,
-    val leSecureConnectionRandom: ByteArray? = null,
-    val appearance: ByteArray? = null,
-    val flags: Int? = null,
-    val localName: String? = null,
 )
 
 // The following data type values are assigned by NFC Forum.
@@ -84,27 +69,18 @@ enum class LeRoleType {
 }
 
 @RequiresApi(Build.VERSION_CODES.M)
-class HandOverMessageParser(
-    @ApplicationContext private val context: Context
+@Singleton
+class HandOverMessageParser @Inject constructor(
+    private val bluetoothAdapter: BluetoothAdapter
 ) {
-
-    private val TAG = "NfcHandover"
-    private val TYPE_BLE_OOB: ByteArray =
-        "application/vnd.bluetooth.le.oob".toByteArray(StandardCharsets.US_ASCII)
-
-    // todo put it in di
-    private val manager = context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
-    private val mBluetoothAdapter: BluetoothAdapter? = manager.adapter
-    private val _result: MutableStateFlow<BluetoothLeOobData> =
-        MutableStateFlow(BluetoothLeOobData())
+    private val TAG = "HandoverMessageParser"
+    private val _result: MutableStateFlow<BluetoothLeOobData> = MutableStateFlow(BluetoothLeOobData())
     val result = _result.asStateFlow()
 
     fun parser(payload: ByteBuffer): BluetoothLeOobData {
         val result = BluetoothLeOobData()
         try {
             var bdaddr: ByteArray?
-            var addressType: AddressType?
-            var role: Byte?
             var flag: Byte?
             var leSecureConfirmation: ByteArray?
             var leSecureRandom: ByteArray?
@@ -117,21 +93,18 @@ class HandOverMessageParser(
                 println("Length: $len")
                 when (payload.get().toInt()) {
                     BT_HANDOVER_TYPE_MAC -> {
-                        /* bdaddr = ByteArray(6) // 6 Bytes for the mac address and 1 byte for the address data type
-                         payload[bdaddr]
-                         val address = bdaddr.reverse()*/
-                        bdaddr = ByteArray(6) // 6 bytes for mac, 1 for address type
-                        val address = parseMacFromBluetoothRecord(payload[bdaddr])
+                        bdaddr = ByteArray(6) // 6 Bytes for the mac address and 1 byte for the address data type
+                        payload[bdaddr]
+                        val address = parseLittleEndianOrder(bdaddr)
                         _result.value = _result.value.copy(
-                            bleDeviceAddress = mBluetoothAdapter?.getRemoteDevice(address),
-                            bleAddressType = AddressType.parse(payload.get())
+                            bleDeviceAddress = bluetoothAdapter.getRemoteDevice(address),
+                            bleAddressType = AddressType.parse(payload.get()) // 1 byte for the address data type
                         )
                     }
 
                     BT_HANDOVER_TYPE_LE_ROLE -> {
                         val roleType = LeRoleType.parse(payload.get())
                         _result.value = _result.value.copy(roleType = roleType)
-                        println("parser le role")
                     }
 
                     BT_HANDOVER_TYPE_LONG_LOCAL_NAME -> {
@@ -139,7 +112,6 @@ class HandOverMessageParser(
                         payload[nameBytes]
                         name = String(nameBytes, StandardCharsets.UTF_8)
                         _result.value = _result.value.copy(localName = name)
-                        println("parser name: $name")
                     }
 
                     BT_HANDOVER_TYPE_LONG_LOCAL_NAME_2 -> {
@@ -147,87 +119,63 @@ class HandOverMessageParser(
                         payload[nameBytes]
                         name = String(nameBytes, StandardCharsets.UTF_8)
                         _result.value = _result.value.copy(localName = name)
-                        println("parser name: $name")
                     }
 
                     BT_HANDOVER_TYPE_SECURITY_MANAGER_TK -> {
                         if (len != SECURITY_MANAGER_TK_SIZE) {
-                            Log.i(
-                                TAG, "BT OOB: invalid size of SM TK, should be " +
-                                        SECURITY_MANAGER_TK_SIZE + " bytes."
-                            )
+                            Log.i(TAG, "BT OOB: invalid size of SM TK, should be $SECURITY_MANAGER_TK_SIZE bytes.")
                             break
                         }
                         securityManagerTK = ByteArray(len)
-                        val sm = payload[securityManagerTK]
-                        _result.value =
-                            _result.value.copy(securityManagerTK = parseLittleEndianOrder(sm))
-                        println("parser: security manager tk")
+                        payload[securityManagerTK]
+                        _result.value = _result.value.copy(securityManagerTK = parseLittleEndianOrder(securityManagerTK))
                     }
 
                     BT_HANDOVER_TYPE_LE_SC_CONFIRMATION -> {
                         if (len != SECURITY_MANAGER_LE_SC_C_SIZE) {
-                            Log.i(
-                                TAG, "BT OOB: invalid size of LE SC Confirmation, should be " +
-                                        SECURITY_MANAGER_LE_SC_C_SIZE + " bytes."
-                            )
+                            Log.i(TAG, "BT OOB: invalid size of LE SC Confirmation, should be $SECURITY_MANAGER_LE_SC_C_SIZE bytes.")
                             break
                         }
                         leSecureConfirmation = ByteArray(len)
                         payload[leSecureConfirmation]
-                        println("parser security confirmation: }")
+                        _result.value = _result.value.copy(leSecureConnectionConfirmation = parseLittleEndianOrder(leSecureConfirmation))
                     }
 
                     BT_HANDOVER_TYPE_LE_SC_RANDOM -> {
                         if (len != SECURITY_MANAGER_LE_SC_R_SIZE) {
-                            Log.i(
-                                TAG, "BT OOB: invalid size of LE SC Random, should be " +
-                                        SECURITY_MANAGER_LE_SC_R_SIZE + " bytes."
-                            )
+                            Log.i(TAG, "BT OOB: invalid size of LE SC Random, should be $SECURITY_MANAGER_LE_SC_R_SIZE bytes.")
                             break
                         }
                         leSecureRandom = ByteArray(len)
                         payload[leSecureRandom]
-                        println("parser le security random")
+                        _result.value = _result.value.copy(leSecureConnectionRandom = parseLittleEndianOrder(leSecureRandom))
                     }
 
                     BT_HANDOVER_TYPE_LE_APPEARANCE -> {
                         appearance = ByteArray(len)
-                        val ap = payload[appearance]
-                        _result.value = _result.value.copy(appearance = parseLittleEndianOrder(ap))
-                        println("parser appearance")
+                        payload[appearance]
+                        parseLittleEndianOrder(appearance)
+                        _result.value = _result.value.copy(appearance = AppearanceParser.parse(parseLittleEndianOrder(appearance)))
                     }
 
                     BT_HANDOVER_TYPE_LE_FLAG -> {
                         flag = payload.get()
-                        println("parser flag ${flag.toInt()}")
+                        _result.value = _result.value.copy(flags = FlagByteParser.parse(flag))
                     }
 
                     else -> payload.position(payload.position() + len)
                 }
             }
         } catch (e: IllegalArgumentException) {
-            println("BLE OOB: error parsing OOB data $e")
+            Log.e(TAG, "BLE OOB: error parsing OOB data $e")
         } catch (e: BufferUnderflowException) {
-            println("BT OOB: payload shorter than expected")
+            Log.e(TAG, "BT OOB: payload shorter than expected $e")
         }
         return result
     }
 
-    private fun parseMacFromBluetoothRecord(payload: ByteBuffer): ByteArray {
-        val address = ByteArray(6)
-        payload[address]
-        // ByteBuffer.order(LITTLE_ENDIAN) doesn't work for
-        // ByteBuffer.get(byte[]), so manually swap order
-        for (i in 0..2) {
-            val temp = address[i]
-            address[i] = address[5 - i]
-            address[5 - i] = temp
-        }
-        return address
-    }
-
-    private fun parseLittleEndianOrder(buffer: ByteBuffer): ByteArray {
-        return buffer.array().reversed().toByteArray()
-    }
+    /**
+     * Parses the LITTLE_ENDIAN ByteArray.
+     */
+    private fun parseLittleEndianOrder(buffer: ByteArray): ByteArray = buffer.reversed().toByteArray()
 }

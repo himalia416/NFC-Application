@@ -12,10 +12,7 @@ internal object MimeTypeParser {
     fun parse(record: NdefRecord): MimeRecord {
         val typeNameFormat = TnfNameFormatter.getTnfName(record.tnf.toInt())
         val domainType = String(record.type, Charsets.UTF_8)
-        val type = domainType.split('.').last()
-        val recordName =
-            if (type == "oob") "Bluetooth Carrier Configuration LE Record"
-            else "Mime Type Record"
+        val recordName = if (domainType == "application/vnd.bluetooth.le.oob") "Bluetooth Carrier Configuration LE Record" else "Mime Type Record"
 
         return MimeRecord(
             recordName = recordName,

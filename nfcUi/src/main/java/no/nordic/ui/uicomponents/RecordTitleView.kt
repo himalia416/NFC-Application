@@ -31,12 +31,9 @@ fun RecordTitleView(
     isExpanded: Boolean = false,
     onExpandClicked: () -> Unit
 ) {
-    val expandIcon = if (isExpanded) Icons.Default.ExpandMore
-    else Icons.Default.ExpandLess
+    val expandIcon = if (isExpanded) Icons.Default.ExpandMore else Icons.Default.ExpandLess
     Column {
-        if (index > 0) {
-            Divider(thickness = 1.dp)
-        }
+        if (index > 0) Divider(thickness = 1.dp)
         Row(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
@@ -62,15 +59,13 @@ fun RecordTitleView(
                 modifier = modifier.clickable { onExpandClicked() }
             )
         }
-        if (isExpanded) {
-            Divider(thickness = 1.dp)
-        }
+        if (isExpanded) Divider(thickness = 1.dp)
     }
 }
 
 @Preview
 @Composable
-fun RecordTitleViewPreview(){
+fun RecordTitleViewPreview() {
     NordicTheme {
         RecordTitleView(
             recordTitle = "Text Record",

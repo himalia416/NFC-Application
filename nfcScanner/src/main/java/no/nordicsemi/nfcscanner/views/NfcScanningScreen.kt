@@ -26,7 +26,7 @@ fun NfcScanningScreen() {
     val nfcViewModel: NfcScanningViewModel = hiltViewModel()
     val nfcState by nfcViewModel.state.collectAsState()
 
-    when (nfcState.setting?.showWelcomeScreen) {
+    when (nfcState.settings?.showWelcomeScreen) {
         true -> { nfcViewModel.showWelcomeScreen() }
 
         else ->

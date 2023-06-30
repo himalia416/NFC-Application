@@ -20,7 +20,7 @@ import no.nordicsemi.welcome.NfcWelcomeDestinationId
 import javax.inject.Inject
 
 internal data class NfcViewState(
-    val setting: NFCSettings? = null,
+    val settings: NFCSettings? = null,
     val state: NfcState = NfcState.ScanNfcTag,
 )
 
@@ -37,7 +37,7 @@ internal class NfcScanningViewModel @Inject constructor(
     init {
         settingsRepository.settings
             .onEach {
-                _state.value = _state.value.copy(setting = it)
+                _state.value = _state.value.copy(settings = it)
             }.launchIn(viewModelScope)
         startNfcScanning()
     }

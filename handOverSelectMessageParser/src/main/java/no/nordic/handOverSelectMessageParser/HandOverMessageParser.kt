@@ -88,9 +88,7 @@ class HandOverMessageParser @Inject constructor(
             var name: String?
             var securityManagerTK: ByteArray?
             while (payload.remaining() > 0) {
-                println("remaining payload: ${payload.remaining()}")
                 val len = payload.get().toInt() - 1
-                println("Length: $len")
                 when (payload.get().toInt()) {
                     BT_HANDOVER_TYPE_MAC -> {
                         bdaddr = ByteArray(6) // 6 Bytes for the mac address and 1 byte for the address data type
@@ -124,31 +122,31 @@ class HandOverMessageParser @Inject constructor(
                     BT_HANDOVER_TYPE_SECURITY_MANAGER_TK -> {
                         if (len != SECURITY_MANAGER_TK_SIZE) {
                             Log.i(TAG, "BT OOB: invalid size of SM TK, should be $SECURITY_MANAGER_TK_SIZE bytes.")
-                            break
+                        } else {
+                            securityManagerTK = ByteArray(len)
+                            payload[securityManagerTK]
+                            _result.value = _result.value.copy(securityManagerTK = parseLittleEndianOrder(securityManagerTK))
                         }
-                        securityManagerTK = ByteArray(len)
-                        payload[securityManagerTK]
-                        _result.value = _result.value.copy(securityManagerTK = parseLittleEndianOrder(securityManagerTK))
                     }
 
                     BT_HANDOVER_TYPE_LE_SC_CONFIRMATION -> {
                         if (len != SECURITY_MANAGER_LE_SC_C_SIZE) {
                             Log.i(TAG, "BT OOB: invalid size of LE SC Confirmation, should be $SECURITY_MANAGER_LE_SC_C_SIZE bytes.")
-                            break
+                        } else {
+                            leSecureConfirmation = ByteArray(len)
+                            payload[leSecureConfirmation]
+                            _result.value = _result.value.copy(leSecureConnectionConfirmation = parseLittleEndianOrder(leSecureConfirmation))
                         }
-                        leSecureConfirmation = ByteArray(len)
-                        payload[leSecureConfirmation]
-                        _result.value = _result.value.copy(leSecureConnectionConfirmation = parseLittleEndianOrder(leSecureConfirmation))
                     }
 
                     BT_HANDOVER_TYPE_LE_SC_RANDOM -> {
                         if (len != SECURITY_MANAGER_LE_SC_R_SIZE) {
                             Log.i(TAG, "BT OOB: invalid size of LE SC Random, should be $SECURITY_MANAGER_LE_SC_R_SIZE bytes.")
-                            break
+                        } else {
+                            leSecureRandom = ByteArray(len)
+                            payload[leSecureRandom]
+                            _result.value = _result.value.copy(leSecureConnectionRandom = parseLittleEndianOrder(leSecureRandom))
                         }
-                        leSecureRandom = ByteArray(len)
-                        payload[leSecureRandom]
-                        _result.value = _result.value.copy(leSecureConnectionRandom = parseLittleEndianOrder(leSecureRandom))
                     }
 
                     BT_HANDOVER_TYPE_LE_APPEARANCE -> {

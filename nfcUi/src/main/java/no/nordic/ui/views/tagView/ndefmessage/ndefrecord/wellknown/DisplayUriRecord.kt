@@ -84,7 +84,7 @@ fun DisplayUriRecord(
                 uriRecord.payloadData?.let {
                     NfcRowView(
                         title = stringResource(id = R.string.payload_data),
-                        description = it.toPayloadData()
+                        description = it.value.toPayloadData()
                     )
                 }
                 ClickableTextView(stringResource(id = R.string.url_tag), uriRecord.actualUri)

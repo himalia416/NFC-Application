@@ -1,6 +1,7 @@
 package no.nordicsemi.domain.nfcTag.ndef.record.type.wellknowntype
 
 import android.nfc.NdefRecord
+import no.nordic.handOverSelectMessageParser.utility.DataByteArray
 import no.nordicsemi.domain.nfcTag.ndef.TnfNameFormatter
 import no.nordicsemi.domain.nfcTag.ndef.record.URIRecord
 import no.nordicsemi.domain.nfcTag.ndef.record.mapper.UriProtocolMapper
@@ -27,7 +28,7 @@ internal object UriRecordParser {
             protocol = protocolField,
             uri = actualUri,
             actualUri = protocolField + actualUri,
-            payloadData = record.payload
+            payloadData = DataByteArray(record.payload)
         )
     }
 }

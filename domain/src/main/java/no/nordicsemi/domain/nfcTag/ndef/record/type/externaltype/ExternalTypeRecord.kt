@@ -1,6 +1,7 @@
 package no.nordicsemi.domain.nfcTag.ndef.record.type.externaltype
 
 import android.nfc.NdefRecord
+import no.nordic.handOverSelectMessageParser.utility.DataByteArray
 import no.nordicsemi.domain.nfcTag.ndef.TnfNameFormatter
 import no.nordicsemi.domain.nfcTag.ndef.record.ExternalType
 import no.nordicsemi.domain.nfcTag.ndef.record.GenericExternalType
@@ -36,7 +37,7 @@ internal object ExternalTypeRecord {
             domain = domain,
             domainType = type,
             payload = String(record.payload),
-            payloadData = record.payload
+            payloadData = DataByteArray(record.payload)
         )
     }
 }

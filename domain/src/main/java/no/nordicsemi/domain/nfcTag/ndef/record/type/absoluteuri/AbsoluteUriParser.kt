@@ -1,6 +1,7 @@
 package no.nordicsemi.domain.nfcTag.ndef.record.type.absoluteuri
 
 import android.nfc.NdefRecord
+import no.nordic.handOverSelectMessageParser.utility.DataByteArray
 import no.nordicsemi.domain.nfcTag.ndef.TnfNameFormatter
 import no.nordicsemi.domain.nfcTag.ndef.record.URIRecord
 
@@ -14,7 +15,8 @@ internal object AbsoluteUriParser {
             typeNameFormat = typeNameFormat,
             payloadLength = record.payload.size,
             actualUri = actualUri,
-            payloadType = "Absolute Uri"
+            payloadType = "Absolute Uri",
+            payloadData = DataByteArray(record.payload)
         )
     }
 }

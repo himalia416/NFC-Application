@@ -91,7 +91,7 @@ fun DisplayAndroidPackageRecord(
                 androidPackageRecord.payloadData?.let {
                     NfcRowView(
                         title = stringResource(id = R.string.payload_data),
-                        description = it.toPayloadData()
+                        description = it.value.toPayloadData()
                     )
                 }
             }

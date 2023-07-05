@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import no.nordic.handOverSelectMessageParser.utility.DataByteArray
 import no.nordic.ui.utility.toPayloadData
 import no.nordic.ui.uicomponents.NfcRowView
 import no.nordic.ui.uicomponents.RecordTitleView
@@ -75,7 +76,7 @@ fun DisplayTextRecord(
                 textRecord.payloadData?.let {
                     NfcRowView(
                         title = stringResource(id = R.string.payload_data),
-                        description = it.toPayloadData()
+                        description = it.value.toPayloadData()
                     )
                 }
             }
@@ -93,7 +94,7 @@ fun DisplayTextRecordPreview() {
                 langCode = "en",
                 encoding = "UTF-8",
                 actualText = "NordicSemiconductor ASA",
-                payloadData = "NordicSemiconductor ASA".toByteArray()
+                payloadData = DataByteArray("NordicSemiconductor ASA".toByteArray())
             ),
             index = 2
         )

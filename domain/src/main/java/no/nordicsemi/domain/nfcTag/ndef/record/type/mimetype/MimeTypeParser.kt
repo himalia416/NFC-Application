@@ -1,6 +1,7 @@
 package no.nordicsemi.domain.nfcTag.ndef.record.type.mimetype
 
 import android.nfc.NdefRecord
+import no.nordic.handOverSelectMessageParser.utility.DataByteArray
 import no.nordicsemi.domain.nfcTag.ndef.TnfNameFormatter
 import no.nordicsemi.domain.nfcTag.ndef.record.MimeRecord
 
@@ -20,7 +21,7 @@ internal object MimeTypeParser {
             payloadType = String(record.type),
             payloadLength = record.payload.size,
             payload = String(record.payload),
-            payloadData = record.payload
+            payloadData = DataByteArray(record.payload)
         )
     }
 }

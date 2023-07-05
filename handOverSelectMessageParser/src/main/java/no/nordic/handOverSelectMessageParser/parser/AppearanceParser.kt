@@ -1,6 +1,8 @@
-package no.nordic.handOverSelectMessageParser.mapper
+package no.nordic.handOverSelectMessageParser.parser
 
-object AppearanceParser {
+import no.nordic.handOverSelectMessageParser.utility.toHex
+
+internal object AppearanceParser {
 
     /**
      * Parses the appearance characteristics values.

@@ -4,13 +4,10 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import no.nordic.handOverSelectMessageParser.HandOverMessageParser
+import no.nordic.handOverSelectMessageParser.HandOverDataParser
 import no.nordic.ui.NfcUiDestinationId
 import no.nordicsemi.android.common.navigation.Navigator
 import no.nordicsemi.android.common.navigation.viewmodel.SimpleNavigationViewModel
@@ -24,7 +21,7 @@ import javax.inject.Inject
 @RequiresApi(Build.VERSION_CODES.M)
 @HiltViewModel
 internal class NfcUiViewModel @Inject constructor(
-    private val handOverMessage: HandOverMessageParser,
+    private val handOverMessage: HandOverDataParser,
     private val navigator: Navigator,
     savedStateHandle: SavedStateHandle,
 ) : SimpleNavigationViewModel(navigator, savedStateHandle) {
@@ -48,21 +45,19 @@ internal class NfcUiViewModel @Inject constructor(
             val ndef = _uiState.value.nfcNdefMessage
             ndef?.ndefRecord?.forEach {
                 val r = it.record
-                if (r is MimeRecord && r.recordName == "Bluetooth Carrier Configuration LE Record") { // todo update it to include the HandOverSelect Record type.
-                    r.payloadData?.let { payload ->
+                if (r is MimeRecord && r.recordName == "Bluetooth Carrier Configuration LE Record") { // TODO update it to include the HandOverSelect Record type.
+                    r.payloadData?.value?.let { payload ->
                         ByteBuffer.wrap(payload)
-                        handOverMessage.parser(ByteBuffer.wrap(payload))
-                        handOverMessage.result.onEach { oobData ->
-                            Log.d("AAA", "appearance: ${oobData.appearance} ")
-                            Log.d("AAA", "AddressType: ${oobData.bleAddressType} ")
-                            Log.d("AAA", "DeviceAddress: ${oobData.bleDeviceAddress} ")
-                            Log.d("AAA", "Local Name: ${oobData.localName} ")
-                            Log.d("AAA", "role Type: ${oobData.roleType} ")
-                            Log.d("AAA", "flags: ")
-                            oobData.flags.forEach { flag ->
-                                Log.d("AAA", flag)
-                            }
-                        }.launchIn(viewModelScope)
+                        val oobData = handOverMessage.parser(ByteBuffer.wrap(payload))
+                        Log.d("AAA", "appearance: ${oobData.appearance} ")
+                        Log.d("AAA", "AddressType: ${oobData.bleAddressType} ")
+                        Log.d("AAA", "DeviceAddress: ${oobData.bleDeviceAddress} ")
+                        Log.d("AAA", "Local Name: ${oobData.localName} ")
+                        Log.d("AAA", "role Type: ${oobData.roleType} ")
+                        Log.d("AAA", "flags: ")
+                        oobData.flags.forEach { flag ->
+                            Log.d("AAA", flag)
+                        }
                     }
                 }
             }

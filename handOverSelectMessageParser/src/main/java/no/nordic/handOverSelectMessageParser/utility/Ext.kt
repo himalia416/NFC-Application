@@ -1,4 +1,4 @@
-package no.nordic.handOverSelectMessageParser.mapper
+package no.nordic.handOverSelectMessageParser.utility
 
 internal fun ByteArray.toHex(): String = joinToString(separator = "") { eachByte -> "%02x".format(eachByte) }
 

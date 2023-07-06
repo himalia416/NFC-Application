@@ -23,6 +23,6 @@ dependencies {
     implementation ("com.github.skydoves:balloon-compose:1.5.2")
     implementation(project(":domain"))
     implementation(project(":settings"))
-    implementation(project(":handOverSelectMessageParser"))
+    implementation(project(":handOverData"))
     implementation(project(":utils"))
 }

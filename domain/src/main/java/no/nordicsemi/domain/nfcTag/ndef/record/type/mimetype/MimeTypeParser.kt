@@ -1,8 +1,8 @@
 package no.nordicsemi.domain.nfcTag.ndef.record.type.mimetype
 
 import android.nfc.NdefRecord
-import no.nordic.handOverSelectMessageParser.HandOverDataParser
-import no.nordic.handOverSelectMessageParser.data.BluetoothLeOobData
+import no.nordicsemi.handOverData.HandOverDataParser
+import no.nordicsemi.handOverData.data.BluetoothLeOobData
 import no.nordisemi.utils.DataByteArray
 import no.nordicsemi.domain.nfcTag.ndef.TnfNameFormatter
 import no.nordicsemi.domain.nfcTag.ndef.record.MimeRecord

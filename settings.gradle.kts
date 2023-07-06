@@ -34,7 +34,7 @@ include(":domain")
 include(":remoteDatabase")
 include(":settingsStorage")
 include(":nfcUi")
-include(":handOverSelectMessageParser")
+include(":handOverData")
 include(":utils")
 
 if (file("../Android-Common-Libraries").exists()) {

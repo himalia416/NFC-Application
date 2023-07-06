@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import no.nordic.ui.NfcUiDestinationId
+import no.nordicsemi.ui.NfcUiDestinationId
 import no.nordicsemi.android.common.navigation.Navigator
 import no.nordicsemi.domain.nfcTag.DiscoveredTag
 import no.nordicsemi.nfcscanner.repository.NfcScanningManager

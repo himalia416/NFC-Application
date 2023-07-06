@@ -46,6 +46,7 @@ class NfcScanningManagerVM @Inject constructor(
 @Singleton
 class NfcScanningManager @Inject constructor(
     private val manufacturerNameRepository: ManufacturerNameRepository,
+    private val ndefTagDiscovered: OnNdefTagDiscovered,
     private val nfcAdapter: NfcAdapter?,
     private val scope: CoroutineScope,
 ) {
@@ -105,8 +106,7 @@ class NfcScanningManager @Inject constructor(
             nfcBInfo = tag.techList.find { it == NFCB }?.let { OnNfcBTagDiscovered.parse(tag) },
             nfcFInfo = tag.techList.find { it == NFCF }?.let { OnNfcFTagDiscovered.parse(tag) },
             nfcVInfo = tag.techList.find { it == NFCV }?.let { OnNfcVTagDiscovered.parse(tag) },
-            nfcNdefMessage = tag.techList.find { it == NDEF }
-                ?.let { OnNdefTagDiscovered.parse(tag) },
+            nfcNdefMessage = tag.techList.find { it == NDEF }?.let { ndefTagDiscovered.parse(tag) },
             mifareClassicField = tag.techList.find { it == MIFARE_CLASSIC }
                 ?.let { OnMifareTagDiscovered.parse(tag) }
         )

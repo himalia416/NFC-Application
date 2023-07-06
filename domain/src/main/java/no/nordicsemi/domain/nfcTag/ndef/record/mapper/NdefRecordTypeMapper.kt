@@ -16,9 +16,12 @@ import no.nordicsemi.domain.nfcTag.ndef.record.type.wellknowntype.handover.Alter
 import no.nordicsemi.domain.nfcTag.ndef.record.type.wellknowntype.handover.HandoverCarrierRecordParser
 import no.nordicsemi.domain.nfcTag.ndef.record.type.wellknowntype.handover.HandoverReceiveRecordParser
 import no.nordicsemi.domain.nfcTag.ndef.record.type.wellknowntype.handover.HandoverSelectRecordParser
+import javax.inject.Inject
 
 // The RTD type name format is specified in NFCForum-TS-RTD_1.0.
-object NdefRecordTypeMapper {
+class NdefRecordTypeMapper @Inject constructor(
+    private val mimeTypeParser: MimeTypeParser,
+) {
 
     fun getNdefRecordType(record: NdefRecord): NdefRecordType {
         val type = record.type
@@ -42,7 +45,7 @@ object NdefRecordTypeMapper {
 
             TnfNameFormatter.TNF_ABSOLUTE_URI.tnf -> AbsoluteUriParser.parse(record)
 
-            TnfNameFormatter.TNF_MIME_MEDIA.tnf -> MimeTypeParser.parse(record)
+            TnfNameFormatter.TNF_MIME_MEDIA.tnf -> mimeTypeParser.parse(record)
 
             else -> throw IllegalArgumentException("Unknown Record Type")
         }

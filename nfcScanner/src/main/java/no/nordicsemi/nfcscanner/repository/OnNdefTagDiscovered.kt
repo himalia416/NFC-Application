@@ -6,9 +6,11 @@ import no.nordicsemi.domain.nfcTag.ndef.NdefTagType.Companion.getTagType
 import no.nordicsemi.domain.nfcTag.ndef.NfcNdefMessage
 import no.nordicsemi.domain.nfcTag.ndef.NfcNdefRecord
 import no.nordicsemi.domain.nfcTag.ndef.record.mapper.NdefRecordTypeMapper
+import javax.inject.Inject
 
-object OnNdefTagDiscovered {
-
+class OnNdefTagDiscovered @Inject constructor(
+    private val recordParser: NdefRecordTypeMapper,
+) {
     /**
      * Parses NdefMessage tag.
      */
@@ -17,7 +19,7 @@ object OnNdefTagDiscovered {
         ndef.connect()
         val ndefMessage = ndef.ndefMessage ?: return null
         val ndefRecords = ndefMessage.records.map { record ->
-            NfcNdefRecord(record = NdefRecordTypeMapper.getNdefRecordType(record))
+            NfcNdefRecord(record = recordParser.getNdefRecordType(record))
         }
 
         val nfcNdefMessage = NfcNdefMessage(

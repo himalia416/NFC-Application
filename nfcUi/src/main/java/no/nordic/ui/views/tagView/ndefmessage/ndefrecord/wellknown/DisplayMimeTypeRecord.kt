@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import no.nordic.ui.utility.toPayloadData
+import no.nordic.ui.uicomponents.NfcListView
 import no.nordic.ui.uicomponents.NfcRowView
 import no.nordic.ui.uicomponents.RecordTitleView
 import no.nordicsemi.android.common.theme.NordicTheme
@@ -68,6 +68,39 @@ fun DisplayMimeTypeRecord(
                         title = stringResource(id = R.string.payload_data),
                         description = it.value.toPayloadData()
                     )
+                }
+                mimeRecord.bluetoothLeOobData?.let { bluetoothLeOobData ->
+                    NfcRowView(
+                        title = "Bluetooth Device Address Type",
+                        description = bluetoothLeOobData.bleAddressType
+                    )
+                    NfcRowView(
+                        title = "Bluetooth Device Address",
+                        description = bluetoothLeOobData.bleDeviceAddress.address
+                    )
+                    NfcRowView(
+                        title = "Le Role Type",
+                        description = bluetoothLeOobData.roleType.toString()
+                    )
+
+                    bluetoothLeOobData.appearance?.let {
+                        NfcRowView(
+                            title = "Appearance",
+                            description = it
+                        )
+                    }
+
+                    NfcListView(
+                        title = "Flags",
+                        list = bluetoothLeOobData.flags
+                    )
+
+                    bluetoothLeOobData.localName?.let {
+                        NfcRowView(
+                            title = "Local Name",
+                            description = it
+                        )
+                    }
                 }
             }
         }

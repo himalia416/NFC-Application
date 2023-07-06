@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -18,7 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import no.nordic.ui.utility.toSerialNumber
+import no.nordic.ui.uicomponents.NfcListView
 import no.nordic.ui.uicomponents.NfcRowView
 import no.nordic.ui.uicomponents.TitleView
 import no.nordicsemi.android.common.theme.NordicTheme
@@ -27,6 +26,7 @@ import no.nordicsemi.domain.nfcTag.nfcB.NfcBInfo
 import no.nordicsemi.domain.nfcTag.nfcF.NfcFInfo
 import no.nordicsemi.domain.nfcTag.nfcV.NfcVInfo
 import no.nordicsemi.nfcui.R
+import no.nordisemi.utils.toSerialNumber
 
 
 @Composable
@@ -154,7 +154,10 @@ fun TagInfoView(
                             )
                         )
                     }
-                    ShowAvailableTechnologies(list = availableTechnologies)
+                    NfcListView(
+                        title = stringResource(id = R.string.available_tag_technologies),
+                        list = availableTechnologies
+                    )
                 }
             }
         }
@@ -175,30 +178,5 @@ fun TagInfoViewPreview() {
             nfcFInfo = null,
             nfcVInfo = null,
         )
-    }
-}
-
-@Composable
-fun ShowAvailableTechnologies(list: List<String>) {
-    Column {
-        Text(
-            text = stringResource(id = R.string.available_tag_technologies),
-            style = MaterialTheme.typography.titleMedium
-        )
-        list.onEach {
-            Text(
-                text = it,
-                style = MaterialTheme.typography.bodySmall
-            )
-        }
-
-    }
-}
-
-@Preview
-@Composable
-fun ShowAvailableTechnologiesPreview() {
-    NordicTheme {
-        ShowAvailableTechnologies(list = listOf("NfcA, Ndef,"))
     }
 }

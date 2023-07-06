@@ -19,6 +19,7 @@ import no.nordic.ui.uicomponents.RecordTitleView
 import no.nordicsemi.android.common.theme.NordicTheme
 import no.nordicsemi.domain.nfcTag.ndef.record.MimeRecord
 import no.nordicsemi.nfcui.R
+import no.nordisemi.utils.toPayloadData
 
 @Composable
 fun DisplayMimeTypeRecord(

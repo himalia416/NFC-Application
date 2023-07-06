@@ -21,7 +21,7 @@ import no.nordic.handOverSelectMessageParser.data.BtHandOverType.SECURITY_MANAGE
 import no.nordic.handOverSelectMessageParser.data.BtHandOverType.TYPE_MAC
 import no.nordic.handOverSelectMessageParser.HandOverDataParser
 import no.nordic.handOverSelectMessageParser.data.LeRoleType
-import no.nordic.handOverSelectMessageParser.utility.DataByteArray
+import no.nordisemi.utils.DataByteArray
 import java.nio.BufferUnderflowException
 import java.nio.ByteBuffer
 import java.nio.charset.StandardCharsets
@@ -93,8 +93,7 @@ internal class HandOverDataParserImp @Inject constructor(
                         } else {
                             bytes = ByteArray(len)
                             payload[bytes]
-                            leSecureConfirmation =
-                                DataByteArray(parseLittleEndianOrder(bytes))
+                            leSecureConfirmation = DataByteArray(parseLittleEndianOrder(bytes))
                         }
                     }
 

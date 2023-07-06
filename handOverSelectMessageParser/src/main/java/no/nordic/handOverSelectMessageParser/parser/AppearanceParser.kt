@@ -1,6 +1,6 @@
 package no.nordic.handOverSelectMessageParser.parser
 
-import no.nordic.handOverSelectMessageParser.utility.toHex
+import no.nordisemi.utils.toHex
 
 internal object AppearanceParser {
 

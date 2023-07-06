@@ -3,8 +3,8 @@ package no.nordicsemi.nfcscanner.repository
 import android.nfc.Tag
 import android.nfc.tech.NfcA
 import no.nordicsemi.domain.nfcTag.nfcA.NfcAInfo
-import no.nordicsemi.nfcscanner.utility.toAtqaFormat
-import no.nordicsemi.nfcscanner.utility.toSakFormat
+import no.nordisemi.utils.toAtqaFormat
+import no.nordisemi.utils.toSakFormat
 
 object OnNfcATagDiscovered {
 

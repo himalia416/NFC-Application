@@ -21,13 +21,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import no.nordic.ui.utility.toPayloadData
 import no.nordic.ui.uicomponents.NfcRowView
 import no.nordic.ui.uicomponents.RecordTitleView
 import no.nordicsemi.android.common.core.AppLauncher
 import no.nordicsemi.android.common.theme.NordicTheme
 import no.nordicsemi.domain.nfcTag.ndef.record.GenericExternalType
 import no.nordicsemi.nfcui.R
+import no.nordisemi.utils.toPayloadData
 
 @Composable
 fun DisplayGenericExternalTypeRecord(

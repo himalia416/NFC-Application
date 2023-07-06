@@ -26,4 +26,5 @@ dependencies {
     implementation(project(":welcome"))
     implementation(project(":nfcUi"))
     implementation(project(":settings"))
+    implementation(project(":utils"))
 }

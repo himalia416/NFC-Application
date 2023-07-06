@@ -1,4 +1,4 @@
-package no.nordic.handOverSelectMessageParser.utility
+package no.nordisemi.utils
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

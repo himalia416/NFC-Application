@@ -12,7 +12,8 @@ import androidx.compose.material.icons.filled.TextFormat
 import androidx.compose.material.icons.filled.VideoFile
 import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.parcelize.Parcelize
-import no.nordic.handOverSelectMessageParser.utility.DataByteArray
+import no.nordic.handOverSelectMessageParser.data.BluetoothLeOobData
+import no.nordisemi.utils.DataByteArray
 
 @Parcelize
 sealed interface NdefRecordType : Parcelable

@@ -5,12 +5,10 @@ plugins {
 }
 
 android {
-    namespace = "no.nordic.handOverSelectMessageParser"
+    namespace = "no.nordisemi.utils"
 }
 
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
-
-    implementation(project(":utils"))
 }

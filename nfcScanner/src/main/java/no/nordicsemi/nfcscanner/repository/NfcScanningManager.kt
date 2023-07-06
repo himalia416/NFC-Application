@@ -18,8 +18,8 @@ import no.nordicsemi.nfcscanner.data.NfcTech.NFCA
 import no.nordicsemi.nfcscanner.data.NfcTech.NFCB
 import no.nordicsemi.nfcscanner.data.NfcTech.NFCF
 import no.nordicsemi.nfcscanner.data.NfcTech.NFCV
-import no.nordicsemi.nfcscanner.utility.toHex
 import no.nordicsemi.remotedatabase.domain.ManufacturerNameRepository
+import no.nordisemi.utils.toHex
 import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton

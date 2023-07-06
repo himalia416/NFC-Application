@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.nordic.library.compose)
     alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.nordic.hilt)
 }
 
 android {
@@ -14,4 +15,5 @@ dependencies {
     implementation(libs.androidx.compose.material.iconsExtended)
 
     implementation(project(":handOverSelectMessageParser"))
+    implementation(project(":utils"))
 }

@@ -1,8 +1,11 @@
 package no.nordic.handOverSelectMessageParser.data
 
 import android.bluetooth.BluetoothDevice
-import no.nordic.handOverSelectMessageParser.utility.DataByteArray
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+import no.nordisemi.utils.DataByteArray
 
+@Parcelize
 data class BluetoothLeOobData(
     // required fields
     val bleDeviceAddress: BluetoothDevice,
@@ -15,4 +18,4 @@ data class BluetoothLeOobData(
     val appearance: String? = null,
     val flags: List<String> = emptyList(),
     val localName: String? = null,
-)
+) : Parcelable

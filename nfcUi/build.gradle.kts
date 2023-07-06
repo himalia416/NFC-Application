@@ -24,4 +24,5 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":settings"))
     implementation(project(":handOverSelectMessageParser"))
+    implementation(project(":utils"))
 }

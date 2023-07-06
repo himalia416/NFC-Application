@@ -1,7 +1,7 @@
 package no.nordicsemi.domain.nfcTag.ndef.record.type.externaltype
 
 import android.nfc.NdefRecord
-import no.nordic.handOverSelectMessageParser.utility.DataByteArray
+import no.nordisemi.utils.DataByteArray
 import no.nordicsemi.domain.nfcTag.ndef.TnfNameFormatter
 import no.nordicsemi.domain.nfcTag.ndef.record.ExternalType
 import no.nordicsemi.domain.nfcTag.ndef.record.GenericExternalType

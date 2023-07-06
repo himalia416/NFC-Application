@@ -26,29 +26,28 @@ fun NfcScanningScreen() {
     val nfcViewModel: NfcScanningViewModel = hiltViewModel()
     val nfcState by nfcViewModel.state.collectAsState()
 
-    when (nfcState.settings?.showWelcomeScreen) {
-        true -> { nfcViewModel.showWelcomeScreen() }
-
-        else ->
-            RequireNfc {
-                Column {
-                    NordicAppBar(
-                        text = stringResource(id = R.string.app_name),
-                        actions = {
-                            IconButton(onClick = { nfcViewModel.settingsScreenNavigation() }
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Outlined.Settings,
-                                    contentDescription = null,
-                                )
-                            }
+    if (nfcState.settings?.showWelcomeScreen == true) {
+        nfcViewModel.showWelcomeScreen()
+    } else {
+        RequireNfc {
+            Column {
+                NordicAppBar(
+                    text = stringResource(id = R.string.app_name),
+                    actions = {
+                        IconButton(onClick = { nfcViewModel.settingsScreenNavigation() }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Outlined.Settings,
+                                contentDescription = null,
+                            )
                         }
-                    )
-                    when (nfcState.state) {
-                        NfcState.ScanNfcTag -> ScanNfcTagView()
-                        else -> LoadingView()
                     }
+                )
+                when (nfcState.state) {
+                    NfcState.ScanNfcTag -> ScanNfcTagView()
+                    else -> LoadingView()
                 }
             }
+        }
     }
 }

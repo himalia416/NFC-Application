@@ -22,7 +22,7 @@ class MimeTypeParser @Inject constructor(
         var recordName = "Mime Type Record"
         val domainType = String(record.type, Charsets.UTF_8)
 
-        if (domainType == "application/vnd.bluetooth.le.oob") {
+        if (domainType == BLE_OOB_DATA_TYPE) {
             bluetoothLeOobData = handOverData.parser(ByteBuffer.wrap(record.payload))
             recordName = "Bluetooth Carrier Configuration LE Record"
         }
@@ -36,5 +36,9 @@ class MimeTypeParser @Inject constructor(
             payloadData = DataByteArray(record.payload),
             bluetoothLeOobData = bluetoothLeOobData
         )
+    }
+
+    companion object {
+        private const val BLE_OOB_DATA_TYPE = "application/vnd.bluetooth.le.oob"
     }
 }

@@ -45,4 +45,11 @@
     <string name="url_tag"> URL </string>
     <string name="data">Data</string>
     <string name="payload_data">Payload Data</string>
+
+    <string name="ble_device_address">Bluetooth Device Address</string>
+    <string name="ble_device_address_type">Bluetooth Device Address Type</string>
+    <string name="le_role_type">Le Role Type</string>
+    <string name="appearance">Appearance</string>
+    <string name="flags">Flags</string>
+    <string name="local_name">Local Name</string>
 </resources>

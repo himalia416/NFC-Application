@@ -71,33 +71,33 @@ fun DisplayMimeTypeRecord(
                 }
                 mimeRecord.bluetoothLeOobData?.let { bluetoothLeOobData ->
                     NfcRowView(
-                        title = "Bluetooth Device Address Type",
+                        title = stringResource(id = R.string.ble_device_address),
                         description = bluetoothLeOobData.bleAddressType
                     )
                     NfcRowView(
-                        title = "Bluetooth Device Address",
+                        title = stringResource(id = R.string.ble_device_address_type),
                         description = bluetoothLeOobData.bleDeviceAddress.address
                     )
                     NfcRowView(
-                        title = "Le Role Type",
+                        title = stringResource(id = R.string.le_role_type),
                         description = bluetoothLeOobData.roleType.toString()
                     )
 
                     bluetoothLeOobData.appearance?.let {
                         NfcRowView(
-                            title = "Appearance",
+                            title = stringResource(id = R.string.appearance),
                             description = it
                         )
                     }
 
                     NfcListView(
-                        title = "Flags",
+                        title = stringResource(id = R.string.flags),
                         list = bluetoothLeOobData.flags
                     )
 
                     bluetoothLeOobData.localName?.let {
                         NfcRowView(
-                            title = "Local Name",
+                            title = stringResource(id = R.string.local_name),
                             description = it
                         )
                     }

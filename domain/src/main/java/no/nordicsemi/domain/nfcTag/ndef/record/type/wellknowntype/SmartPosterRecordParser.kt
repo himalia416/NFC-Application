@@ -19,7 +19,7 @@ internal object SmartPosterRecordParser {
      * different languages, but a language MUST NOT be repeated). This record is
      * optional."
      */
-    private lateinit var textRecord: TextRecord
+    private var textRecord: TextRecord? = null
 
     /**
      * NFC Forum Smart Poster Record Type Definition section 3.2.1.

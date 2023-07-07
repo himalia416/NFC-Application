@@ -12,21 +12,37 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import no.nordicsemi.android.common.theme.view.NordicAppBar
+import no.nordicsemi.domain.nfcTag.DiscoveredTag
+import no.nordicsemi.domain.nfcTag.NfcTag
+import no.nordicsemi.nfcui.R
 import no.nordicsemi.ui.viewmodel.NfcUiViewModel
 import no.nordicsemi.ui.views.tagView.TagInfoView
 import no.nordicsemi.ui.views.tagView.ndefmessage.NdefMessageView
 import no.nordicsemi.ui.views.tagView.ndefmessage.ndefrecord.RecordView
-import no.nordicsemi.android.common.theme.view.NordicAppBar
-import no.nordicsemi.nfcui.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun NfcUiScreen() {
     val viewModel: NfcUiViewModel = hiltViewModel()
-    val discoveredTag = viewModel.discoveredTag
     val state by viewModel.uiState.collectAsState()
+    val nfcTag = state.availableTagTechnology
 
     Column {
+        val discoveredTag = DiscoveredTag(
+            serialNumber = state.serialNumber,
+            manufacturerName = state.manufacturerName,
+            techList = state.techList,
+            availableTagTechnology = NfcTag(
+                nfcNdefMessage = nfcTag?.nfcNdefMessage,
+                mifareClassicField = nfcTag?.mifareClassicMessage,
+                nfcAInfo = nfcTag?.nfcAInfo,
+                nfcBInfo = nfcTag?.nfcBInfo,
+                nfcFInfo = nfcTag?.nfcFInfo,
+                nfcVInfo = nfcTag?.nfcVInfo,
+            )
+        )
+
         NordicAppBar(
             text = stringResource(id = R.string.ndef_tag),
             onNavigationButtonClick = { viewModel.onBackNavigation() },
@@ -44,14 +60,14 @@ internal fun NfcUiScreen() {
             item {
                 TagInfoView(
                     id = discoveredTag.serialNumber,
-                    manufacturerName = discoveredTag.manufacturerName,
-                    availableTechnologies = discoveredTag.techList,
-                    nfcAInfo = state.nfcAInfo,
-                    nfcBInfo = state.nfcBInfo,
-                    nfcFInfo = state.nfcFInfo,
-                    nfcVInfo = state.nfcVInfo
+                    manufacturerName = state.manufacturerName,
+                    techList = discoveredTag.techList,
+                    nfcAInfo = nfcTag?.nfcAInfo,
+                    nfcBInfo = nfcTag?.nfcBInfo,
+                    nfcFInfo = nfcTag?.nfcFInfo,
+                    nfcVInfo = nfcTag?.nfcVInfo,
                 )
-                state.nfcNdefMessage?.let {
+                nfcTag?.nfcNdefMessage?.let {
                     NdefMessageView(nfcNdefMessage = it)
                     RecordView(ndefRecords = it.ndefRecord)
                 }

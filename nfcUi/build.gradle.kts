@@ -25,4 +25,5 @@ dependencies {
     implementation(project(":settings"))
     implementation(project(":handOverData"))
     implementation(project(":utils"))
+    implementation(project(":remoteDatabase"))
 }

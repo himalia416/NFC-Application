@@ -8,6 +8,13 @@ import no.nordicsemi.domain.nfcTag.nfcF.NfcFInfo
 import no.nordicsemi.domain.nfcTag.nfcV.NfcVInfo
 
 data class NfcUiState(
+    val serialNumber: String = "",
+    val manufacturerName: String = "",
+    val techList: List<String> = emptyList(),
+    val availableTagTechnology: NfcTagState? = null,
+)
+
+data class NfcTagState(
     val nfcAInfo: NfcAInfo? = null,
     val nfcBInfo: NfcBInfo? = null,
     val nfcFInfo: NfcFInfo? = null,

@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import no.nordicsemi.ui.NfcUiDestinationId
 import no.nordicsemi.android.common.navigation.Navigator
 import no.nordicsemi.domain.nfcTag.DiscoveredTag
 import no.nordicsemi.nfcscanner.repository.NfcScanningManager
@@ -16,6 +15,7 @@ import no.nordicsemi.settings.navigation.NfcSettingNoTag
 import no.nordicsemi.settings.navigation.NfcSettingScreenId
 import no.nordicsemi.settingsstorage.domain.NFCSettings
 import no.nordicsemi.settingsstorage.repository.SettingsRepository
+import no.nordicsemi.ui.NfcUiDestinationId
 import no.nordicsemi.welcome.NfcWelcomeDestinationId
 import javax.inject.Inject
 
@@ -32,7 +32,6 @@ internal class NfcScanningViewModel @Inject constructor(
 ) : ViewModel() {
     private val _state: MutableStateFlow<NfcViewState> = MutableStateFlow(NfcViewState())
     val state = _state.asStateFlow()
-    var manufacturerName = ""
 
     init {
         settingsRepository.settings
@@ -53,17 +52,13 @@ internal class NfcScanningViewModel @Inject constructor(
                 it.tag != null -> tagDiscovered()
             }
         }.launchIn(viewModelScope)
-        nfcManager.icManufacturerName.onEach {
-            manufacturerName = it
-        }.launchIn(viewModelScope)
-
     }
 
     private fun tagDiscovered() {
         _state.value = _state.value.copy(state = NfcState.NfcTagDiscovered)
         val discoveredTag = DiscoveredTag(
             serialNumber = nfcManager.serialNumber.value,
-            manufacturerName = manufacturerName,
+            manufacturerName = "",
             techList = nfcManager.techList.value,
             availableTagTechnology = nfcManager.nfcScanningState.value.tag!!
         )

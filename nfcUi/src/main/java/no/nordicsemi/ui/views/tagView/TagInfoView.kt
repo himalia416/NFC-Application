@@ -33,7 +33,7 @@ import no.nordisemi.utils.toSerialNumber
 fun TagInfoView(
     id: String,
     manufacturerName: String,
-    availableTechnologies: List<String>,
+    techList: List<String>,
     nfcAInfo: NfcAInfo?,
     nfcBInfo: NfcBInfo?,
     nfcFInfo: NfcFInfo?,
@@ -156,7 +156,7 @@ fun TagInfoView(
                     }
                     NfcListView(
                         title = stringResource(id = R.string.available_tag_technologies),
-                        list = availableTechnologies
+                        list = techList
                     )
                 }
             }
@@ -172,7 +172,7 @@ fun TagInfoViewPreview() {
         TagInfoView(
             id = "2345ca8709",
             manufacturerName = "Nordic Semiconductor ASA",
-            availableTechnologies = listOf("NFCA", "NFCF"),
+            techList = listOf("NFCA", "NFCF"),
             nfcAInfo = null,
             nfcBInfo = null,
             nfcFInfo = null,

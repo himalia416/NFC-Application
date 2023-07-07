@@ -21,7 +21,6 @@ dependencies {
     implementation(libs.nordic.core)
 
     implementation(project(":domain"))
-    implementation(project(":remoteDatabase"))
     implementation(project(":settingsStorage"))
     implementation(project(":welcome"))
     implementation(project(":nfcUi"))

@@ -8,7 +8,7 @@ import no.nordicsemi.settings.navigation.NfcSettingsDestination
 import no.nordicsemi.welcome.NfcWelcomeDestination
 
 @RequiresApi(Build.VERSION_CODES.S)
-val NfcDestinations = ScanningDestination +
+val NfcNavigationDestinations = ScanningDestination +
         NfcUiScreenDestination +
         NfcSettingsDestination +
         NfcWelcomeDestination

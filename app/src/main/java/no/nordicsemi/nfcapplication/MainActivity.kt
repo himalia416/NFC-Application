@@ -16,7 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import no.nordicsemi.android.common.navigation.NavigationView
 import no.nordicsemi.android.common.theme.NordicActivity
 import no.nordicsemi.android.common.theme.NordicTheme
-import no.nordicsemi.navigation.NfcDestinations
+import no.nordicsemi.navigation.NfcNavigationDestinations
 import no.nordicsemi.nfcscanner.repository.NfcScanningManagerVM
 import java.util.*
 
@@ -36,7 +36,7 @@ class MainActivity : NordicActivity() {
                     onDispose { viewModel.onPause(activity) }
                 }
                 SelectionContainer {
-                    NavigationView(destinations = NfcDestinations)
+                    NavigationView(destinations = NfcNavigationDestinations)
                 }
             }
         }

@@ -9,16 +9,12 @@ android {
 
 dependencies {
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.activity.compose)
     implementation(libs.nordic.theme)
     implementation(libs.nordic.navigation)
     implementation(libs.nordic.permissions.nfc)
     implementation(libs.androidx.lifecycle.runtime.compose)
-    implementation(libs.androidx.compose.material.iconsExtended)
-    implementation(libs.androidx.compose.bom)
     implementation(libs.androidx.hilt.navigation.compose)
-    implementation(libs.nordic.core)
 
     implementation(project(":domain"))
     implementation(project(":settingsStorage"))

@@ -18,9 +18,9 @@ dependencies {
     implementation(libs.androidx.compose.bom)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.nordic.core)
-
     // Balloon for tooltip popup.
-    implementation ("com.github.skydoves:balloon-compose:1.5.2")
+    implementation(libs.skydoves.ballon)
+
     implementation(project(":domain"))
     implementation(project(":settings"))
     implementation(project(":handOverData"))

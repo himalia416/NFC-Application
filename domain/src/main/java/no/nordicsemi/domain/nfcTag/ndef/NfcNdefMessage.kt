@@ -10,7 +10,7 @@ data class NfcNdefMessage(
     val currentMessageSize: Int,
     val maximumMessageSize: Int,
     val isNdefWritable: Boolean,
-    val ndefRecord: List<NdefRecord>,
+    val ndefRecord: List<NfcNdefRecord>,
     val ndefType: String
 ) : Parcelable {
     fun getAccessDataType(isNdefWritable: Boolean) =
@@ -18,7 +18,7 @@ data class NfcNdefMessage(
 }
 
 @Parcelize
-data class NdefRecord(
+data class NfcNdefRecord(
     val record: NdefRecordType? = null,
 ) : Parcelable
 
@@ -31,14 +31,14 @@ enum class NdefTagType(val type: String) {
 
     companion object {
         fun getTagType(typeS: String): String {
-            return when (typeS.split(".").last()) {
-                "type1" -> NFC_FORUM_TYPE_1.type
-                "type2" -> NFC_FORUM_TYPE_2.type
-                "type3" -> NFC_FORUM_TYPE_3.type
-                "type4" -> NFC_FORUM_TYPE_4.type
-                "mifareclassic" -> MIFARE_CLASSIC.type
-                else -> "Unsupported Type"
-            }
+            val typeMap = mapOf(
+                "type1" to NFC_FORUM_TYPE_1.type,
+                "type2" to NFC_FORUM_TYPE_2.type,
+                "type3" to NFC_FORUM_TYPE_3.type,
+                "type4" to NFC_FORUM_TYPE_4.type,
+                "mifareclassic" to MIFARE_CLASSIC.type,
+            )
+            return typeMap[typeS.split(".").last()] ?: "Not supported Type"
         }
     }
 }

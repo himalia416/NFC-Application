@@ -11,7 +11,7 @@ internal object HandoverReceiveRecordParser {
 
         return HandoverReceive(
             typeNameFormat = typeNameFormat,
-            payloadType = String(record.type),
+            payloadType = "Handover Receive",
             payloadLength = record.payload.size,
             payload = String(record.payload)
         )

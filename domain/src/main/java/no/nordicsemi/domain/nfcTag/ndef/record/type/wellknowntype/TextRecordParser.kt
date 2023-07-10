@@ -1,6 +1,7 @@
 package no.nordicsemi.domain.nfcTag.ndef.record.type.wellknowntype
 
 import android.nfc.NdefRecord
+import no.nordisemi.utils.DataByteArray
 import no.nordicsemi.domain.nfcTag.ndef.TnfNameFormatter
 import no.nordicsemi.domain.nfcTag.ndef.record.TextRecord
 import java.nio.charset.Charset
@@ -38,11 +39,12 @@ internal object TextRecordParser {
 
         return TextRecord(
             typeNameFormat = typeNameFormat,
-            payloadType = String(record.type),
+            payloadType = "Text",
             payloadLength = record.payload.size,
             langCode = languageCode,
             encoding = textEncoding.toString(),
-            actualText = actualText
+            actualText = actualText,
+            payloadData = DataByteArray(record.payload)
         )
     }
 }

@@ -18,14 +18,14 @@ dependencyResolutionManagement {
     }
     versionCatalogs {
         create("libs") {
-            from("no.nordicsemi.android.gradle:version-catalog:1.3.3")
+            from("no.nordicsemi.android.gradle:version-catalog:1.6.2")
         }
     }
 }
 
 rootProject.name = "NFCApplication"
 include(":app")
-include(":profile_nfc")
+include(":nfcScanner")
 include(":settings")
 include(":welcome")
 include(":navigation")
@@ -33,3 +33,10 @@ include(":serialization")
 include(":domain")
 include(":remoteDatabase")
 include(":settingsStorage")
+include(":nfcUi")
+include(":handOverData")
+include(":utils")
+
+if (file("../Android-Common-Libraries").exists()) {
+    includeBuild("../Android-Common-Libraries")
+}

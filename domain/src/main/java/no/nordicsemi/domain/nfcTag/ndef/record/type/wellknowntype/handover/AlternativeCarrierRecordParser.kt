@@ -11,7 +11,7 @@ internal object AlternativeCarrierRecordParser {
 
         return AlternativeCarrier(
             typeNameFormat = typeNameFormat,
-            payloadType = String(record.type),
+            payloadType = "Alternative Carrier",
             payloadLength = record.payload.size,
             payload = String(record.payload)
         )

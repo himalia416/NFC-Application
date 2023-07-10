@@ -3,9 +3,11 @@ package no.nordicsemi.domain.nfcTag.ndef.record.mapper
 import android.nfc.NdefRecord
 import no.nordicsemi.domain.nfcTag.ndef.TnfNameFormatter
 import no.nordicsemi.domain.nfcTag.ndef.record.NdefRecordType
-import no.nordicsemi.domain.nfcTag.ndef.record.OtherExternalType
+import no.nordicsemi.domain.nfcTag.ndef.record.type.absoluteuri.AbsoluteUriParser
 import no.nordicsemi.domain.nfcTag.ndef.record.type.externaltype.AndroidPackageRecordParser
+import no.nordicsemi.domain.nfcTag.ndef.record.type.externaltype.ExternalTypeRecord
 import no.nordicsemi.domain.nfcTag.ndef.record.type.externaltype.TnfExternalType
+import no.nordicsemi.domain.nfcTag.ndef.record.type.mimetype.MimeTypeParser
 import no.nordicsemi.domain.nfcTag.ndef.record.type.wellknowntype.SmartPosterRecordParser
 import no.nordicsemi.domain.nfcTag.ndef.record.type.wellknowntype.TextRecordParser
 import no.nordicsemi.domain.nfcTag.ndef.record.type.wellknowntype.TnfWellKnown
@@ -14,9 +16,12 @@ import no.nordicsemi.domain.nfcTag.ndef.record.type.wellknowntype.handover.Alter
 import no.nordicsemi.domain.nfcTag.ndef.record.type.wellknowntype.handover.HandoverCarrierRecordParser
 import no.nordicsemi.domain.nfcTag.ndef.record.type.wellknowntype.handover.HandoverReceiveRecordParser
 import no.nordicsemi.domain.nfcTag.ndef.record.type.wellknowntype.handover.HandoverSelectRecordParser
+import javax.inject.Inject
 
 // The RTD type name format is specified in NFCForum-TS-RTD_1.0.
-object NdefRecordTypeMapper {
+class NdefRecordTypeMapper @Inject constructor(
+    private val mimeTypeParser: MimeTypeParser,
+) {
 
     fun getNdefRecordType(record: NdefRecord): NdefRecordType {
         val type = record.type
@@ -35,8 +40,12 @@ object NdefRecordTypeMapper {
 
             TnfNameFormatter.TNF_EXTERNAL_TYPE.tnf -> when {
                 type.contentEquals(TnfExternalType.RTD_ANDROID_APP.type) -> AndroidPackageRecordParser.parse(record)
-                else -> OtherExternalType(payloadLength = record.payload.size)
+                else -> ExternalTypeRecord.parse(record)
             }
+
+            TnfNameFormatter.TNF_ABSOLUTE_URI.tnf -> AbsoluteUriParser.parse(record)
+
+            TnfNameFormatter.TNF_MIME_MEDIA.tnf -> mimeTypeParser.parse(record)
 
             else -> throw IllegalArgumentException("Unknown Record Type")
         }

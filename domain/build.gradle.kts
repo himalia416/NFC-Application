@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.nordic.library.compose)
     alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.nordic.hilt)
 }
 
 android {
@@ -9,6 +10,10 @@ android {
 
 dependencies {
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.compose.material.iconsExtended)
+
+    implementation(project(":handOverData"))
+
+    implementation(project(":utils"))
 }

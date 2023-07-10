@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tag_info">Tag Info</string>
+    <string name="mifare_classic_tag">MiFare Classic Tag</string>
+    <string name="ndef_tag">Ndef Tag</string>
+    <string name="serial_number">Serial Number</string>
+    <string name="ic_manufacturer">Ic Manufacturer</string>
+    <string name="maximum_transceive_len">Maximum Transceive Length</string>
+    <string name="available_tag_technologies">Available Tag Technologies</string>
+    <string name="transceive_time_out">Default Transceive Timeout</string>
+    <string name="atqa"> ATQA</string>
+    <string name="atqa_des">Tag responds to the Request Command of an NFC reader with a two-byte ATQA value.
+        The first byte indicates anti-collision, while the second represents the platform information.
+    \nFor more information follow \'NFC Digital Protocol Technical Specification 2.3 Section 6.6.3\'.</string>
+    <string name="sak">SAK</string>
+    <string name="sak_des">Select Acknowledge. \nFor more information follow \'NFC Digital Protocol Technical Specification 2.3 Section 6.8.2\'.</string>
+    <string name="application_data">NfcB Application Data</string>
+    <string name="nfcB_protocol_information">NfcB Protocol Information </string>
+    <string name="nfcF_manufacturer_byte">NfcF Manufacturer Byte</string>
+    <string name="nfcF_system_code">NfcF System Code</string>
+    <string name="nfcV_dsf_id">NfcV DsfId</string>
+    <string name="nfcV_response_flags">NfcV Response Flags</string>
+
+    <string name="ndef_info">Ndef Message</string>
+    <string name="record_count">Number of Records</string>
+    <string name="max_message_size">Maximum Message Size</string>
+    <string name="current_message_size">Current Message Size</string>
+    <string name="ndef_type">Ndef Type</string>
+    <string name="nfc_data_access_type">Data Access Type</string>
+
+    <string name="record_info">Ndef Records</string>
+    <string name="bytes">%s bytes</string>
+    <string name="millisecond">%s ms</string>
+    <string name="expand_records">Show all Records</string>
+    <string name="hide_records">Hide Records</string>
+    <string name="record_type_name_format">Type Name Format</string>
+    <string name="record_type">Payload Type</string>
+    <string name="record_payload_len">Payload Length</string>
+    <string name="record_payload_data">Payload Data</string>
+    <string name="record_name"> Record%d : %s</string>
+    <string name="language_code">Language code</string>
+    <string name="encoding">Encoding</string>
+    <string name="protocol_field">Protocol Field</string>
+    <string name="uri_field">URI</string>
+    <string name="url_tag"> URL </string>
+    <string name="data">Data</string>
+    <string name="payload_data">Payload Data</string>
+
+    <string name="ble_device_address">Bluetooth Device Address</string>
+    <string name="ble_device_address_type">Bluetooth Device Address Type</string>
+    <string name="le_role_type">Le Role Type</string>
+    <string name="appearance">Appearance</string>
+    <string name="flags">Flags</string>
+    <string name="local_name">Local Name</string>
+</resources>

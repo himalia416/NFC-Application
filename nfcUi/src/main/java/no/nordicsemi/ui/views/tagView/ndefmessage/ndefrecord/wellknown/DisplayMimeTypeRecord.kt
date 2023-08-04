@@ -3,7 +3,14 @@ package no.nordicsemi.ui.views.tagView.ndefmessage.ndefrecord.wellknown
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -13,12 +20,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import no.nordicsemi.android.common.theme.NordicTheme
+import no.nordicsemi.domain.nfcTag.ndef.record.MimeRecord
+import no.nordicsemi.handOverData.data.BluetoothLeOobData
+import no.nordicsemi.nfcui.R
 import no.nordicsemi.ui.uicomponents.NfcListView
 import no.nordicsemi.ui.uicomponents.NfcRowView
 import no.nordicsemi.ui.uicomponents.RecordTitleView
-import no.nordicsemi.android.common.theme.NordicTheme
-import no.nordicsemi.domain.nfcTag.ndef.record.MimeRecord
-import no.nordicsemi.nfcui.R
 import no.nordisemi.utils.toPayloadData
 
 @Composable
@@ -59,49 +67,74 @@ fun DisplayMimeTypeRecord(
                         mimeRecord.payloadLength.toString()
                     )
                 )
-                NfcRowView(
-                    title = mimeRecord.payloadFieldName,
-                    description = mimeRecord.payload
-                )
+                mimeRecord.payloadString?.let {
+                    NfcRowView(
+                        title = mimeRecord.payloadFieldName,
+                        description = it
+                    )
+                }
                 mimeRecord.payloadData?.let {
                     NfcRowView(
                         title = stringResource(id = R.string.payload_data),
                         description = it.value.toPayloadData()
                     )
                 }
-                mimeRecord.bluetoothLeOobData?.let { bluetoothLeOobData ->
-                    NfcRowView(
-                        title = stringResource(id = R.string.ble_device_address),
-                        description = bluetoothLeOobData.bleAddressType
-                    )
-                    NfcRowView(
-                        title = stringResource(id = R.string.ble_device_address_type),
-                        description = bluetoothLeOobData.bleDeviceAddress.address
-                    )
-                    NfcRowView(
-                        title = stringResource(id = R.string.le_role_type),
-                        description = bluetoothLeOobData.roleType.toString()
-                    )
+                mimeRecord.bluetoothLeOobData?.let { BluetoothLeDataView(it) }
+            }
+        }
+    }
+}
 
-                    bluetoothLeOobData.appearance?.let {
-                        NfcRowView(
-                            title = stringResource(id = R.string.appearance),
-                            description = it
-                        )
-                    }
+@Composable
+private fun BluetoothLeDataView(bluetoothLeOobData: BluetoothLeOobData) {
+    Row(
+        modifier = Modifier.height(IntrinsicSize.Min)
+    ) {
+        Divider(
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier
+                .fillMaxHeight()
+                .width(16.dp)
+        )
+        Column(
+            modifier = Modifier.padding(
+                top = 16.dp,
+                bottom = 16.dp,
+                end = 16.dp,
+                start = 4.dp
+            ),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            NfcRowView(
+                title = stringResource(id = R.string.ble_device_address),
+                description = bluetoothLeOobData.bleAddressType
+            )
+            NfcRowView(
+                title = stringResource(id = R.string.ble_device_address_type),
+                description = bluetoothLeOobData.bleDeviceAddress.address
+            )
+            NfcRowView(
+                title = stringResource(id = R.string.le_role_type),
+                description = bluetoothLeOobData.roleType.toString()
+            )
 
-                    NfcListView(
-                        title = stringResource(id = R.string.flags),
-                        list = bluetoothLeOobData.flags
-                    )
+            bluetoothLeOobData.appearance?.let {
+                NfcRowView(
+                    title = stringResource(id = R.string.appearance),
+                    description = it
+                )
+            }
 
-                    bluetoothLeOobData.localName?.let {
-                        NfcRowView(
-                            title = stringResource(id = R.string.local_name),
-                            description = it
-                        )
-                    }
-                }
+            NfcListView(
+                title = stringResource(id = R.string.flags),
+                list = bluetoothLeOobData.flags
+            )
+
+            bluetoothLeOobData.localName?.let {
+                NfcRowView(
+                    title = stringResource(id = R.string.local_name),
+                    description = it
+                )
             }
         }
     }
@@ -116,7 +149,7 @@ fun DisplayMimeTypeRecordPreview() {
                 typeNameFormat = "Media-type",
                 payloadType = "application/vnd.bluetooth.le.oob",
                 payloadLength = 89,
-                payload = "Nordic_HRM_NFC"
+                payloadString = "Nordic_HRM_NFC"
             ),
             index = 2
         )

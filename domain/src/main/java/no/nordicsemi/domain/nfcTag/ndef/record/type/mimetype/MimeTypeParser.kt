@@ -21,10 +21,12 @@ class MimeTypeParser @Inject constructor(
         val typeNameFormat = TnfNameFormatter.getTnfName(record.tnf.toInt())
         var recordName = "Mime Type Record"
         val domainType = String(record.type, Charsets.UTF_8)
+        var payloadString: String? = String(record.payload)
 
         if (domainType == BLE_OOB_DATA_TYPE) {
             bluetoothLeOobData = handOverData.parser(ByteBuffer.wrap(record.payload))
             recordName = "Bluetooth Carrier Configuration LE Record"
+            payloadString = null
         }
 
         return MimeRecord(
@@ -32,7 +34,7 @@ class MimeTypeParser @Inject constructor(
             typeNameFormat = typeNameFormat,
             payloadType = String(record.type),
             payloadLength = record.payload.size,
-            payload = String(record.payload),
+            payloadString = payloadString,
             payloadData = DataByteArray(record.payload),
             bluetoothLeOobData = bluetoothLeOobData
         )

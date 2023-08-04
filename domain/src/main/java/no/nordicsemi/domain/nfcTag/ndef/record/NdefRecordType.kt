@@ -136,7 +136,7 @@ data class MimeRecord(
     val payloadType: String = "",
     val payloadLength: Int,
     val payloadFieldName: String = "Payload",
-    val payload: String = "",
+    val payloadString: String? = null,
     val payloadData: DataByteArray? = null,
     val bluetoothLeOobData: BluetoothLeOobData?= null
 ) : NdefRecordType {

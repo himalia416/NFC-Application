@@ -11,6 +11,7 @@ android {
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.nordic.blek.client)
 
     implementation(project(":utils"))
 }

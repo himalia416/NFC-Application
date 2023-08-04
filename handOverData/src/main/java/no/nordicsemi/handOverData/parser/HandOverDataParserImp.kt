@@ -1,25 +1,30 @@
 package no.nordicsemi.handOverData.parser
 
+import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
+import android.content.Context
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import no.nordicsemi.android.kotlin.ble.client.main.callback.BleGattClient
+import no.nordicsemi.handOverData.HandOverDataParser
 import no.nordicsemi.handOverData.data.AddressType
 import no.nordicsemi.handOverData.data.BluetoothLeOobData
-import no.nordicsemi.handOverData.data.BtHandOverType.LE_SC_RANDOM
 import no.nordicsemi.handOverData.data.BtHandOverType.LE_APPEARANCE
 import no.nordicsemi.handOverData.data.BtHandOverType.LE_FLAG
 import no.nordicsemi.handOverData.data.BtHandOverType.LE_ROLE
 import no.nordicsemi.handOverData.data.BtHandOverType.LE_SC_CONFIRMATION
 import no.nordicsemi.handOverData.data.BtHandOverType.LE_SC_CONFIRMATION_SIZE
+import no.nordicsemi.handOverData.data.BtHandOverType.LE_SC_RANDOM
 import no.nordicsemi.handOverData.data.BtHandOverType.LE_SC_RANDOM_SIZE
 import no.nordicsemi.handOverData.data.BtHandOverType.LOCAL_NAME
 import no.nordicsemi.handOverData.data.BtHandOverType.LOCAL_NAME_2
 import no.nordicsemi.handOverData.data.BtHandOverType.SECURITY_MANAGER_TK
 import no.nordicsemi.handOverData.data.BtHandOverType.SECURITY_MANAGER_TK_SIZE
 import no.nordicsemi.handOverData.data.BtHandOverType.TYPE_MAC
-import no.nordicsemi.handOverData.HandOverDataParser
 import no.nordicsemi.handOverData.data.LeRoleType
 import no.nordisemi.utils.DataByteArray
 import java.nio.BufferUnderflowException
@@ -31,7 +36,9 @@ import javax.inject.Singleton
 @RequiresApi(Build.VERSION_CODES.M)
 @Singleton
 internal class HandOverDataParserImp @Inject constructor(
-    private val bluetoothAdapter: BluetoothAdapter
+    private val bluetoothAdapter: BluetoothAdapter,
+    private val context: Context,
+    private val scope: CoroutineScope,
 ) : HandOverDataParser {
     private val TAG = "HandoverMessageParser"
 
@@ -59,6 +66,7 @@ internal class HandOverDataParserImp @Inject constructor(
                         val address = parseLittleEndianOrder(bytes)
                         bleAddress = bluetoothAdapter.getRemoteDevice(address)
                         bleAddressType = AddressType.parse(payload.get())
+                        connectBleDevice(bleAddress, context, scope)
                     }
 
                     LE_ROLE -> {
@@ -79,7 +87,10 @@ internal class HandOverDataParserImp @Inject constructor(
 
                     SECURITY_MANAGER_TK -> {
                         if (len != SECURITY_MANAGER_TK_SIZE) {
-                            Log.i(TAG,"BT OOB: invalid size of SM TK, should be $SECURITY_MANAGER_TK_SIZE bytes.")
+                            Log.i(
+                                TAG,
+                                "BT OOB: invalid size of SM TK, should be $SECURITY_MANAGER_TK_SIZE bytes."
+                            )
                         } else {
                             bytes = ByteArray(len)
                             payload[bytes]
@@ -89,7 +100,10 @@ internal class HandOverDataParserImp @Inject constructor(
 
                     LE_SC_CONFIRMATION -> {
                         if (len != LE_SC_CONFIRMATION_SIZE) {
-                            Log.i(TAG, "BT OOB: invalid size of LE SC Confirmation, should be $LE_SC_CONFIRMATION_SIZE bytes.")
+                            Log.i(
+                                TAG,
+                                "BT OOB: invalid size of LE SC Confirmation, should be $LE_SC_CONFIRMATION_SIZE bytes."
+                            )
                         } else {
                             bytes = ByteArray(len)
                             payload[bytes]
@@ -99,7 +113,10 @@ internal class HandOverDataParserImp @Inject constructor(
 
                     LE_SC_RANDOM -> {
                         if (len != LE_SC_RANDOM_SIZE) {
-                            Log.i(TAG, "BT OOB: invalid size of LE SC Random, should be $LE_SC_RANDOM_SIZE bytes.")
+                            Log.i(
+                                TAG,
+                                "BT OOB: invalid size of LE SC Random, should be $LE_SC_RANDOM_SIZE bytes."
+                            )
                         } else {
                             bytes = ByteArray(len)
                             payload[bytes]
@@ -144,4 +161,19 @@ internal class HandOverDataParserImp @Inject constructor(
      */
     private fun parseLittleEndianOrder(buffer: ByteArray): ByteArray =
         buffer.reversed().toByteArray()
+
+    /**
+     * Connects to the Bluetooth device.
+     */
+    @SuppressLint("MissingPermission")
+    fun connectBleDevice(device: BluetoothDevice, context: Context, scope: CoroutineScope) {
+        scope.launch {
+            try {
+                val client = BleGattClient.connect(context, device.address)
+                client.discoverServices()
+            } catch (e: Exception) {
+                Log.d(TAG, "connectBleDevice: Couldn't connect to the ble device \n$e")
+            }
+        }
+    }
 }

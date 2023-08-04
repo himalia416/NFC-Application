@@ -35,15 +35,15 @@ internal class HandOverDataParserImp @Inject constructor(
 ) : HandOverDataParser {
     private val TAG = "HandoverMessageParser"
 
-    lateinit var bleAddress: BluetoothDevice
-    lateinit var bleAddressType: String
-    lateinit var leRoleType: LeRoleType
-    var localName: String? = null
-    var securityManagerTK: DataByteArray? = null
-    var leSecureConfirmation: DataByteArray? = null
-    var leSecureRandom: DataByteArray? = null
-    var appearance: String? = null
-    var flags: List<String> = emptyList()
+    private lateinit var bleAddress: BluetoothDevice
+    private lateinit var bleAddressType: String
+    private lateinit var leRoleType: LeRoleType
+    private var localName: String? = null
+    private var securityManagerTK: DataByteArray? = null
+    private var leSecureConfirmation: DataByteArray? = null
+    private var leSecureRandom: DataByteArray? = null
+    private var appearance: String? = null
+    private var flags: List<String> = emptyList()
 
     override fun parser(payload: ByteBuffer): BluetoothLeOobData {
         try {

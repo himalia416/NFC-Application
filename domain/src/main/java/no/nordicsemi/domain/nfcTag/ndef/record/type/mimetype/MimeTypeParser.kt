@@ -12,7 +12,7 @@ import javax.inject.Inject
 class MimeTypeParser @Inject constructor(
     private val handOverData: HandOverDataParser,
 ) {
-    var bluetoothLeOobData: BluetoothLeOobData? = null
+    private var bluetoothLeOobData: BluetoothLeOobData? = null
 
     /**
      * Parse mime type ndef record.

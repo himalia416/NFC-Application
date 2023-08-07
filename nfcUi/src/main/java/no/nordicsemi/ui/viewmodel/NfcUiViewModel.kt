@@ -65,6 +65,9 @@ internal class NfcUiViewModel @Inject constructor(
         navigator.navigateTo(NfcSettingScreenId, NfcSettingsWithTag(discoveredTag))
     }
 
+    /**
+     * Back Navigation.
+     */
     fun onBackNavigation() {
         navigator.navigateUp()
     }

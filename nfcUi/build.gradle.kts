@@ -17,6 +17,7 @@ dependencies {
     implementation(libs.nordic.core)
     // Balloon for tooltip popup.
     implementation(libs.skydoves.ballon)
+    implementation(libs.nordic.blek.client)
 
     implementation(project(":domain"))
     implementation(project(":settings"))

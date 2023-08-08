@@ -17,4 +17,5 @@ dependencies {
     implementation(libs.moshi.adapters)
 
     implementation(project(":domain"))
+    implementation(project(":handOverData"))
 }

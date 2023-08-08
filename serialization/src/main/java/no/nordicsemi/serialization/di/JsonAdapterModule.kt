@@ -22,6 +22,7 @@ import no.nordicsemi.domain.nfcTag.ndef.record.TextRecord
 import no.nordicsemi.domain.nfcTag.ndef.record.URIRecord
 import no.nordicsemi.domain.nfcTag.ndef.record.Unknown
 import no.nordicsemi.serialization.domain.NfcJsonAdapter
+import no.nordicsemi.serialization.repository.BluetoothDeviceSerialization
 import no.nordicsemi.serialization.repository.NfcSerialization
 import javax.inject.Singleton
 
@@ -47,8 +48,15 @@ object JsonAdapterModule {
                     .withSubtype(GenericExternalType::class.java, "GenericExternalType")
                     .withSubtype(MimeRecord::class.java, "MimeType")
             )
+            .add(BluetoothDeviceSerialization())
             .add(KotlinJsonAdapterFactory())
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideBluetoothDevice(moshi: Moshi): JsonAdapter<BluetoothDeviceSerialization> {
+        return moshi.adapter(BluetoothDeviceSerialization::class.java)
     }
 
     @Provides

@@ -89,7 +89,7 @@ fun DisplayMimeTypeRecord(
                         onClick = {
                             onBluetoothConnection(BleDevice(it.bleDeviceAddress.address))
                         }) {
-                        Text(text = "Connect")
+                        Text(text = stringResource(id = R.string.connect))
                     }
                 }
             }

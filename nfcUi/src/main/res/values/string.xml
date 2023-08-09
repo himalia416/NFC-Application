@@ -52,4 +52,5 @@
     <string name="appearance">Appearance</string>
     <string name="flags">Flags</string>
     <string name="local_name">Local Name</string>
+    <string name="connect">Connect</string>
 </resources>

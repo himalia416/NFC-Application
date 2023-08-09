@@ -33,9 +33,12 @@ class ConnectBleDeviceViewModel @Inject constructor(
         startConnection()
     }
 
+    /**
+     * Starts connecting bluetooth for for provided the device address.
+     */
     private fun startConnection() {
         _state.value = _state.value.copy(device = device)
-        connectBleDevice.connectBleDevice(device)
+        connectBleDevice.connectBleDevice(device, viewModelScope)
         connectBleDevice.bState.onEach {
             when (it) {
                 GattConnectionState.STATE_DISCONNECTED -> _state.value = _state.value.copy(bleConnectState = GattConnectionState.STATE_DISCONNECTED)
@@ -46,10 +49,16 @@ class ConnectBleDeviceViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+    /**
+     * Back navigation.
+     */
     fun onBackNavigation() {
         navigator.navigateUp()
     }
 
+    /**
+     * Back navigation when it could not connect with bluetooth.
+     */
     fun bleDisconnected() {
         onBackNavigation()
     }

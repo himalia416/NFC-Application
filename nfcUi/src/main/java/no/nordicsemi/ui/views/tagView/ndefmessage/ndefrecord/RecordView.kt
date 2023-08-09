@@ -12,18 +12,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import no.nordicsemi.ui.views.tagView.ndefmessage.ndefrecord.external.DisplayGenericExternalTypeRecord
-import no.nordicsemi.ui.views.tagView.ndefmessage.ndefrecord.handover.DisplayHandoverCarrierRecord
-import no.nordicsemi.ui.views.tagView.ndefmessage.ndefrecord.handover.DisplayHandoverReceiveRecord
-import no.nordicsemi.ui.views.tagView.ndefmessage.ndefrecord.handover.DisplayHandoverSelectRecord
-import no.nordicsemi.ui.views.tagView.ndefmessage.ndefrecord.handover.DisplayAlternativeCarrierRecord
-import no.nordicsemi.ui.views.tagView.ndefmessage.ndefrecord.external.DisplayAndroidPackageRecord
-import no.nordicsemi.ui.views.tagView.ndefmessage.ndefrecord.wellknown.DisplayMimeTypeRecord
-import no.nordicsemi.ui.views.tagView.ndefmessage.ndefrecord.wellknown.DisplaySmartPosterRecord
-import no.nordicsemi.ui.views.tagView.ndefmessage.ndefrecord.wellknown.DisplayTextRecord
-import no.nordicsemi.ui.views.tagView.ndefmessage.ndefrecord.wellknown.DisplayUriRecord
-import no.nordicsemi.ui.uicomponents.TitleView
 import no.nordicsemi.android.common.theme.NordicTheme
+import no.nordicsemi.bleconnection.BleDevice
 import no.nordicsemi.domain.nfcTag.ndef.NfcNdefRecord
 import no.nordicsemi.domain.nfcTag.ndef.record.AlternativeCarrier
 import no.nordicsemi.domain.nfcTag.ndef.record.AndroidApplicationRecord
@@ -37,9 +27,23 @@ import no.nordicsemi.domain.nfcTag.ndef.record.TextRecord
 import no.nordicsemi.domain.nfcTag.ndef.record.URIRecord
 import no.nordicsemi.domain.nfcTag.ndef.record.Unknown
 import no.nordicsemi.nfcui.R
+import no.nordicsemi.ui.uicomponents.TitleView
+import no.nordicsemi.ui.views.tagView.ndefmessage.ndefrecord.external.DisplayAndroidPackageRecord
+import no.nordicsemi.ui.views.tagView.ndefmessage.ndefrecord.external.DisplayGenericExternalTypeRecord
+import no.nordicsemi.ui.views.tagView.ndefmessage.ndefrecord.handover.DisplayAlternativeCarrierRecord
+import no.nordicsemi.ui.views.tagView.ndefmessage.ndefrecord.handover.DisplayHandoverCarrierRecord
+import no.nordicsemi.ui.views.tagView.ndefmessage.ndefrecord.handover.DisplayHandoverReceiveRecord
+import no.nordicsemi.ui.views.tagView.ndefmessage.ndefrecord.handover.DisplayHandoverSelectRecord
+import no.nordicsemi.ui.views.tagView.ndefmessage.ndefrecord.wellknown.DisplayMimeTypeRecord
+import no.nordicsemi.ui.views.tagView.ndefmessage.ndefrecord.wellknown.DisplaySmartPosterRecord
+import no.nordicsemi.ui.views.tagView.ndefmessage.ndefrecord.wellknown.DisplayTextRecord
+import no.nordicsemi.ui.views.tagView.ndefmessage.ndefrecord.wellknown.DisplayUriRecord
 
 @Composable
-fun RecordView(ndefRecords: List<NfcNdefRecord>) {
+fun RecordView(
+    ndefRecords: List<NfcNdefRecord>,
+    onBluetoothConnection: (BleDevice) -> Unit,
+) {
     OutlinedCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -66,7 +70,7 @@ fun RecordView(ndefRecords: List<NfcNdefRecord>) {
                     is HandoverCarrier -> DisplayHandoverCarrierRecord(recordType, index)
                     is HandoverReceive -> DisplayHandoverReceiveRecord(recordType, index)
                     is HandoverSelect -> DisplayHandoverSelectRecord(recordType, index)
-                    is MimeRecord -> DisplayMimeTypeRecord(recordType, index)
+                    is MimeRecord -> DisplayMimeTypeRecord(recordType, index, onBluetoothConnection)
                     is GenericExternalType -> DisplayGenericExternalTypeRecord(recordType, index)
                     is Unknown -> TODO()
                     else -> TODO()
@@ -80,6 +84,7 @@ fun RecordView(ndefRecords: List<NfcNdefRecord>) {
 @Composable
 fun NdefRecordViewPreview() {
     NordicTheme {
-        RecordView(ndefRecords = listOf(NfcNdefRecord()))
+        RecordView(ndefRecords = listOf(NfcNdefRecord()),
+            onBluetoothConnection = {})
     }
 }

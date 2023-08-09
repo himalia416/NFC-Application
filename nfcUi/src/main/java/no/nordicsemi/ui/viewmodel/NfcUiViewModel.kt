@@ -8,6 +8,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import no.nordicsemi.android.common.navigation.Navigator
 import no.nordicsemi.android.common.navigation.viewmodel.SimpleNavigationViewModel
+import no.nordicsemi.bleconnection.BleDevice
+import no.nordicsemi.bleconnection.NfcBleDeviceDestinationId
 import no.nordicsemi.domain.nfcTag.DiscoveredTag
 import no.nordicsemi.remotedatabase.domain.ManufacturerNameRepository
 import no.nordicsemi.settings.navigation.NfcSettingScreenId
@@ -70,5 +72,9 @@ internal class NfcUiViewModel @Inject constructor(
      */
     fun onBackNavigation() {
         navigator.navigateUp()
+    }
+
+    fun onBleConnection(device: BleDevice){
+        navigator.navigateTo(NfcBleDeviceDestinationId, device)
     }
 }

@@ -13,7 +13,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
-import no.nordicsemi.android.common.permissions.ble.RequireBluetooth
 import no.nordicsemi.android.common.permissions.nfc.RequireNfc
 import no.nordicsemi.android.common.theme.view.NordicAppBar
 import no.nordicsemi.nfcscanner.R
@@ -31,7 +30,6 @@ fun NfcScanningScreen() {
         nfcViewModel.showWelcomeScreen()
     } else {
         RequireNfc {
-            RequireBluetooth {
                 Column {
                     NordicAppBar(
                         text = stringResource(id = R.string.app_name),
@@ -50,7 +48,6 @@ fun NfcScanningScreen() {
                         else -> LoadingView()
                     }
                 }
-            }
         }
     }
 }

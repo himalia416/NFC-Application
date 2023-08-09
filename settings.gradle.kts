@@ -18,7 +18,7 @@ dependencyResolutionManagement {
     }
     versionCatalogs {
         create("libs") {
-            from("no.nordicsemi.android.gradle:version-catalog:1.8.1")
+            from("no.nordicsemi.android.gradle:version-catalog:1.9.0")
         }
     }
 }
@@ -36,6 +36,7 @@ include(":settingsStorage")
 include(":nfcUi")
 include(":handOverData")
 include(":utils")
+include(":bleConnection")
 
 if (file("../Android-Common-Libraries").exists()) {
     includeBuild("../Android-Common-Libraries")

@@ -15,4 +15,5 @@ dependencies {
     implementation(project(":nfcUi"))
     implementation(project(":settings"))
     implementation(project(":welcome"))
+    implementation(project(":bleConnection"))
 }

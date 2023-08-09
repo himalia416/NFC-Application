@@ -1,9 +1,5 @@
 package no.nordicsemi.ui.views.tagView.ndefmessage.ndefrecord.wellknown
 
-import android.annotation.SuppressLint
-import android.bluetooth.BluetoothDevice
-import android.content.Context
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,15 +19,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import no.nordicsemi.android.common.theme.NordicTheme
-import no.nordicsemi.android.kotlin.ble.client.main.callback.BleGattClient
+import no.nordicsemi.bleconnection.BleDevice
 import no.nordicsemi.domain.nfcTag.ndef.record.MimeRecord
 import no.nordicsemi.handOverData.data.BluetoothLeOobData
 import no.nordicsemi.nfcui.R
@@ -43,7 +35,8 @@ import no.nordisemi.utils.toPayloadData
 @Composable
 fun DisplayMimeTypeRecord(
     mimeRecord: MimeRecord,
-    index: Int
+    index: Int,
+    onBluetoothConnection: (BleDevice) -> Unit,
 ) {
     var isExpanded by rememberSaveable { mutableStateOf(true) }
 
@@ -90,16 +83,12 @@ fun DisplayMimeTypeRecord(
                         description = it.value.toPayloadData()
                     )
                 }
-                val context = LocalContext.current
-                val scope = CoroutineScope(Dispatchers.Default)
                 mimeRecord.bluetoothLeOobData?.let {
                     BluetoothLeDataView(it)
-                    Button(onClick = {
-                        connectBleDevice(
-                            it.bleDeviceAddress,
-                            context, scope
-                        )
-                    }) {
+                    Button(
+                        onClick = {
+                            onBluetoothConnection(BleDevice(it.bleDeviceAddress.address))
+                        }) {
                         Text(text = "Connect")
                     }
                 }
@@ -174,23 +163,8 @@ fun DisplayMimeTypeRecordPreview() {
                 payloadLength = 89,
                 payloadString = "Nordic_HRM_NFC"
             ),
-            index = 2
+            index = 2,
+            onBluetoothConnection = {}
         )
-    }
-}
-
-/**
- * Connects to the Bluetooth device.
- */
-@SuppressLint("MissingPermission")
-fun connectBleDevice(device: BluetoothDevice, context: Context, scope: CoroutineScope) {
-    val TAG = "ConnectBluetoothLe"
-    scope.launch {
-        try {
-            val client = BleGattClient.connect(context, device.address)
-            client.discoverServices()
-        } catch (e: Exception) {
-            Log.d(TAG, "connectBleDevice: Couldn't connect to the ble device \n$e")
-        }
     }
 }

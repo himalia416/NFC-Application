@@ -67,9 +67,9 @@ internal fun NfcUiScreen() {
                     nfcFInfo = nfcTag?.nfcFInfo,
                     nfcVInfo = nfcTag?.nfcVInfo,
                 )
-                nfcTag?.nfcNdefMessage?.let {
-                    NdefMessageView(nfcNdefMessage = it)
-                    RecordView(ndefRecords = it.ndefRecord)
+                nfcTag?.nfcNdefMessage?.let { ndefMessage ->
+                    NdefMessageView(nfcNdefMessage = ndefMessage)
+                    RecordView(ndefRecords = ndefMessage.ndefRecord) { viewModel.onBleConnection(it) }
                 }
             }
         }

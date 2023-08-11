@@ -3,6 +3,7 @@ package no.nordicsemi.domain.nfcTag.ndef.record.type.wellknowntype.handover
 import android.nfc.NdefRecord
 import no.nordicsemi.domain.nfcTag.ndef.TnfNameFormatter
 import no.nordicsemi.domain.nfcTag.ndef.record.HandoverReceive
+import no.nordicsemi.domain.nfcTag.ndef.record.RecordNameParser
 
 internal object HandoverReceiveRecordParser {
 
@@ -10,6 +11,7 @@ internal object HandoverReceiveRecordParser {
         val typeNameFormat = TnfNameFormatter.getTnfName(record.tnf.toInt())
 
         return HandoverReceive(
+            recordName = RecordNameParser.parse(String(record.type)),
             typeNameFormat = typeNameFormat,
             payloadType = "Handover Receive",
             payloadLength = record.payload.size,

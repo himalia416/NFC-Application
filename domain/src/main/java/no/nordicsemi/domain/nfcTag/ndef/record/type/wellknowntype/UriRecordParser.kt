@@ -3,6 +3,7 @@ package no.nordicsemi.domain.nfcTag.ndef.record.type.wellknowntype
 import android.nfc.NdefRecord
 import no.nordisemi.utils.DataByteArray
 import no.nordicsemi.domain.nfcTag.ndef.TnfNameFormatter
+import no.nordicsemi.domain.nfcTag.ndef.record.RecordNameParser
 import no.nordicsemi.domain.nfcTag.ndef.record.URIRecord
 import no.nordicsemi.domain.nfcTag.ndef.record.mapper.UriProtocolMapper
 
@@ -22,6 +23,7 @@ internal object UriRecordParser {
         val protocolField = UriProtocolMapper.getUriPrefix(status)
         val actualUri = String(record.payload, 1, record.payload.size - 1)
         return URIRecord(
+            recordName = RecordNameParser.parse(String(record.type)),
             typeNameFormat = typeNameFormat,
             payloadType = "URI",
             payloadLength = record.payload.size,

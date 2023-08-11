@@ -3,6 +3,7 @@ package no.nordicsemi.domain.nfcTag.ndef.record.type.wellknowntype.handover
 import android.nfc.NdefRecord
 import no.nordicsemi.domain.nfcTag.ndef.TnfNameFormatter
 import no.nordicsemi.domain.nfcTag.ndef.record.AlternativeCarrier
+import no.nordicsemi.domain.nfcTag.ndef.record.RecordNameParser
 
 internal object AlternativeCarrierRecordParser {
 
@@ -10,6 +11,7 @@ internal object AlternativeCarrierRecordParser {
         val typeNameFormat = TnfNameFormatter.getTnfName(record.tnf.toInt())
 
         return AlternativeCarrier(
+            recordName = RecordNameParser.parse(String(record.type)),
             typeNameFormat = typeNameFormat,
             payloadType = "Alternative Carrier",
             payloadLength = record.payload.size,

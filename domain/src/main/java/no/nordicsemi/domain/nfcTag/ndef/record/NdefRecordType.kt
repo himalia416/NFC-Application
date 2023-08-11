@@ -138,7 +138,7 @@ data class MimeRecord(
     val payloadFieldName: String = "Payload",
     val payloadString: String? = null,
     val payloadData: DataByteArray? = null,
-    val bluetoothLeOobData: BluetoothLeOobData?= null
+    val bluetoothLeOobData: BluetoothLeOobData? = null
 ) : NdefRecordType {
 
     fun getRecordIcon(): ImageVector {
@@ -156,3 +156,14 @@ data class MimeRecord(
     }
 
 }
+
+@Parcelize
+data class OtherRecords(
+    val recordName: String = "",
+    val typeNameFormat: String = "",
+    val payloadType: String = "",
+    val payloadLength: Int,
+    val payloadFieldName: String = "Payload",
+    val payload: String = "",
+    val payloadData: DataByteArray? = null
+) : NdefRecordType

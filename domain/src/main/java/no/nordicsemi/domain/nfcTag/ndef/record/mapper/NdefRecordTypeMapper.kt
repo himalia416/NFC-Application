@@ -8,6 +8,7 @@ import no.nordicsemi.domain.nfcTag.ndef.record.type.externaltype.AndroidPackageR
 import no.nordicsemi.domain.nfcTag.ndef.record.type.externaltype.ExternalTypeRecord
 import no.nordicsemi.domain.nfcTag.ndef.record.type.externaltype.TnfExternalType
 import no.nordicsemi.domain.nfcTag.ndef.record.type.mimetype.MimeTypeParser
+import no.nordicsemi.domain.nfcTag.ndef.record.type.wellknowntype.OtherRecordParser
 import no.nordicsemi.domain.nfcTag.ndef.record.type.wellknowntype.SmartPosterRecordParser
 import no.nordicsemi.domain.nfcTag.ndef.record.type.wellknowntype.TextRecordParser
 import no.nordicsemi.domain.nfcTag.ndef.record.type.wellknowntype.TnfWellKnown
@@ -35,7 +36,7 @@ class NdefRecordTypeMapper @Inject constructor(
                 type.contentEquals(TnfWellKnown.RTD_HANDOVER_CARRIER.type) -> HandoverCarrierRecordParser.parse(record)
                 type.contentEquals(TnfWellKnown.RTD_HANDOVER_REQUEST.type) -> HandoverReceiveRecordParser.parse(record)
                 type.contentEquals(TnfWellKnown.RTD_HANDOVER_SELECT.type) -> HandoverSelectRecordParser.parse(record)
-                else -> throw IllegalArgumentException("Unknown Record Type")
+                else -> OtherRecordParser.parse(record)
             }
 
             TnfNameFormatter.TNF_EXTERNAL_TYPE.tnf -> when {

@@ -6,6 +6,7 @@ import no.nordicsemi.handOverData.data.BluetoothLeOobData
 import no.nordisemi.utils.DataByteArray
 import no.nordicsemi.domain.nfcTag.ndef.TnfNameFormatter
 import no.nordicsemi.domain.nfcTag.ndef.record.MimeRecord
+import no.nordicsemi.domain.nfcTag.ndef.record.RecordNameParser
 import java.nio.ByteBuffer
 import javax.inject.Inject
 
@@ -19,7 +20,7 @@ class MimeTypeParser @Inject constructor(
      */
     fun parse(record: NdefRecord): MimeRecord {
         val typeNameFormat = TnfNameFormatter.getTnfName(record.tnf.toInt())
-        var recordName = "Mime Type Record"
+        var recordName = RecordNameParser.parse(String(record.type))
         val domainType = String(record.type, Charsets.UTF_8)
         var payloadString: String? = String(record.payload)
 

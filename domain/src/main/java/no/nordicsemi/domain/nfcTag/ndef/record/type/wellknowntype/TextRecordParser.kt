@@ -3,6 +3,7 @@ package no.nordicsemi.domain.nfcTag.ndef.record.type.wellknowntype
 import android.nfc.NdefRecord
 import no.nordisemi.utils.DataByteArray
 import no.nordicsemi.domain.nfcTag.ndef.TnfNameFormatter
+import no.nordicsemi.domain.nfcTag.ndef.record.RecordNameParser
 import no.nordicsemi.domain.nfcTag.ndef.record.TextRecord
 import java.nio.charset.Charset
 
@@ -38,6 +39,7 @@ internal object TextRecordParser {
         val actualText = String(record.payload, 1 + languageLength, textLength, textEncoding)
 
         return TextRecord(
+            recordName = RecordNameParser.parse(String(record.type)),
             typeNameFormat = typeNameFormat,
             payloadType = "Text",
             payloadLength = record.payload.size,

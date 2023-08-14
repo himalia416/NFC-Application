@@ -22,6 +22,7 @@ import no.nordicsemi.domain.nfcTag.ndef.record.HandoverCarrier
 import no.nordicsemi.domain.nfcTag.ndef.record.HandoverReceive
 import no.nordicsemi.domain.nfcTag.ndef.record.HandoverSelect
 import no.nordicsemi.domain.nfcTag.ndef.record.MimeRecord
+import no.nordicsemi.domain.nfcTag.ndef.record.OtherRecords
 import no.nordicsemi.domain.nfcTag.ndef.record.SmartPoster
 import no.nordicsemi.domain.nfcTag.ndef.record.TextRecord
 import no.nordicsemi.domain.nfcTag.ndef.record.URIRecord
@@ -73,7 +74,8 @@ fun RecordView(
                     is MimeRecord -> DisplayMimeTypeRecord(recordType, index, onBluetoothConnection)
                     is GenericExternalType -> DisplayGenericExternalTypeRecord(recordType, index)
                     is Unknown -> TODO()
-                    else -> TODO()
+                    is OtherRecords -> TODO()
+                    null -> TODO()
                 }
             }
         }

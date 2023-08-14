@@ -16,8 +16,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import no.nordicsemi.android.common.navigation.NavigationView
 import no.nordicsemi.android.common.theme.NordicActivity
 import no.nordicsemi.android.common.theme.NordicTheme
-import no.nordicsemi.navigation.NfcNavigationDestinations
-import no.nordicsemi.nfcscanner.repository.NfcScanningManagerVM
+import no.nordicsemi.nfc.navigation.NfcNavigationDestinations
+import no.nordicsemi.nfc.scanner.repository.NfcScanningManagerVM
 import java.util.*
 
 @AndroidEntryPoint

@@ -35,6 +35,7 @@ import no.nordicsemi.ui.views.tagView.ndefmessage.ndefrecord.handover.DisplayAlt
 import no.nordicsemi.ui.views.tagView.ndefmessage.ndefrecord.handover.DisplayHandoverCarrierRecord
 import no.nordicsemi.ui.views.tagView.ndefmessage.ndefrecord.handover.DisplayHandoverReceiveRecord
 import no.nordicsemi.ui.views.tagView.ndefmessage.ndefrecord.handover.DisplayHandoverSelectRecord
+import no.nordicsemi.ui.views.tagView.ndefmessage.ndefrecord.handover.DisplayOtherRecords
 import no.nordicsemi.ui.views.tagView.ndefmessage.ndefrecord.wellknown.DisplayMimeTypeRecord
 import no.nordicsemi.ui.views.tagView.ndefmessage.ndefrecord.wellknown.DisplaySmartPosterRecord
 import no.nordicsemi.ui.views.tagView.ndefmessage.ndefrecord.wellknown.DisplayTextRecord
@@ -73,8 +74,8 @@ fun RecordView(
                     is HandoverSelect -> DisplayHandoverSelectRecord(recordType, index)
                     is MimeRecord -> DisplayMimeTypeRecord(recordType, index, onBluetoothConnection)
                     is GenericExternalType -> DisplayGenericExternalTypeRecord(recordType, index)
+                    is OtherRecords -> DisplayOtherRecords(record = recordType, index = index)
                     is Unknown -> TODO()
-                    is OtherRecords -> TODO()
                     null -> TODO()
                 }
             }

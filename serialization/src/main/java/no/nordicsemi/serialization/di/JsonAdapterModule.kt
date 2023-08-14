@@ -17,6 +17,7 @@ import no.nordicsemi.domain.nfcTag.ndef.record.HandoverReceive
 import no.nordicsemi.domain.nfcTag.ndef.record.HandoverSelect
 import no.nordicsemi.domain.nfcTag.ndef.record.MimeRecord
 import no.nordicsemi.domain.nfcTag.ndef.record.NdefRecordType
+import no.nordicsemi.domain.nfcTag.ndef.record.OtherRecords
 import no.nordicsemi.domain.nfcTag.ndef.record.SmartPoster
 import no.nordicsemi.domain.nfcTag.ndef.record.TextRecord
 import no.nordicsemi.domain.nfcTag.ndef.record.URIRecord
@@ -47,6 +48,7 @@ object JsonAdapterModule {
                     .withSubtype(AndroidApplicationRecord::class.java, "AndroidPackage")
                     .withSubtype(GenericExternalType::class.java, "GenericExternalType")
                     .withSubtype(MimeRecord::class.java, "MimeType")
+                    .withSubtype(OtherRecords::class.java, "OtherRecords")
             )
             .add(BluetoothDeviceSerialization())
             .add(KotlinJsonAdapterFactory())

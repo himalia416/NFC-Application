@@ -12,7 +12,7 @@ class BluetoothDeviceSerialization {
         }
 
         @FromJson
-        fun fromJson(device: String): BluetoothDevice {
-            return BluetoothAdapter.getDefaultAdapter().getRemoteDevice(device)
+        fun fromJson(device: String): BluetoothDevice? {
+            return BluetoothAdapter.getDefaultAdapter()?.getRemoteDevice(device)
         }
 }

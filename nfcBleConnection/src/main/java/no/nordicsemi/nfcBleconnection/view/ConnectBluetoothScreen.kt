@@ -9,17 +9,19 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import no.nordicsemi.android.common.permissions.ble.RequireBluetooth
 import no.nordicsemi.android.common.theme.view.NordicAppBar
 import no.nordicsemi.android.kotlin.ble.core.data.GattConnectionState
-import no.nordicsemi.bleconnection.viewmodel.ConnectBleDeviceViewModel
+import no.nordicsemi.nfcBleConnection.R
+import no.nordicsemi.nfcBleconnection.viewmodel.BleConnectionViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -30,7 +32,7 @@ fun ConnectBluetoothScreen() {
         val context = LocalContext.current
         Column {
             NordicAppBar(
-                text = "Connecting Bluetooth Device",
+                text = stringResource(id = R.string.bluetooth_connection),
                 onNavigationButtonClick = { viewModel.backNavigation() },
             )
 
@@ -38,11 +40,11 @@ fun ConnectBluetoothScreen() {
                 GattConnectionState.STATE_DISCONNECTED -> { viewModel.bleDisconnected() }
                 GattConnectionState.STATE_CONNECTING -> LoadingView()
                 GattConnectionState.STATE_CONNECTED -> {
-                    Toast.makeText(context, "${state.device} Connected", Toast.LENGTH_SHORT).show()
-                    Text(text = "Bluetooth Connected with device ${state.device}")
+                    val device = state.device
+                    Text(text = stringResource(id = R.string.bluetooth_connected, device))
                 }
                 GattConnectionState.STATE_DISCONNECTING -> {
-                    Toast.makeText(context,"Could not connect to the Bluetooth device ${state.device}",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context,"Disconnecting device : ${state.device} ",Toast.LENGTH_SHORT).show()
                 }
             }
         }

@@ -31,8 +31,6 @@
     <string name="record_info">Ndef Records</string>
     <string name="bytes">%s bytes</string>
     <string name="millisecond">%s ms</string>
-    <string name="expand_records">Show all Records</string>
-    <string name="hide_records">Hide Records</string>
     <string name="record_type_name_format">Type Name Format</string>
     <string name="record_type">Payload Type</string>
     <string name="record_payload_len">Payload Length</string>
@@ -44,7 +42,7 @@
     <string name="uri_field">URI</string>
     <string name="url_tag"> URL </string>
     <string name="data">Data</string>
-    <string name="payload_data">Payload Data</string>
+    <string name="payload_data">Payload in Bytes</string>
 
     <string name="ble_device_address">Bluetooth Device Address</string>
     <string name="ble_device_address_type">Bluetooth Device Address Type</string>

@@ -39,14 +39,12 @@ class ConnectBluetoothLe @Inject constructor(
     fun connectBleDevice(macAddress: String, scope: CoroutineScope) {
         scope.launch {
             try {
-                val a = scanBleDevice(macAddress, scope)
-                a.forEach { device ->
+                val scannedDevices = scanBleDevice(macAddress, scope)
+                scannedDevices.forEach { device ->
                     if (device.address == macAddress) {
-                        Log.d(TAG, "connectBleDevice: scanning completed")
                         client = ClientBleGatt.connect(context, macAddress)
                         client!!.connectionState.onEach {
-                            Log.d(TAG, "connectBleDevice: $it")
-                            _bState.value = it
+                            _bluetoothConnectionState.value = it
                         }.launchIn(scope)
 
                         if (!client!!.isConnected) {
@@ -59,7 +57,7 @@ class ConnectBluetoothLe @Inject constructor(
             } catch (e: Exception) {
                 Log.d(TAG, "Couldn't scan ${e.message}")
             } catch (e: Exception) {
-                Log.d(TAG, "connectBleDevice: Couldn't connect to the ble device ${e.message}")
+                Log.d(TAG, "Couldn't connect to the ble device ${e.message}")
             }
         }
     }
@@ -68,7 +66,7 @@ class ConnectBluetoothLe @Inject constructor(
      * Disconnect from Bluetooth.
      */
     fun disconnectBleDevice(macAddress: String) {
-        Log.d(TAG, "disconnectBleDevice: $macAddress disconnected")
+        Log.d(TAG, "$macAddress disconnected")
         client?.disconnect()
     }
 
@@ -84,11 +82,12 @@ class ConnectBluetoothLe @Inject constructor(
             .filter { it.device.address == macAddress }
             .onEach { scanResults ->
                 continuation.resume(listOf(scanResults.device))
+                job?.cancel()
             }
             .launchIn(scope)
 
         continuation.invokeOnCancellation {
-            job!!.cancel()
+            job?.cancel()
         }
     }
 

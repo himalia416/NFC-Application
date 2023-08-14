@@ -41,10 +41,10 @@ class BleConnectionViewModel @Inject constructor(
         connectBleDevice.connectBleDevice(device, viewModelScope)
         connectBleDevice.bluetoothConnectionState.onEach {
             when (it) {
-                GattConnectionState.STATE_DISCONNECTED -> _state.value = _state.value.copy(bleConnectState = GattConnectionState.STATE_DISCONNECTED)
-                GattConnectionState.STATE_CONNECTING -> _state.value = _state.value.copy(bleConnectState = GattConnectionState.STATE_CONNECTING)
-                GattConnectionState.STATE_CONNECTED -> _state.value = _state.value.copy(bleConnectState = GattConnectionState.STATE_CONNECTED)
-                GattConnectionState.STATE_DISCONNECTING -> _state.value = _state.value.copy(bleConnectState = GattConnectionState.STATE_DISCONNECTING)
+                GattConnectionState.STATE_DISCONNECTED -> _bleViewState.value = _bleViewState.value.copy(bleConnectState = it)
+                GattConnectionState.STATE_CONNECTING -> _bleViewState.value = _bleViewState.value.copy(bleConnectState = it)
+                GattConnectionState.STATE_CONNECTED -> _bleViewState.value = _bleViewState.value.copy(bleConnectState = it)
+                GattConnectionState.STATE_DISCONNECTING -> _bleViewState.value = _bleViewState.value.copy(bleConnectState = it)
             }
         }.launchIn(viewModelScope)
     }

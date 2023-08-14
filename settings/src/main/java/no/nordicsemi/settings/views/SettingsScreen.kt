@@ -89,21 +89,24 @@ fun SettingsScreen() {
                     title = stringResource(id = R.string.import_scan),
                     description = stringResource(id = R.string.import_scan_des),
                     icon = Icons.Filled.Upload,
-                    onClick = { /*TODO*/ }
+                    onClick = { /*TODO*/ },
+                    enabled = false
                 )
 
                 SettingsButtonWithIcon(
                     title = stringResource(id = R.string.clear_scan),
                     description = stringResource(id = R.string.clear_scan_des),
                     icon = Icons.Filled.ClearAll,
-                    onClick = { /*TODO*/ }
+                    onClick = { /*TODO*/ },
+                    enabled = false
                 )
 
                 SettingsButtonWithIcon(
                     title = stringResource(id = R.string.scan_history),
                     description = stringResource(id = R.string.scan_history_des),
                     icon = Icons.Filled.History,
-                    onClick = {/*TODO*/ }
+                    onClick = {/*TODO*/ },
+                    enabled = false
 //                    onClick = { onEvent(OnScanHistoryClick) }
                 )
 
@@ -123,7 +126,8 @@ fun SettingsScreen() {
                     description = stringResource(id = R.string.play_sound_des),
                     icon = Icons.Filled.VolumeOff,
                     onEnabledIcon = Icons.Filled.VolumeUp,
-                    onClick = {/*TODO*/ }
+                    onClick = {/*TODO*/ },
+                    enabled = false
 //                    onClick = { onEvent(OnPlaySoundClick) }
                 )
 
@@ -132,7 +136,8 @@ fun SettingsScreen() {
                     description = stringResource(id = R.string.vibrate_des),
                     icon = Icons.Filled.Vibration,
                     onEnabledIcon = Icons.Filled.HearingDisabled,
-                    onClick = {/*TODO*/ }
+                    onClick = {/*TODO*/ },
+                    enabled = false
 //                    onClick = { onEvent(OnVibrateClick) }
                 )
 

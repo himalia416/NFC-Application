@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "no.nordicsemi.nfcapplication"
+    namespace = "no.nordicsemi.nfc.android"
 }
 
 dependencies {

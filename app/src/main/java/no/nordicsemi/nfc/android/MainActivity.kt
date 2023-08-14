@@ -1,4 +1,4 @@
-package no.nordicsemi.nfcapplication
+package no.nordicsemi.nfc.android
 
 import android.app.Activity
 import android.nfc.tech.*

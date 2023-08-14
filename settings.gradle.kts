@@ -23,7 +23,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "NFCApplication"
+rootProject.name = "NFC Connect"
 include(":app")
 include(":nfcScanner")
 include(":settings")

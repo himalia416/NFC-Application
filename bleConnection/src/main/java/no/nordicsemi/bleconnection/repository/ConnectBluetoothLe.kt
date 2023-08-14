@@ -53,8 +53,15 @@ class ConnectBluetoothLe @Inject constructor(
     }
 
     /**
-     * Scan bluetooth device.
+     * Disconnect from Bluetooth.
      */
+    fun disconnectBleDevice(macAddress: String) {
+        Log.d(TAG, "disconnectBleDevice: $macAddress disconnected")
+        client?.disconnect()
+    }
+
+
+
     @SuppressLint("MissingPermission")
     private suspend fun scanBleDevice(macAddress: String, scope: CoroutineScope) {
         val scanner = BleScanner(context)

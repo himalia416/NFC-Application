@@ -52,7 +52,8 @@ class ConnectBleDeviceViewModel @Inject constructor(
     /**
      * Back navigation.
      */
-    fun onBackNavigation() {
+    fun backNavigation() {
+        connectBleDevice.disconnectBleDevice(device)
         navigator.navigateUp()
     }
 
@@ -60,7 +61,7 @@ class ConnectBleDeviceViewModel @Inject constructor(
      * Back navigation when it could not connect with bluetooth.
      */
     fun bleDisconnected() {
-        onBackNavigation()
+        connectBleDevice.disconnectBleDevice(device)
     }
 
 }

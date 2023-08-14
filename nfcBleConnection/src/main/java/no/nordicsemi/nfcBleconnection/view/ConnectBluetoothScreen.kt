@@ -1,4 +1,4 @@
-package no.nordicsemi.bleconnection.view
+package no.nordicsemi.nfcBleconnection.view
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
@@ -25,8 +25,8 @@ import no.nordicsemi.bleconnection.viewmodel.ConnectBleDeviceViewModel
 @Composable
 fun ConnectBluetoothScreen() {
     RequireBluetooth {
-        val viewModel: ConnectBleDeviceViewModel = hiltViewModel()
-        val state by viewModel.state.collectAsState()
+        val viewModel: BleConnectionViewModel = hiltViewModel()
+        val state by viewModel.bleViewState.collectAsStateWithLifecycle()
         val context = LocalContext.current
         Column {
             NordicAppBar(

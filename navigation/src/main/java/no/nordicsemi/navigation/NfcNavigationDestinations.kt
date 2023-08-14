@@ -2,7 +2,7 @@ package no.nordicsemi.navigation
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import no.nordicsemi.bleconnection.NfcBleDeviceScreenDestination
+import no.nordicsemi.nfcBleconnection.NfcBleDeviceScreenDestination
 import no.nordicsemi.nfcscanner.ScanningDestination
 import no.nordicsemi.settings.navigation.NfcSettingsDestination
 import no.nordicsemi.ui.NfcUiScreenDestination

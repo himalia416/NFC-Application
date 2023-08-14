@@ -23,7 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import no.nordicsemi.android.common.theme.NordicTheme
-import no.nordicsemi.bleconnection.BleDevice
+import no.nordicsemi.nfcBleconnection.BleDevice
 import no.nordicsemi.domain.nfcTag.ndef.record.MimeRecord
 import no.nordicsemi.handOverData.data.BluetoothLeOobData
 import no.nordicsemi.nfcui.R

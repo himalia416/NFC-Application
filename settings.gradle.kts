@@ -36,7 +36,7 @@ include(":settingsStorage")
 include(":nfcUi")
 include(":handOverData")
 include(":utils")
-include(":bleConnection")
+include(":nfcBleConnection")
 
 if (file("../Android-Common-Libraries").exists()) {
     includeBuild("../Android-Common-Libraries")

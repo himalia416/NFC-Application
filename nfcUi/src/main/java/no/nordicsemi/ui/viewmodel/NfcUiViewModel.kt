@@ -8,8 +8,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import no.nordicsemi.android.common.navigation.Navigator
 import no.nordicsemi.android.common.navigation.viewmodel.SimpleNavigationViewModel
-import no.nordicsemi.bleconnection.BleDevice
-import no.nordicsemi.bleconnection.NfcBleDeviceDestinationId
+import no.nordicsemi.nfcBleconnection.BleDevice
+import no.nordicsemi.nfcBleconnection.NfcBleDeviceDestinationId
 import no.nordicsemi.domain.nfcTag.DiscoveredTag
 import no.nordicsemi.remotedatabase.domain.ManufacturerNameRepository
 import no.nordicsemi.settings.navigation.NfcSettingScreenId

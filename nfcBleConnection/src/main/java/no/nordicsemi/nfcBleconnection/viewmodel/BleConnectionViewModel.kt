@@ -1,4 +1,4 @@
-package no.nordicsemi.bleconnection.viewmodel
+package no.nordicsemi.nfcBleconnection.viewmodel
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -10,8 +10,8 @@ import kotlinx.coroutines.flow.onEach
 import no.nordicsemi.android.common.navigation.Navigator
 import no.nordicsemi.android.common.navigation.viewmodel.SimpleNavigationViewModel
 import no.nordicsemi.android.kotlin.ble.core.data.GattConnectionState
-import no.nordicsemi.bleconnection.NfcBleDeviceDestinationId
-import no.nordicsemi.bleconnection.repository.ConnectBluetoothLe
+import no.nordicsemi.nfcBleconnection.NfcBleDeviceDestinationId
+import no.nordicsemi.nfcBleconnection.repository.ConnectBluetoothLe
 import javax.inject.Inject
 
 data class BleViewState(
@@ -20,13 +20,13 @@ data class BleViewState(
 )
 
 @HiltViewModel
-class ConnectBleDeviceViewModel @Inject constructor(
+class BleConnectionViewModel @Inject constructor(
     private val connectBleDevice: ConnectBluetoothLe,
     private val navigator: Navigator,
     savedStateHandle: SavedStateHandle,
 ) : SimpleNavigationViewModel(navigator, savedStateHandle) {
-    private val _state: MutableStateFlow<BleViewState> = MutableStateFlow(BleViewState())
-    val state = _state.asStateFlow()
+    private val _bleViewState: MutableStateFlow<BleViewState> = MutableStateFlow(BleViewState())
+    val bleViewState = _bleViewState.asStateFlow()
     private val device = parameterOf(NfcBleDeviceDestinationId).device
 
     init {
@@ -37,9 +37,9 @@ class ConnectBleDeviceViewModel @Inject constructor(
      * Starts connecting bluetooth for for provided the device address.
      */
     private fun startConnection() {
-        _state.value = _state.value.copy(device = device)
+        _bleViewState.value = _bleViewState.value.copy(device = device)
         connectBleDevice.connectBleDevice(device, viewModelScope)
-        connectBleDevice.bState.onEach {
+        connectBleDevice.bluetoothConnectionState.onEach {
             when (it) {
                 GattConnectionState.STATE_DISCONNECTED -> _state.value = _state.value.copy(bleConnectState = GattConnectionState.STATE_DISCONNECTED)
                 GattConnectionState.STATE_CONNECTING -> _state.value = _state.value.copy(bleConnectState = GattConnectionState.STATE_CONNECTING)

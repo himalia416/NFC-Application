@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "no.nordicsemi.bleconnection"
+    namespace = "no.nordicsemi.nfcBleConnection"
 }
 
 dependencies {
@@ -17,6 +17,7 @@ dependencies {
     implementation(libs.nordic.blek.client)
     implementation(libs.nordic.permissions.ble)
     implementation(libs.nordic.blek.scanner)
+    implementation(libs.androidx.lifecycle.runtime.compose)
 
     implementation(project(":settings"))
 }

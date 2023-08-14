@@ -1,4 +1,4 @@
-package no.nordicsemi.bleconnection.repository
+package no.nordicsemi.nfcBleconnection.repository
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -24,9 +24,9 @@ class ConnectBluetoothLe @Inject constructor(
     @ApplicationContext private val context: Context,
 ) {
     private val TAG = ConnectBluetoothLe::class.java.simpleName
-    private val _bState: MutableStateFlow<GattConnectionState> =
+    private val _bluetoothConnectionState: MutableStateFlow<GattConnectionState> =
         MutableStateFlow(GattConnectionState.STATE_CONNECTING)
-    val bState = _bState.asStateFlow()
+    val bluetoothConnectionState = _bluetoothConnectionState.asStateFlow()
 
     private var job: Job? = null
     private var client: ClientBleGatt? = null

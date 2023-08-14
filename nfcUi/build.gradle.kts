@@ -23,5 +23,5 @@ dependencies {
     implementation(project(":handOverData"))
     implementation(project(":utils"))
     implementation(project(":remoteDatabase"))
-    implementation(project(":bleConnection"))
+    implementation(project(":nfcBleConnection"))
 }

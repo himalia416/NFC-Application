@@ -66,7 +66,7 @@ fun DisplayOtherRecords(
                 )
                 record.payloadData?.let {
                     NfcRowView(
-                        title = record.payloadFieldName,
+                        title = stringResource(id = R.string.payload_data),
                         description = it.value.toPayloadData()
                     )
                 }

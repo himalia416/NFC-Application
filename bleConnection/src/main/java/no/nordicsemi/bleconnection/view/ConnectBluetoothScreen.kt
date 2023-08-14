@@ -31,18 +31,18 @@ fun ConnectBluetoothScreen() {
         Column {
             NordicAppBar(
                 text = "Connecting Bluetooth Device",
-                onNavigationButtonClick = { viewModel.onBackNavigation() },
+                onNavigationButtonClick = { viewModel.backNavigation() },
             )
 
             when (state.bleConnectState) {
                 GattConnectionState.STATE_DISCONNECTED -> { viewModel.bleDisconnected() }
                 GattConnectionState.STATE_CONNECTING -> LoadingView()
                 GattConnectionState.STATE_CONNECTED -> {
-                    Toast.makeText(context, "${state.device} Connected", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, "${state.device} Connected", Toast.LENGTH_SHORT).show()
                     Text(text = "Bluetooth Connected with device ${state.device}")
                 }
                 GattConnectionState.STATE_DISCONNECTING -> {
-                    Toast.makeText(context,"Could not connect to the Bluetooth device ${state.device}",Toast.LENGTH_LONG).show()
+                    Toast.makeText(context,"Could not connect to the Bluetooth device ${state.device}",Toast.LENGTH_SHORT).show()
                 }
             }
         }

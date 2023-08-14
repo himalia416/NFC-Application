@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "no.nordicsemi.nfcapplication"
+    namespace = "no.nordicsemi.nfc.android"
 }
 
 dependencies {
@@ -13,7 +13,7 @@ dependencies {
     implementation(libs.nordic.theme)
     implementation(libs.nordic.navigation)
     implementation(libs.androidx.hilt.navigation.compose)
+    implementation(project(":nfc_navigation"))
 
-    implementation(project(":navigation"))
-    implementation(project(":nfcScanner"))
+    implementation(project(":nfc_scanner"))
 }

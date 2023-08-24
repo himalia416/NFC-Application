@@ -1,5 +1,7 @@
 # NFC Connect
 
+The repository is no longer being managed. To view the latest recent code, click [NFC-Connect](https://github.com/NordicSemiconductor/NFC-Connect) link.
+
 This is a tool to read the NFC tag and its details. If the NFC record contains the Bluetooth oob
 data, then it handovers the connection to Bluetooth from NFC.
 
